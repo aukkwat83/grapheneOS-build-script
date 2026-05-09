@@ -45,24 +45,12 @@ git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 ```
 
----
+Import GPG key ของ GrapheneOS (ใช้ตรวจสอบลายเซ็น tag ก่อน sync source — กันโดน MITM / repo ปลอม)
 
-## PART 1 — ดึง source GrapheneOS 2026042100
-
-### 1.1 Import GPG key ของ GrapheneOS (ทำครั้งเดียว)
-
-ใช้ตรวจสอบลายเซ็น tag ก่อน sync source — กันโดน MITM / repo ปลอม
+key นี้เป็นของ Daniel Micay (ผู้ก่อตั้ง GrapheneOS) — fingerprint ทางการคือ `65EEFE022108E2B708CBFCF7F9E712E59AF5F22A`
 
 ```bash
-# ดาวน์โหลด public key ของ GrapheneOS (allowed_signers)
-gpg --auto-key-locate wkd --locate-keys contact@grapheneos.org
-```
-
-ถ้า WKD ใช้ไม่ได้ (เช่น โดน firewall) ใช้วิธี manual:
-
-```bash
-# fingerprint ทางการของ GrapheneOS release signing key
-# 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A
+# ดาวน์โหลดและ import จาก grapheneos.org (วิธีหลัก)
 curl -O https://grapheneos.org/allowed_signers
 gpg --import allowed_signers 2>/dev/null || \
     gpg --keyserver hkps://keys.openpgp.org \
@@ -72,18 +60,22 @@ gpg --import allowed_signers 2>/dev/null || \
 ตรวจสอบว่า import สำเร็จและ fingerprint ถูกต้อง:
 
 ```bash
-gpg --list-keys contact@grapheneos.org
-# ต้องเห็น fingerprint: 65EE FE02 2108 E2B7 08CB  FCF7 F9E7 12E5 9AF5 F22A
+gpg --list-keys 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A
+# ต้องเห็น uid ของ Daniel Micay (รวม daniel.micay@grapheneos.org, security@grapheneos.org)
 ```
 
 mark key เป็น trusted (ไม่งั้น `verify-tag` จะขึ้น "WARNING: This key is not certified..."):
 
 ```bash
-gpg --edit-key contact@grapheneos.org
+gpg --edit-key 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A
 # พิมพ์: trust → 5 (ultimate) → y → quit
 ```
 
-### 1.2 Init + verify tag + sync
+---
+
+## PART 1 — ดึง source GrapheneOS 2026042100
+
+### 1.1 Init + verify tag + sync
 
 ```bash
 mkdir -p ~/grapheneos && cd ~/grapheneos
