@@ -49,15 +49,51 @@ git config --global user.name "Your Name"
 
 ## PART 1 — ดึง source GrapheneOS 2026042100
 
+### 1.1 Import GPG key ของ GrapheneOS (ทำครั้งเดียว)
+
+ใช้ตรวจสอบลายเซ็น tag ก่อน sync source — กันโดน MITM / repo ปลอม
+
+```bash
+# ดาวน์โหลด public key ของ GrapheneOS (allowed_signers)
+gpg --auto-key-locate wkd --locate-keys contact@grapheneos.org
+```
+
+ถ้า WKD ใช้ไม่ได้ (เช่น โดน firewall) ใช้วิธี manual:
+
+```bash
+# fingerprint ทางการของ GrapheneOS release signing key
+# 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A
+curl -O https://grapheneos.org/allowed_signers
+gpg --import allowed_signers 2>/dev/null || \
+    gpg --keyserver hkps://keys.openpgp.org \
+        --recv-keys 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A
+```
+
+ตรวจสอบว่า import สำเร็จและ fingerprint ถูกต้อง:
+
+```bash
+gpg --list-keys contact@grapheneos.org
+# ต้องเห็น fingerprint: 65EE FE02 2108 E2B7 08CB  FCF7 F9E7 12E5 9AF5 F22A
+```
+
+mark key เป็น trusted (ไม่งั้น `verify-tag` จะขึ้น "WARNING: This key is not certified..."):
+
+```bash
+gpg --edit-key contact@grapheneos.org
+# พิมพ์: trust → 5 (ultimate) → y → quit
+```
+
+### 1.2 Init + verify tag + sync
+
 ```bash
 mkdir -p ~/grapheneos && cd ~/grapheneos
 
 repo init -u https://github.com/GrapheneOS/platform_manifest.git \
     -b refs/tags/2026042100 --depth=1
 
-# ตรวจสอบลายเซ็น tag (recommended)
+# ตรวจสอบลายเซ็น tag — ต้องเห็น "Good signature from ... GrapheneOS"
 cd .repo/manifests
-git verify-tag $(git describe)   # ต้อง import GPG key ของ GrapheneOS ก่อน
+git verify-tag $(git describe)
 cd ../..
 
 repo sync -j8
