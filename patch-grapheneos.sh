@@ -167,11 +167,12 @@ generate_apk_key() {
     fi
     rm -f "$key_dir/$key_name.pk8" "$key_dir/$key_name.x509.pem"
     info "    [gen ] $key_name"
-    # ใช้ make_key ส่ง stdin "" สำหรับ password ว่าง (ภายหลังเข้ารหัสได้ด้วย script/encrypt-keys)
-    # เรียกผ่าน bash โดยตรง เพื่อไม่พึ่ง /bin/bash shebang ของ make_key
+    # หมายเหตุ: development/tools/make_key มี `trap '...; exit 1' EXIT INT QUIT` ที่ทำให้
+    # exit code เป็น 1 เสมอ (แม้สร้าง key สำเร็จ) — เช็ค file existence แทน exit code
     ( cd "$key_dir" && printf '\n' | bash "$GOS_ROOT/development/tools/make_key" "$key_name" "$KEY_SUBJECT" rsa ) \
-        >/dev/null 2>&1 \
-        || die "make_key ล้มเหลวสำหรับ $key_name"
+        >/dev/null 2>&1 || true
+    [[ -f "$key_dir/$key_name.pk8" && -f "$key_dir/$key_name.x509.pem" ]] \
+        || die "make_key ล้มเหลวสำหรับ $key_name (ไม่พบ output ที่คาดหวัง)"
 }
 
 generate_avb_key() {
