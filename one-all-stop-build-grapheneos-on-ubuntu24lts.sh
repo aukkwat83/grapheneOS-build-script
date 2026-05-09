@@ -217,7 +217,12 @@ fi
 # Node.js: Ubuntu 24.04 มาเฉพาะ Node 18.19 ซึ่งเก่า adevtool@latest บังคับใน bin/run ว่า MIN_NODE=24
 # ติดตั้ง Node 24 จาก NodeSource (replace nodejs Ubuntu + ลบ yarnpkg deb อัตโนมัติ)
 NODE_MAJOR_REQ=24
-NODE_VER=$(node --version 2>/dev/null | sed 's/^v//' | cut -d. -f1)
+# หมายเหตุ: clean image ไม่มี `node` → pipe ออก 127 + pipefail/errexit จะทำให้ script ตาย
+# ต้อง guard ด้วย command -v ก่อน
+NODE_VER=""
+if command -v node >/dev/null 2>&1; then
+    NODE_VER=$(node --version | sed 's/^v//' | cut -d. -f1)
+fi
 if [[ -z "$NODE_VER" || "$NODE_VER" -lt "$NODE_MAJOR_REQ" ]]; then
     log "ติดตั้ง Node.js ${NODE_MAJOR_REQ}.x จาก NodeSource (Ubuntu 24.04 มี node ${NODE_VER:-?} ซึ่งเก่าเกินไป)"
     curl -fsSL "https://deb.nodesource.com/setup_${NODE_MAJOR_REQ}.x" | sudo -E bash -
