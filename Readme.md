@@ -45,31 +45,26 @@ git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 ```
 
-Import GPG key ของ GrapheneOS (ใช้ตรวจสอบลายเซ็น tag ก่อน sync source — กันโดน MITM / repo ปลอม)
+ตั้งค่า SSH signature verification สำหรับ GrapheneOS (ใช้ตรวจสอบลายเซ็น tag ก่อน sync source — กันโดน MITM / repo ปลอม)
 
-key นี้เป็นของ Daniel Micay (ผู้ก่อตั้ง GrapheneOS) — fingerprint ทางการคือ `65EEFE022108E2B708CBFCF7F9E712E59AF5F22A`
-
-```bash
-# ดาวน์โหลดและ import จาก grapheneos.org (วิธีหลัก)
-curl -O https://grapheneos.org/allowed_signers
-gpg --import allowed_signers 2>/dev/null || \
-    gpg --keyserver hkps://keys.openpgp.org \
-        --recv-keys 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A
-```
-
-ตรวจสอบว่า import สำเร็จและ fingerprint ถูกต้อง:
+ปัจจุบัน GrapheneOS ใช้ **SSH signing** เซ็น git tag ไม่ใช่ GPG อีกแล้ว — ไฟล์ `allowed_signers` ที่ทางการเผยแพร่คือ SSH allowed signers format
 
 ```bash
-gpg --list-keys 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A
-# ต้องเห็น uid ของ Daniel Micay (รวม daniel.micay@grapheneos.org, security@grapheneos.org)
+# ดาวน์โหลด allowed_signers จาก grapheneos.org
+mkdir -p ~/.config/grapheneos
+curl -o ~/.config/grapheneos/allowed_signers https://grapheneos.org/allowed_signers
+
+# ตรวจดูเนื้อหา — ต้องเป็น 1 บรรทัด ขึ้นต้นด้วย contact@grapheneos.org ssh-ed25519 ...
+cat ~/.config/grapheneos/allowed_signers
 ```
 
-mark key เป็น trusted (ไม่งั้น `verify-tag` จะขึ้น "WARNING: This key is not certified..."):
+บอก git ให้ใช้ไฟล์นี้สำหรับ verify SSH signature:
 
 ```bash
-gpg --edit-key 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A
-# พิมพ์: trust → 5 (ultimate) → y → quit
+git config --global gpg.ssh.allowedSignersFile ~/.config/grapheneos/allowed_signers
 ```
+
+> หมายเหตุ: คู่มือเก่าของ GrapheneOS เคยให้ใช้ GPG key ของ Daniel Micay (`65EEFE02...F22A`) — ปัจจุบัน**เลิกใช้แล้ว** ไม่ต้องทำขั้นตอน `gpg --recv-keys` หรือ `gpg --edit-key trust`
 
 ---
 
@@ -83,7 +78,8 @@ mkdir -p ~/grapheneos && cd ~/grapheneos
 repo init -u https://github.com/GrapheneOS/platform_manifest.git \
     -b refs/tags/2026042100 --depth=1
 
-# ตรวจสอบลายเซ็น tag — ต้องเห็น "Good signature from ... GrapheneOS"
+# ตรวจสอบลายเซ็น tag — ต้องเห็น:
+# Good "git" signature for contact@grapheneos.org with ED25519 key SHA256:AhgHif0mei+9aNyKLfMZBh2yptHdw/aN7Tlh/j2eFwM
 cd .repo/manifests
 git verify-tag $(git describe)
 cd ../..
