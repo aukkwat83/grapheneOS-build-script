@@ -282,8 +282,21 @@ else
     ( cd .repo/manifests && git verify-tag "$(git describe)" ) \
         || die "verify-tag ล้มเหลว — ลายเซ็น tag ไม่ผ่าน (อาจโดน MITM/repo ปลอม)"
     info "verify-tag ผ่าน"
-    REPO_J=$(( JOBS > 8 ? 8 : JOBS ))    # repo sync เกิน -j8 มักจะโดน rate-limit
-    repo sync -j"$REPO_J" --force-sync --no-clone-bundle --no-tags
+    # Google's googlesource.com มี quota ต่อ IP — ถ้าเจอ RESOURCE_EXHAUSTED ลด -j แล้วลองใหม่
+    # repo sync เป็น idempotent (repo ที่ sync แล้วจะ skip) → retry ได้ปลอดภัย
+    REPO_TRIES=(8 4 2 1 1 1)    # 6 attempts, ลด parallelism เรื่อย ๆ จนถึง -j1 (sequential)
+    SYNC_OK=0
+    for _try_j in "${REPO_TRIES[@]}"; do
+        _eff_j=$(( _try_j > JOBS ? JOBS : _try_j ))
+        info "repo sync -j${_eff_j} (พยายาม)"
+        if repo sync -j"$_eff_j" --force-sync --no-clone-bundle --no-tags --fail-fast; then
+            SYNC_OK=1
+            break
+        fi
+        warn "repo sync -j${_eff_j} ล้มเหลว (อาจโดน rate-limit/network) — รอ 30 วินาทีแล้วลองใหม่ด้วย -j ที่ต่ำลง"
+        sleep 30
+    done
+    [[ "$SYNC_OK" == "1" ]] || die "repo sync ล้มเหลวทั้ง 6 ครั้ง — ตรวจ network/quota หรือลองใหม่อีกหลังพักสักพัก"
     echo "$GOS_TAG" > .gos-synced-tag
 fi
 
