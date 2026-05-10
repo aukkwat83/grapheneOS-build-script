@@ -90,13 +90,16 @@ elif [[ -d "$BUILD_ROOT/releases" ]]; then
     declare -a _found_bn=()
     _all_ok=1
     for _D in "${DEVICES[@]}"; do
-        # หา release dir ล่าสุดของ device นี้ที่มี factory zip ครบ + install dir + flash-all.sh
+        # หา release dir ล่าสุดของ device นี้ที่มี factory + ota_update + install (zip หรือ extracted)
         _latest=""
         for _cand in $(ls -d "$BUILD_ROOT/releases/"*/"release-${_D}-"*/ 2>/dev/null | sort -r); do
             _bn=$(basename "$(dirname "$_cand")")
-            if compgen -G "${_cand}${_D}-factory-${_bn}.zip" >/dev/null \
-               && compgen -G "${_cand}${_D}-ota_update-${_bn}.zip" >/dev/null \
-               && [[ -x "${_cand}${_D}-install-${_bn}/flash-all.sh" ]]; then
+            _has_install=0
+            [[ -f "${_cand}${_D}-install-${_bn}.zip" ]] && _has_install=1
+            [[ -x "${_cand}${_D}-install-${_bn}/flash-all.sh" ]] && _has_install=1
+            if [[ -f "${_cand}${_D}-factory-${_bn}.zip" \
+                  && -f "${_cand}${_D}-ota_update-${_bn}.zip" \
+                  && "$_has_install" == "1" ]]; then
                 _latest="$_cand"
                 break
             fi
@@ -493,9 +496,25 @@ else
     README_FILE="$GPG_OUT_DIR/${BUNDLE_BASENAME}.README.txt"
 
     # tar paths สัมพัทธ์กับ BUILD_ROOT เพื่อให้ extract แล้วโครงสร้างสะอาด
+    # เก็บเฉพาะที่จำเป็นสำหรับ flash จากเครื่องอื่น:
+    #   - factory.zip   (มาตรฐาน AOSP — flash-all.sh ข้างใน)
+    #   - install.zip   (แบบ GrapheneOS — flash-all.sh ข้างใน, เล็กกว่าหน่อย)
+    #   - ota_update.zip (สำหรับ OTA หลัง flash ครั้งแรก ผ่าน sideload)
+    #   - img.zip       (สำหรับ flash แบบ manual ทีละ partition)
+    #   - keys/<DEV>/   (avb_pkmd.bin สำหรับ lock bootloader + signing keys สำหรับ OTA อนาคต)
+    # ตัด intermediate ของ generate-release.sh ทิ้ง (packages/, framework/, OTA/, script/, lib64/, ...)
+    # ลดขนาดจาก ~9.4G → ~3-4G
     TAR_INCLUDES=()
     for DEVICE in "${DEVICES[@]}"; do
-        TAR_INCLUDES+=("releases/$BUILD_NUMBER/release-${DEVICE}-${BUILD_NUMBER}")
+        _rel="releases/$BUILD_NUMBER/release-${DEVICE}-${BUILD_NUMBER}"
+        for _z in factory install ota_update img; do
+            _f="${_rel}/${DEVICE}-${_z}-${BUILD_NUMBER}.zip"
+            if [[ -f "$BUILD_ROOT/$_f" ]]; then
+                TAR_INCLUDES+=("$_f")
+            else
+                warn "ไม่พบ ${_f} — ข้าม"
+            fi
+        done
         TAR_INCLUDES+=("keys/$DEVICE")
     done
 
@@ -576,23 +595,53 @@ fi)
 
    จะได้โครงสร้าง:
      ./releases/$BUILD_NUMBER/release-<DEVICE>-${BUILD_NUMBER}/
-         ├── *-factory-${BUILD_NUMBER}.zip
-         ├── *-ota_update-${BUILD_NUMBER}.zip
-         └── *-img-${BUILD_NUMBER}.zip
+         ├── <DEVICE>-factory-${BUILD_NUMBER}.zip      (มี flash-all.sh ข้างใน — แนะนำ)
+         ├── <DEVICE>-install-${BUILD_NUMBER}.zip      (มี flash-all.sh ข้างใน — alternative)
+         ├── <DEVICE>-ota_update-${BUILD_NUMBER}.zip   (สำหรับ sideload OTA)
+         └── <DEVICE>-img-${BUILD_NUMBER}.zip          (สำหรับ flash manual)
      ./keys/<DEVICE>/
-         ├── avb_pkmd.bin   (สำหรับ fastboot flash avb_custom_key)
-         ├── avb.pem
-         └── *.pk8 / *.x509.pem  (signing keys — เก็บเป็นความลับ!)
+         ├── avb_pkmd.bin   (สำหรับ fastboot flash avb_custom_key — ต้องใช้ก่อน lock!)
+         ├── avb.pem        (private — เก็บเป็นความลับ)
+         └── *.pk8 / *.x509.pem  (signing keys สำหรับ OTA อนาคต — เก็บเป็นความลับ!)
 
-4) Flash + lock bootloader (ที่เครื่องปลายทาง):
+4) Flash + lock bootloader (ที่เครื่องปลายทาง — ต้องมี adb + fastboot):
      # ก่อน: เปิด OEM unlocking ใน Developer options ของเครื่อง Pixel
+     # (Settings → About phone → กด Build number 7 ครั้ง → Developer options → OEM unlocking)
+     # ติดตั้ง platform-tools ถ้ายังไม่มี:
+     #   Ubuntu/Debian:  sudo apt install android-sdk-platform-tools
+     #   macOS:          brew install --cask android-platform-tools
+     #   Windows:        ดาวน์โหลดจาก developer.android.com/tools/releases/platform-tools
+
+     cd releases/$BUILD_NUMBER/release-<DEVICE>-${BUILD_NUMBER}/
+
+     # 4.1) แตก factory bundle (จะได้ folder <DEVICE>-factory-${BUILD_NUMBER}/ ที่มี flash-all.sh)
+     unzip -o <DEVICE>-factory-${BUILD_NUMBER}.zip
+
+     # 4.2) เข้า bootloader + unlock (ครั้งแรกเท่านั้น, จะ wipe ข้อมูล)
      adb reboot bootloader
-     fastboot flashing unlock                       # ครั้งแรกเท่านั้น (wipe)
-     cd releases/$BUILD_NUMBER/release-<DEVICE>-${BUILD_NUMBER}/<DEVICE>-install-${BUILD_NUMBER}/
-     ./flash-all.sh
-     fastboot flash avb_custom_key ../../../keys/<DEVICE>/avb_pkmd.bin
-     fastboot flashing lock                         # กด Volume Up confirm (wipe อีก)
-     # บูตขึ้นมาจะเห็น 'Custom OS' หน้าจอเหลือง = ปกติ
+     fastboot flashing unlock                       # กด Volume Up บนเครื่องเพื่อ confirm
+
+     # 4.3) flash ทั้งระบบ (bootloader + radio + system + reboots)
+     cd <DEVICE>-factory-${BUILD_NUMBER}/
+     ./flash-all.sh                                 # Linux/macOS
+     # Windows ใช้: flash-all.bat
+
+     # 4.4) เครื่องจะรีบูตเข้า bootloader อีก — flash custom AVB key (ต้องทำก่อน lock!)
+     #      ถ้าข้ามขั้นนี้ → lock แล้วเครื่องจะ brick (ขึ้น 'Cannot load Android system')
+     fastboot flash avb_custom_key ../../../../keys/<DEVICE>/avb_pkmd.bin
+
+     # 4.5) lock bootloader (ทำให้ Verified Boot กลับมาทำงาน — ปลอดภัยเหมือน stock)
+     fastboot flashing lock                         # กด Volume Up confirm (wipe อีกครั้ง)
+     fastboot reboot
+
+     # บูตขึ้นมาเห็นข้อความ 'Custom OS' หน้าจอเหลืองตอนบูต ~5 วิ = ปกติ
+     # (ถ้าเห็นข้อความแดง 'Cannot load Android' = ลืม flash avb_custom_key)
+
+หมายเหตุ: ถ้า factory.zip flash ไม่สำเร็จ (เช่น bootloader version ใหม่กว่า stock)
+         ลองใช้ install.zip แทน — โครงสร้างเหมือนกันเป๊ะ:
+           unzip <DEVICE>-install-${BUILD_NUMBER}.zip
+           cd <DEVICE>-install-${BUILD_NUMBER}/
+           ./flash-all.sh
 
 ความปลอดภัย
 ------------
