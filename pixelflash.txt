@@ -1,0 +1,25 @@
+ฉันต้องการสร้าง powershell script สำหรับ Install GrapheneOS Custom Rom ที่ Build จาก UbuntuOS โดยให้ Script ทำตามดังนี้
+
+กำหนดค่าของเครื่อง Server ปลายทาง ผ่านการ EDIT Script เป็น ENV Variable บน ตัวแปร
+
+1. กำหนด
+OS=Ubuntu24.04LTS
+HOST=10.211.55.14
+User=aukkwat
+Pass=bigmaster
+
+เครื่องนี้คือเครื่องที่มีไฟล์อยู่จริง สามารถนำมาใช้ flash ได้เลย
+
+2. หา /home/[user]/grapheneos-*.tar.gpg ปลายทาง และ README
+
+3. เตรียมเครื่อง Windows เครื่องนี้ให้พร้อมสำหรับการ Flash GrapheneOS Custom Rom ที่ Build
+3.1 init package ที่ windows เครื่องนี้ต้องมี
+3.1.1 เช็ค และลง chocolatey
+3.1.2 ลง tools ทั้งหมดที่ต้องใช้ flash จาก chocolatey ก่อน ถ้าไม่มีค่อยเป็น source นอก
+
+3.2 sync ของจาก ubuntu server ที่กำหนดในขั้นตอนที่ 1 ลงมาไว้บน Windows ให้หมดก่อน เพื่อเตรียม Flash โดยให้ไฟล์ทั้งหมด แยกโฟลเดอร์อยู่หน้า Desktop
+3.3 เช็คว่ามี device ต่ออยู่มั้ย ถ้าไม่มีให้แจ้งตาม step และเริ่ม flash จนสำเร็จ โดยเป็นการ flash all แบบล้างทั้งหมด
+
+ให้ทำการ flash จริง และสร้าง powershell script จนสมบูรณ์ใช้ได้ 100% จาก Windows11 ที่ไม่เคยลงอะไรมาก่อนเลย
+
+
