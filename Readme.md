@@ -1,16 +1,175 @@
-# วิธีใช้ `patch-grapheneos.sh`
+# Build GrapheneOS แบบ Custom Keys (ไม่มี OTA)
 
-Build GrapheneOS แบบ unofficial (custom keys, ไม่มี OTA) จาก source tag `2026042100` บน Ubuntu 24.04
+Build GrapheneOS unofficial (custom signing + AVB keys, ลบ Updater ออก) จาก source tag `2026042100` บน Ubuntu 24.04
 
 ## ภาพรวม
 
-script นี้ทำ 3 อย่างก่อน build:
+ทำ 3 อย่างก่อน build:
 
 1. **ลบ Updater (OTA client)** ออกจากระบบ — เครื่องจะไม่มีปุ่ม "Check for updates" หรือ background auto-update อีกต่อไป
 2. **คง App Store ของ GrapheneOS ไว้** — ติดตั้ง/อัปเดต Sandboxed Play Services และแอพอื่นได้ปกติ
 3. **สร้าง signing keys + AVB key ของตัวเอง** ที่ `keys/<DEVICE>/` สำหรับ sign image และ lock bootloader
 
 > **วิธีอัปเดต OS หลัง build แล้ว**: ต้อง build ใหม่จาก source อย่างเดียว แล้ว sideload OTA หรือ flash factory image ใหม่
+
+---
+
+## เลือกวิธีใช้งาน
+
+มี script 3 ตัวให้เลือกตามสถานการณ์:
+
+| Script | ใช้เมื่อ | สิ่งที่ได้ |
+|---|---|---|
+| `one-all-stop-build-grapheneos-on-ubuntu24lts.sh` | Build เครื่องเดียวจบ ใช้บน build machine | ไฟล์ flash ที่ `~/grapheneos/releases/<BN>/` |
+| `one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh` | Build แล้วต้องย้ายไป flash จากเครื่องอื่น (ต่อ USB ที่ Pixel ที่อื่น) | ไฟล์ flash + `.tar.gpg` เข้ารหัส + README |
+| `patch-grapheneos.sh` | ต้องการคุม build เอง step-by-step | แค่ patch source + สร้าง keys ที่เหลือทำเอง |
+
+ทั้ง 2 script `one-all-stop-*` ทำตั้งแต่ติดตั้ง deps → repo sync → patch → build → sign จบในคำสั่งเดียว มี **pre-check** หา build เดิมที่พร้อม flash ก่อน — ถ้าเจอจะข้าม build แล้วใช้ artifact เดิม
+
+---
+
+## วิธีที่ 1 — One-stop ปกติ (ไม่ encrypt)
+
+ใช้เมื่อ build บนเครื่องที่จะ flash โดยตรง หรือไม่กังวลเรื่องความปลอดภัยตอนย้ายไฟล์
+
+```bash
+# clone repo นี้แล้ว cd เข้ามา
+chmod +x one-all-stop-build-grapheneos-on-ubuntu24lts.sh patch-grapheneos.sh
+
+# build Pixel 8 (shiba) — รันเป็น user ปกติ ห้าม sudo
+./one-all-stop-build-grapheneos-on-ubuntu24lts.sh shiba
+
+# build หลายรุ่น
+./one-all-stop-build-grapheneos-on-ubuntu24lts.sh shiba husky tokay
+```
+
+ผลลัพธ์อยู่ที่ `~/grapheneos/releases/<BUILD_NUMBER>/release-<DEVICE>-<BUILD_NUMBER>/`:
+- `<DEV>-factory-<BN>.zip` (มี flash-all.sh ข้างใน — แนะนำ)
+- `<DEV>-install-<BN>.zip` / `<DEV>-ota_update-<BN>.zip` / `<DEV>-img-<BN>.zip`
+
+ขั้นตอน flash ดูใน [PART 7](#part-7--flash--lock-bootloader-ด้วย-avb-key-ของตัวเอง) หรืออ่าน `~/grapheneos/NEXT-STEPS.txt`
+
+### Env override ที่ใช้บ่อย
+
+```bash
+GOS_TAG=2026050100 \
+BUILD_ROOT=$HOME/gos \
+ASSUME_YES=1 \
+./one-all-stop-build-grapheneos-on-ubuntu24lts.sh shiba
+```
+
+| ตัวแปร | ความหมาย | default |
+|---|---|---|
+| `GOS_TAG` | tag GrapheneOS | `2026042100` |
+| `BUILD_ROOT` | ที่อยู่ source tree | `$HOME/grapheneos` |
+| `CCACHE_SIZE` | ขนาด ccache | `50G` |
+| `ASSUME_YES=1` | auto-yes ทุก prompt | `0` |
+| `SKIP_SYNC=1` | ข้าม repo sync | `0` |
+| `FORCE_REBUILD=1` | ไม่ใช้ artifact เดิม build ใหม่เลย | `0` |
+| `CLEAN_OUT_AFTER=1` | ลบ `out/` หลัง build แต่ละ device (เซฟ disk) | `auto` |
+
+---
+
+## วิธีที่ 2 — One-stop + GPG bundle (ย้ายข้ามเครื่อง)
+
+ใช้เมื่อ build บน VM/server แล้วต้องย้ายไฟล์ไป flash บนเครื่องอื่น (เช่น laptop ที่ต่อ Pixel ผ่าน USB) — ป้องกัน private signing keys รั่วระหว่างทาง
+
+```bash
+chmod +x one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh patch-grapheneos.sh
+```
+
+### โหมดการเข้ารหัส
+
+**(แนะนำ) Asymmetric — public key:**
+
+```bash
+# ที่เครื่อง flash ปลายทาง: เอา public key ใส่ keyring บน build machine ก่อน
+# gpg --import your-public-key.asc
+
+GPG_RECIPIENT=you@example.com \
+./one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh shiba
+```
+
+**Symmetric — passphrase:**
+
+```bash
+# ใส่ passphrase ทาง env (สำหรับ automation)
+GPG_PASSPHRASE='your-strong-passphrase' \
+./one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh shiba
+
+# หรือไม่ตั้ง env → script จะ prompt ขอ passphrase
+./one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh shiba
+```
+
+### ผลลัพธ์ (เพิ่มจากวิธีที่ 1)
+
+```
+$HOME/grapheneos-<BUILD_NUMBER>-<devices>.tar.gpg     # bundle เข้ารหัส (~5-6 GB ต่อ device)
+$HOME/grapheneos-<BUILD_NUMBER>-<devices>.README.txt  # วิธี extract + flash (plain text, ไม่มีความลับ)
+```
+
+Bundle เก็บเฉพาะที่จำเป็นสำหรับ flash:
+- `releases/<BN>/release-<DEV>-<BN>/<DEV>-factory-<BN>.zip` + `install` + `ota_update` + `img`
+- `keys/<DEV>/` ครบทุกไฟล์ (avb + 9 signing keys — เก็บไว้ใช้ sign OTA อนาคต)
+
+### วิธี flash จากเครื่องปลายทาง
+
+```bash
+# 1) คัดลอก 2 ไฟล์ไปเครื่องปลายทาง
+scp grapheneos-<BN>-shiba.tar.gpg grapheneos-<BN>-shiba.README.txt user@target:~/
+
+# 2) ตรวจ checksum (ดูค่าจาก README)
+sha256sum grapheneos-<BN>-shiba.tar.gpg
+
+# 3) decrypt + extract
+gpg --decrypt grapheneos-<BN>-shiba.tar.gpg | tar -xvf -
+# โหมด asymmetric → ใช้ private key ที่ matched
+# โหมด symmetric → gpg จะถาม passphrase
+
+# 4) unzip factory + flash
+cd releases/<BN>/release-shiba-<BN>/
+unzip shiba-factory-<BN>.zip
+adb reboot bootloader
+fastboot flashing unlock                           # ครั้งแรก wipe
+cd shiba-factory-<BN>/
+./flash-all.sh
+fastboot flash avb_custom_key ../../../../keys/shiba/avb_pkmd.bin
+fastboot flashing lock                             # confirm Volume Up, wipe
+```
+
+> ⚠ ลบ tar ที่ extract แล้วบนเครื่องปลายทางหลัง flash เสร็จ ถ้าเครื่องนั้นไม่ trusted (private signing keys รั่วได้)
+
+### Env override (เพิ่มจากวิธีที่ 1)
+
+| ตัวแปร | ความหมาย |
+|---|---|
+| `GPG_RECIPIENT` | key ID หรือ email สำหรับ asymmetric encryption |
+| `GPG_PASSPHRASE` | passphrase สำหรับ symmetric (ถ้าไม่ตั้ง prompt) |
+| `GPG_OUT_DIR` | folder เก็บ `.tar.gpg` (default `$HOME`) |
+| `SKIP_GPG=1` | ข้าม pack/encrypt (ใช้ทดสอบ build) |
+
+### สถานการณ์ที่ใช้ pre-check
+
+ถ้า build เสร็จแล้ว แต่ต้องการ re-pack bundle ใหม่ (เช่น ลืมตั้ง `GPG_RECIPIENT` รอบแรก):
+
+```bash
+# script จะถาม "ข้าม build แล้วไป pack GPG เลย? [y/N]" — ตอบ y
+GPG_RECIPIENT=you@example.com \
+./one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh shiba
+
+# automation: ตอบ yes อัตโนมัติ
+ASSUME_YES=1 GPG_RECIPIENT=you@example.com \
+./one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh shiba
+
+# บังคับ build ใหม่แม้มี artifact เดิม
+FORCE_REBUILD=1 ./one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh shiba
+```
+
+---
+
+## วิธีที่ 3 — Manual (`patch-grapheneos.sh`)
+
+สำหรับคนที่ต้องการคุม build step-by-step เอง — อ่านต่อใน [PART 0](#part-0--เตรียม-ubuntu-2404) ลงไป
 
 ---
 
@@ -445,10 +604,14 @@ cd ~/grapheneos/releases/<BUILD>/release-tokay-<BUILD>/tokay-install-<BUILD>/
 
 | ไฟล์ | คำอธิบาย |
 |---|---|
-| `patch-grapheneos.sh` | script patch ที่ผู้ใช้รัน |
-| `NEXT-STEPS.txt` | คำสั่งเฉพาะ device (สร้างโดย script) |
+| `one-all-stop-build-grapheneos-on-ubuntu24lts.sh` | One-stop ปกติ (build → flashable zip) |
+| `one-all-stop-build-grapheneos-on-ubuntu24lts-withgpg.sh` | One-stop + pack GPG bundle สำหรับย้ายข้ามเครื่อง |
+| `patch-grapheneos.sh` | script patch (เรียกโดย one-stop หรือใช้เองก็ได้) |
+| `check-status.sh` | ตรวจสถานะ build / artifact ที่มีอยู่ |
+| `NEXT-STEPS.txt` | คำสั่งเฉพาะ device (สร้างโดย script ใน `~/grapheneos/`) |
 | `keys/<DEVICE>/` | กุญแจที่สร้างใหม่ |
 | `*.gosbak` | backup file ที่ patch แก้ ใช้ revert ได้ |
+| `<BN>.tar.gpg` + `<BN>.README.txt` | bundle เข้ารหัส + วิธี extract (เฉพาะวิธีที่ 2) |
 
 ### โครงสร้าง `keys/<DEVICE>/`
 
