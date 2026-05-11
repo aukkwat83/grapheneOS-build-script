@@ -452,6 +452,22 @@ if [[ -f "$ADEV_RUN" ]] && grep -q "MIN_NODE_MAJOR_VERSION = 24" "$ADEV_RUN"; th
     log "patch adevtool/bin/run แล้ว"
 fi
 
+# ─── issue: adevtool reject stderr "Build sandboxing disabled due to nsjail error."
+#           Soong nsjail ทำงานในซ้อน guix container ไม่ได้ → fallback (warning ที่ stderr)
+#           แต่ adevtool's isStderrLineAllowed อนุญาตแค่ "setpriority(5): Permission denied"
+# ─── audit: patch ใน vendor/adevtool/src/config/paths.ts (จาก repo manifest GrapheneOS)
+#           ครั้งหน้า repo sync จะ revert → script patch ใหม่อัตโนมัติ
+ADEV_PATHS="$BUILD_ROOT/vendor/adevtool/src/config/paths.ts"
+if [[ -f "$ADEV_PATHS" ]] && ! grep -q "Build sandboxing disabled" "$ADEV_PATHS"; then
+    info "patch adevtool/src/config/paths.ts: allow nsjail warning"
+    # ใช้ sed line replace แทน s/// เพราะ || + " ใน expression ทำให้ sed บางตัวงง
+    _line=$(grep -n "setpriority(5): Permission denied" "$ADEV_PATHS" | head -1 | cut -d: -f1)
+    if [[ -n "$_line" ]]; then
+        sed -i "${_line}c\\
+        return line.endsWith(\"setpriority(5): Permission denied\") || line.includes(\"Build sandboxing disabled\")" "$ADEV_PATHS"
+    fi
+fi
+
 # ─── STEP 4.4: ล้าง vendor/google_devices/ ทั้งหมด — STEP 6 จะ regen ใหม่ ───
 # ─── issue: adevtool generate-all เก่าทิ้ง vendor blob ค้างไว้
 #           ที่อาจไม่ครบ (system_ext/bin/gs_watchdogd, ฯลฯ) → Soong fail
