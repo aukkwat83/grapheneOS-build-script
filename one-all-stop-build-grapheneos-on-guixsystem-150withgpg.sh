@@ -221,7 +221,14 @@ EOF
     fi
 
     # ─── เตรียม BUILD_ROOT + คัดลอก patch-grapheneos.sh ───
-    mkdir -p "$BUILD_ROOT" "$ADEV_DL" "$HOME/.bin" "$HOME/.local/bin" "$HOME/.cache" "$HOME/.config/grapheneos"
+    # หมายเหตุ: ต้องสร้างทุก dir ก่อน exec เข้า container เพราะ --share=
+    #          จะ fail ถ้า source dir ไม่มี (statfs error)
+    mkdir -p "$BUILD_ROOT" "$ADEV_DL" \
+             "$HOME/.bin" "$HOME/.local/bin" \
+             "$HOME/.cache/corepack" "$HOME/.cache/ccache" \
+             "$HOME/.config/grapheneos" \
+             "$HOME/.gnupg"
+    chmod 700 "$HOME/.gnupg"
     cp -f "$PATCH_SRC" "$BUILD_ROOT/patch-grapheneos.sh"
     chmod +x "$BUILD_ROOT/patch-grapheneos.sh"
 
@@ -243,7 +250,16 @@ EOF
     export GOS_CLEAN_OUT_AFTER="$CLEAN_OUT_AFTER"
     export GOS_DEVICES="${DEVICES[*]}"
 
-    # หมายเหตุ: --share=$HOME=$HOME ทำให้ path เหมือนนอก/ในตรงกัน
+    # คัดลอก .gitconfig ของ host (ถ้ามี) → $BUILD_ROOT/.gitconfig
+    # เพื่อให้ git inside container เห็น identity เดิม และ "เขียนได้" (ไม่ติด bind-mount file)
+    # ─── issue: --share=$HOME/.gitconfig (file mount) → git config rename fails ──
+    if [[ -f "$HOME/.gitconfig" && ! -f "$BUILD_ROOT/.gitconfig" ]]; then
+        cp "$HOME/.gitconfig" "$BUILD_ROOT/.gitconfig"
+    fi
+    touch "$BUILD_ROOT/.gitconfig"
+    export GOS_GIT_CONFIG_GLOBAL="$BUILD_ROOT/.gitconfig"
+
+    # หมายเหตุ: bind mounts (--share)
     #   --network             → DNS + HTTPS สำหรับ curl/git/repo/adevtool
     #   --preserve=...        → keep env vars ที่จำเป็นข้ามเข้า container
     #   --share=$BUILD_ROOT   → bind-mount source tree (read-write)
@@ -253,10 +269,6 @@ EOF
     #   --share=$HOME/.cache  → corepack cache + ccache (ถ้าไม่ใช้ in-tree)
     #   --share=$HOME/.config → allowed_signers (GrapheneOS pub key list)
     #   --share=$HOME/.gnupg  → keyring สำหรับ git verify-tag + GPG pack
-    #   --share=$HOME/.gitconfig → ใช้ identity ของ user
-    GIT_CFG_MOUNT=()
-    [[ -f "$HOME/.gitconfig" ]] && GIT_CFG_MOUNT=(--share="$HOME/.gitconfig")
-
     exec guix shell -m "$MANIFEST_SRC" \
         --container --emulate-fhs --network \
         --preserve='^GOS_|^HOME$|^USER$|^TERM$|^LOG_FILE$|^BUILD_ROOT$|^ADEV_DL$|^GOS_TAG$|^GIT_NAME$|^GIT_EMAIL$|^SKIP_SYNC$|^CCACHE_SIZE$|^CCACHE_DIR_VAR$|^FORCE_REBUILD$|^SKIP_GPG$|^GPG_RECIPIENT$|^GPG_PASSPHRASE$|^GPG_OUT_DIR$|^ASSUME_YES$|^LANG$' \
@@ -267,7 +279,6 @@ EOF
         --share="$HOME/.cache" \
         --share="$HOME/.config" \
         --share="$HOME/.gnupg" \
-        "${GIT_CFG_MOUNT[@]}" \
         -- bash "$0" "${DEVICES[@]}"
 fi  # end Phase 1
 
@@ -290,10 +301,43 @@ fi
 # Env สำหรับ FHS container — กำหนดให้ AOSP prebuilt binaries หา libs เจอ
 export PATH="$HOME/.local/bin:$HOME/.bin:$PATH"
 export LD_LIBRARY_PATH="$BUILD_ROOT/prebuilts/build-tools/linux-x86/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# git config: ใช้ไฟล์ที่ writable ใน $BUILD_ROOT (bind-mount file rename ไม่ได้)
+export GIT_CONFIG_GLOBAL="${GOS_GIT_CONFIG_GLOBAL:-$BUILD_ROOT/.gitconfig}"
 # ccache settings (CCACHE_EXEC ตั้งทีหลังเมื่อ ccache available)
 export USE_CCACHE=1 CCACHE_DIR="$CCACHE_DIR_VAR"
-# locales
+
+# ─── locales — สำคัญสำหรับ Soong (Go binary ต้องการ C.UTF-8) ─────────
+# ปัญหา: Soong (build/soong/ui/build/config.go:configureLocale) เรียก
+#       `locale -a` เพื่อตรวจว่า C.UTF-8 มีไหม แต่ Guix glibc-for-fhs's
+#       locale binary มี bug — return แค่ "C\nPOSIX" ถึงแม้ /usr/lib/locale/2.41/
+#       จะมี C.UTF-8 ครบ → Soong fail "doesn't support C.UTF-8"
+# วิธีแก้: shim locale wrapper ใน $HOME/.local/bin/locale ที่ list directory ตรง ๆ
+if [[ -z "${GUIX_LOCPATH:-}" ]]; then
+    _glp=$(ls -d /gnu/store/*-profile/lib/locale 2>/dev/null | head -1)
+    [[ -n "$_glp" ]] && export GUIX_LOCPATH="$_glp"
+fi
 export LANG="${LANG:-C.UTF-8}" LC_ALL="${LC_ALL:-C.UTF-8}"
+# ติดตั้ง locale wrapper (intercept -a เพื่อให้ Soong build ผ่าน)
+if [[ ! -x "$HOME/.local/bin/locale" ]]; then
+    cat > "$HOME/.local/bin/locale" <<'LOCWRAPPER'
+#!/usr/bin/env bash
+# locale wrapper — แก้ bug glibc-for-fhs's `locale -a` (Guix FHS container)
+# ─── จำเป็นเพราะ Soong UI (Go) ใช้ `locale -a` ตรวจ C.UTF-8 (audit) ───
+REAL_LOCALE=/gnu/store/$(ls /gnu/store 2>/dev/null | grep -E '^[a-z0-9]+-glibc-for-fhs-[0-9.]+$' | head -1)/bin/locale
+[[ -x "$REAL_LOCALE" ]] || REAL_LOCALE=/usr/bin/locale.real
+if [[ "$1" == "-a" ]]; then
+    for d in /usr/lib/locale/[0-9]*; do
+        [[ -d "$d" ]] && ls -1 "$d" 2>/dev/null
+    done | sort -u
+    echo C
+    echo POSIX
+else
+    exec "$REAL_LOCALE" "$@"
+fi
+LOCWRAPPER
+    chmod +x "$HOME/.local/bin/locale"
+fi
+
 # CA certs (Guix nss-certs)
 export SSL_CERT_DIR="${SSL_CERT_DIR:-/etc/ssl/certs}"
 export GIT_SSL_CAINFO="${GIT_SSL_CAINFO:-$SSL_CERT_DIR/ca-bundle.crt}"
@@ -315,7 +359,8 @@ if [[ ! -x "$HOME/.bin/repo" ]]; then
 fi
 
 # git identity (ใช้ค่า env หรือ user@hostname เป็น default)
-HOST_FQDN="$(hostname -f 2>/dev/null || hostname)"
+# fallback: HOSTNAME shell builtin → /etc/hostname → localhost (กัน container ไม่มี hostname binary)
+HOST_FQDN="$(hostname -f 2>/dev/null || hostname 2>/dev/null || cat /etc/hostname 2>/dev/null || echo "${HOSTNAME:-localhost}")"
 [[ -z "$HOST_FQDN" || "$HOST_FQDN" == "(none)" ]] && HOST_FQDN="localhost"
 if ! git config --global user.email >/dev/null 2>&1; then
     git config --global user.email "${GIT_EMAIL:-${USER}@${HOST_FQDN}}"
@@ -393,6 +438,50 @@ for _D in "${DEVICES[@]}"; do
         || die "Patch ไม่สมบูรณ์: ขาด keys/$_D/avb"
 done
 log "ยืนยัน keys ครบ"
+
+# ─── STEP 4.4: ล้าง vendor/google_devices/ ทั้งหมด — STEP 6 จะ regen ใหม่ ───
+# ─── issue: adevtool generate-all เก่าทิ้ง vendor blob ค้างไว้
+#           ที่อาจไม่ครบ (system_ext/bin/gs_watchdogd, ฯลฯ) → Soong fail
+# ─── audit: vendor/google_devices/* ทั้งหมดเกิดจาก adevtool (ไม่ใช่ repo manifest)
+#           ปลอดภัยที่จะลบทั้งหมด — STEP 6 ก่อน build (STEP 7) จะ regen ใหม่
+# ─── สำคัญ: ลบทั้งหมด ไม่ใช่แค่ device ที่ไม่ใช้ เพราะ stale blob ของ DEVICE
+#            ที่จะ build อาจไม่ครบ (เช่น run ก่อนหน้า crash กลางทาง)
+if [[ -d "$BUILD_ROOT/vendor/google_devices" ]]; then
+    step "STEP 4.4/9 — ล้าง vendor/google_devices/ ทั้งหมด (STEP 6 จะ regen)"
+    _removed=0
+    for _d in "$BUILD_ROOT/vendor/google_devices"/*/; do
+        _dname=$(basename "$_d")
+        rm -rf "$_d"
+        _removed=$((_removed + 1))
+    done
+    log "ลบไป $_removed device dirs"
+fi
+
+# ─── STEP 4.5: patchelf AOSP prebuilts (one-time per repo sync) ───
+# ─── issue: Soong filters LD_LIBRARY_PATH ทำให้ ninja หา libjemalloc5.so ไม่เจอ
+#           แก้ด้วย patchelf RUNPATH=$ORIGIN/../lib64 (binary หา lib ได้จาก path สัมพัทธ์)
+#           audit: ใช้ patchelf จาก Guix manifest, ปรับเฉพาะ binary ใน prebuilts/build-tools/
+PATCHELF_MARK="$BUILD_ROOT/.gos-patchelf-done-$GOS_TAG"
+if [[ ! -f "$PATCHELF_MARK" ]]; then
+    step "STEP 4.5/9 — patchelf AOSP prebuilts (one-time)"
+    _patched=0
+    # Disable errexit ระหว่าง patchelf (บาง binary ไม่มี dynamic section → patchelf fail)
+    set +e
+    for _bindir in \
+        "$BUILD_ROOT/prebuilts/build-tools/linux-x86/bin" ; do
+        [[ -d "$_bindir" ]] || continue
+        while IFS= read -r -d '' _bin; do
+            if head -c 4 "$_bin" 2>/dev/null | grep -q $'^\x7fELF'; then
+                if patchelf --set-rpath '$ORIGIN/../lib64' "$_bin" 2>/dev/null; then
+                    _patched=$((_patched + 1))
+                fi
+            fi
+        done < <(find "$_bindir" -maxdepth 1 -type f -executable -print0)
+    done
+    set -e
+    log "patchelf เสร็จ ($_patched binaries)"
+    touch "$PATCHELF_MARK"
+fi
 
 # ─── STEP 5: adevtool yarn install + aapt2 ───
 step "STEP 5/9 — เตรียม adevtool (yarn install) + build aapt2"

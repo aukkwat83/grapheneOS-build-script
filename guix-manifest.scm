@@ -52,6 +52,9 @@
    ;; ─── Core POSIX tools (FHS container ไม่ provide เอง) ───────────
    "coreutils"   "findutils"  "grep"  "sed"  "gawk"  "which"
    "bash"        "tar"        "gzip"  "xz"
+   "inetutils"   ; provides hostname (build script ต้องการ)
+   "diffutils"   ; provides diff (script/*.sh บางตัวเรียก)
+   "procps"      ; provides ps (envsetup.sh ใช้ตรวจ shell)
 
    ;; ─── CA certs + locales (HTTPS + UTF-8) ─────────────────────────
    "nss-certs"
