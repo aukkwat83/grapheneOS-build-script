@@ -316,8 +316,16 @@ fi
 set +u
 . "$GUIX_PROFILE/etc/profile"
 set -u
-export PATH="$GUIX_PROFILE/bin:$PATH"
+
+# Export PATH explicitly (Guix profile bin must be first)
+export PATH="$GUIX_PROFILE/bin:$HOME/.bin:$PATH"
 export GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
+
+# Verify critical binaries
+if ! command -v python3 >/dev/null 2>&1; then
+    die "python3 ไม่อยู่ใน PATH หลัง load Guix profile — ตรวจสอบ profile"
+fi
+info "Python: $(python3 --version)"
 
 # ccache setup
 mkdir -p "$CCACHE_DIR_VAR"
