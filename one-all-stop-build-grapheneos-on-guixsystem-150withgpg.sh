@@ -467,12 +467,24 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
     _patched=0
     # Disable errexit ระหว่าง patchelf (บาง binary ไม่มี dynamic section → patchelf fail)
     set +e
-    for _bindir in \
-        "$BUILD_ROOT/prebuilts/build-tools/linux-x86/bin" ; do
+    # คู่ของ bin_dir : lib_dir (RPATH ที่ตั้งจะเป็น $ORIGIN/<rel-to-lib>)
+    declare -a PATCH_PAIRS=(
+        "prebuilts/build-tools/linux-x86/bin:../lib64"
+    )
+    # clang/llvm prebuilts: libs อยู่ที่ ../lib (ไม่ใช่ lib64)
+    for _clangdir in "$BUILD_ROOT"/prebuilts/clang/host/linux-x86/clang-*; do
+        [[ -d "$_clangdir/bin" && -d "$_clangdir/lib" ]] || continue
+        _rel=${_clangdir#$BUILD_ROOT/}
+        PATCH_PAIRS+=("$_rel/bin:../lib")
+    done
+    for _pair in "${PATCH_PAIRS[@]}"; do
+        _bindir="$BUILD_ROOT/${_pair%:*}"
+        _libRel="${_pair#*:}"
         [[ -d "$_bindir" ]] || continue
+        info "patchelf $_bindir → RPATH=\$ORIGIN/$_libRel"
         while IFS= read -r -d '' _bin; do
             if head -c 4 "$_bin" 2>/dev/null | grep -q $'^\x7fELF'; then
-                if patchelf --set-rpath '$ORIGIN/../lib64' "$_bin" 2>/dev/null; then
+                if patchelf --set-rpath "\$ORIGIN/$_libRel" "$_bin" 2>/dev/null; then
                     _patched=$((_patched + 1))
                 fi
             fi
