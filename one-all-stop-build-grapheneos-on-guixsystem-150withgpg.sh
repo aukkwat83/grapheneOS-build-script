@@ -467,30 +467,27 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
     _patched=0
     # Disable errexit ระหว่าง patchelf (บาง binary ไม่มี dynamic section → patchelf fail)
     set +e
-    # คู่ของ bin_dir : lib_dir (RPATH ที่ตั้งจะเป็น $ORIGIN/<rel-to-lib>)
+
+    # ── Phase A: bin/ binaries → RPATH=$ORIGIN/<rel-to-lib> ──
     declare -a PATCH_PAIRS=(
         "prebuilts/build-tools/linux-x86/bin:../lib64"
     )
-    # clang/llvm prebuilts: libs อยู่ที่ ../lib (ไม่ใช่ lib64)
     for _clangdir in "$BUILD_ROOT"/prebuilts/clang/host/linux-x86/clang-*; do
         [[ -d "$_clangdir/bin" && -d "$_clangdir/lib" ]] || continue
         _rel=${_clangdir#$BUILD_ROOT/}
         PATCH_PAIRS+=("$_rel/bin:../lib")
     done
-    # rust prebuilts: libs อยู่ที่ ../lib (librustc_driver-*.so)
     for _rustdir in "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/; do
         [[ -d "${_rustdir}bin" && -d "${_rustdir}lib" ]] || continue
         _rel=${_rustdir#$BUILD_ROOT/}
         _rel=${_rel%/}
         PATCH_PAIRS+=("$_rel/bin:../lib")
     done
-    # go prebuilts: libs ที่ ../lib (ถ้ามี dynamic libs)
     for _godir in "$BUILD_ROOT"/prebuilts/go/linux-x86; do
         [[ -d "$_godir/bin" ]] || continue
         _rel=${_godir#$BUILD_ROOT/}
         PATCH_PAIRS+=("$_rel/bin:../lib")
     done
-    # jdk prebuilts: libs ที่ ../lib (libjli.so, etc.)
     for _jdkdir in "$BUILD_ROOT"/prebuilts/jdk/jdk*/linux-x86; do
         [[ -d "$_jdkdir/bin" ]] || continue
         _rel=${_jdkdir#$BUILD_ROOT/}
@@ -500,7 +497,7 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
         _bindir="$BUILD_ROOT/${_pair%:*}"
         _libRel="${_pair#*:}"
         [[ -d "$_bindir" ]] || continue
-        info "patchelf $_bindir → RPATH=\$ORIGIN/$_libRel"
+        info "patchelf bin $_bindir → \$ORIGIN/$_libRel"
         while IFS= read -r -d '' _bin; do
             if head -c 4 "$_bin" 2>/dev/null | grep -q $'^\x7fELF'; then
                 if patchelf --set-rpath "\$ORIGIN/$_libRel" "$_bin" 2>/dev/null; then
@@ -509,8 +506,34 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
             fi
         done < <(find "$_bindir" -maxdepth 1 -type f -executable -print0)
     done
+
+    # ── Phase B: lib/*.so transitive deps → RPATH=$ORIGIN (same dir) ──
+    # librustc_driver-*.so มี hardcoded RPATH=/lib/x86_64-linux-gnu → หา libLLVM ไม่เจอ
+    # AOSP prebuilt ส่วนใหญ่ขนของไว้ใน lib/ เดียวกัน → $ORIGIN พอแล้ว
+    declare -a LIB_DIRS=(
+        "$BUILD_ROOT/prebuilts/build-tools/linux-x86/lib64"
+    )
+    for _clangdir in "$BUILD_ROOT"/prebuilts/clang/host/linux-x86/clang-*; do
+        [[ -d "$_clangdir/lib" ]] && LIB_DIRS+=("$_clangdir/lib")
+        [[ -d "$_clangdir/lib64" ]] && LIB_DIRS+=("$_clangdir/lib64")
+    done
+    for _rustdir in "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/; do
+        [[ -d "${_rustdir}lib" ]] && LIB_DIRS+=("${_rustdir%/}/lib")
+    done
+    for _libdir in "${LIB_DIRS[@]}"; do
+        [[ -d "$_libdir" ]] || continue
+        info "patchelf lib $_libdir → \$ORIGIN"
+        while IFS= read -r -d '' _so; do
+            if head -c 4 "$_so" 2>/dev/null | grep -q $'^\x7fELF'; then
+                if patchelf --set-rpath '$ORIGIN' "$_so" 2>/dev/null; then
+                    _patched=$((_patched + 1))
+                fi
+            fi
+        done < <(find "$_libdir" -maxdepth 1 -name '*.so*' -type f -print0)
+    done
+
     set -e
-    log "patchelf เสร็จ ($_patched binaries)"
+    log "patchelf เสร็จ ($_patched ELF files)"
     touch "$PATCHELF_MARK"
 fi
 
