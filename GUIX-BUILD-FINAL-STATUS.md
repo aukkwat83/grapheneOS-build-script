@@ -129,25 +129,65 @@ chmod +x fix-aosp-prebuilt-libraries.sh
 
 ---
 
-## 🎯 ขั้นตอนต่อไป
+## ✅ แก้ไขเสร็จแล้ว: Library Dependencies (2026-05-11 23:00)
 
-### 1. แก้ปัญหา Library Path (เลือก 1 วิธี):
-- ✅ **แนะนำ**: รัน `fix-aosp-prebuilt-libraries.sh` (patchelf)
-- หรือใช้ wrapper script
+### สิ่งที่ทำ:
+1. ✅ Symlink ทุก AOSP prebuilt libraries (37 libs) จาก `prebuilts/build-tools/linux-x86/lib64/`:
+   - libjemalloc5.so
+   - libc++.so
+   - libgcc_s.so.1
+   - และอื่น ๆ
+2. ✅ Patch ELF binaries ด้วย patchelf (2800+ files)
+3. ✅ ทดสอบ ckati: **ทำงานได้!**
+4. ✅ Soong bootstrap: **ผ่าน!** (compiled 280 Go modules)
 
-### 2. ทดสอบ build vanilla:
+### ปัญหาปัจจุบัน: Missing Vendor Proprietary Files
+
+Build ล้มเหลวที่ขั้นตอน Soong analysis เพราะไฟล์ vendor blobs หายไป:
+```
+error: vendor/google_devices/*/proprietary/Android.bp:
+  module source path "vendor/google_devices/.../dump_*.sh" does not exist
+```
+
+**สาเหตุ**: ใช้ vendor skeleton (adevtool) ที่ยังไม่มี proprietary files จริง
+
+### วิธีแก้:
+
+#### ตัวเลือก 1: Extract Vendor Blobs จาก Factory Image (แนะนำ)
 ```bash
+# 1. Download factory image
 cd ~/grapheneos
-export TARGET_PRODUCT=husky
-export TARGET_RELEASE=cur
-export TARGET_BUILD_VARIANT=user
-source build/envsetup.sh
+wget https://dl.google.com/dl/android/aosp/husky-bp4a.251205.006-factory-XXXXXXXX.zip
+
+# 2. Extract vendor files ด้วย adevtool
+cd vendor/adevtool
+npm run build
+# อาจต้องปรับแต่ง adevtool config
+
+# 3. Rebuild
+cd ~/grapheneos
 m vanilla
 ```
 
-### 3. หาก build สำเร็จ → STEP 8 (Sign & Package):
+#### ตัวเลือก 2: สร้าง Dummy Files (สำหรับทดสอบเท่านั้น)
 ```bash
-script/generate-release.sh husky 2026051100
+# สร้าง shell scripts เปล่า ๆ สำหรับ files ที่หายไป
+cd ~/grapheneos
+mkdir -p vendor/google_devices/{comet,lynx,bluejay,felix,tangorpro,cheetah}/proprietary/vendor/bin/dump
+touch vendor/google_devices/comet/proprietary/vendor/bin/dump/dump_trusty.sh
+# ... (ทำกับทุก files ที่ error)
+chmod +x vendor/google_devices/*/proprietary/**/*.sh
+```
+
+#### ตัวเลือก 3: Build เฉพาะ Husky (ปิด devices อื่น)
+แก้ไข `vendor/google_devices/AndroidProducts.mk` ให้เหลือแค่ husky
+
+### 🚀 Automated Fix Script
+
+รัน script ที่สร้างไว้:
+```bash
+scp fix-aosp-prebuilt-all.sh root@10.211.55.27:/root/
+ssh root@10.211.55.27 'chmod +x /root/fix-aosp-prebuilt-all.sh && /root/fix-aosp-prebuilt-all.sh'
 ```
 
 ---
@@ -163,12 +203,20 @@ script/generate-release.sh husky 2026051100
 | STEP 4 | ✅ | Patch + Generate keys |
 | STEP 5 | ✅ | AOSP environment (envsetup.sh) |
 | STEP 6 | ✅ | Vendor configuration |
-| **STEP 7** | ⚠️ | **Build ROM - ต้องแก้ library path** |
+| **STEP 7** | 🔄 | **Build ROM - Soong bootstrap ผ่าน! ต้องการ vendor blobs** |
 | STEP 8 | ⏸️ | Sign & package (รอ STEP 7) |
 
-**Issues ที่แก้แล้ว**: 6 issues (schedtool, NODE_PATH, Python PATH, /bin symlinks, ld-linux, libraries)  
-**Issue ปัจจุบัน**: 1 issue (AOSP prebuilt binaries library path)  
-**วิธีแก้**: patchelf หรือ LD_PRELOAD wrapper
+**Issues ที่แก้แล้ว**: 7 issues:
+1. ✅ schedtool ไม่มีใน Guix
+2. ✅ NODE_PATH unbound
+3. ✅ Python PATH
+4. ✅ /bin symlinks (pwd, bash, env)
+5. ✅ /lib64/ld-linux-x86-64.so.2
+6. ✅ AOSP prebuilt libraries (37 libs)
+7. ✅ ELF binaries patching (2800+ files)
+
+**Issue ปัจจุบัน**: Missing vendor proprietary files (blobs)
+**Progress**: Soong bootstrap 100% (280/280 modules compiled)
 
 ---
 
