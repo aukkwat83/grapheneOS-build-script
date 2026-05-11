@@ -520,12 +520,30 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
     for _rustdir in "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/; do
         [[ -d "${_rustdir}lib" ]] && LIB_DIRS+=("${_rustdir%/}/lib")
     done
+    # RPATH = $ORIGIN (same dir) + ../lib + ../lib64 — handle lib/lib64 split
+    # (e.g. rust: libc++.so อยู่ lib64/, librustc_driver.so อยู่ lib/)
     for _libdir in "${LIB_DIRS[@]}"; do
         [[ -d "$_libdir" ]] || continue
-        info "patchelf lib $_libdir → \$ORIGIN"
+        info "patchelf lib $_libdir → \$ORIGIN:\$ORIGIN/../lib:\$ORIGIN/../lib64"
         while IFS= read -r -d '' _so; do
             if head -c 4 "$_so" 2>/dev/null | grep -q $'^\x7fELF'; then
-                if patchelf --set-rpath '$ORIGIN' "$_so" 2>/dev/null; then
+                if patchelf --set-rpath '$ORIGIN:$ORIGIN/../lib:$ORIGIN/../lib64' "$_so" 2>/dev/null; then
+                    _patched=$((_patched + 1))
+                fi
+            fi
+        done < <(find "$_libdir" -maxdepth 1 -name '*.so*' -type f -print0)
+    done
+    # rust ยังมี lib64/ ที่ต้อง patchelf (libc++.so)
+    declare -a LIB64_DIRS=()
+    for _rustdir in "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/; do
+        [[ -d "${_rustdir}lib64" ]] && LIB64_DIRS+=("${_rustdir%/}/lib64")
+    done
+    for _libdir in "${LIB64_DIRS[@]}"; do
+        [[ -d "$_libdir" ]] || continue
+        info "patchelf lib64 $_libdir → \$ORIGIN:\$ORIGIN/../lib:\$ORIGIN/../lib64"
+        while IFS= read -r -d '' _so; do
+            if head -c 4 "$_so" 2>/dev/null | grep -q $'^\x7fELF'; then
+                if patchelf --set-rpath '$ORIGIN:$ORIGIN/../lib:$ORIGIN/../lib64' "$_so" 2>/dev/null; then
                     _patched=$((_patched + 1))
                 fi
             fi
