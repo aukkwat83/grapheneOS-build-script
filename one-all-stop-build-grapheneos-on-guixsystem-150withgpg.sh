@@ -29,6 +29,9 @@
 
 set -o errexit -o nounset -o pipefail
 
+# -------- FHS Libraries Path (Guix-specific) --------
+export LD_LIBRARY_PATH="/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}"
+
 # -------- ค่าตั้งต้น --------
 GOS_TAG="${GOS_TAG:-2026042100}"
 BUILD_ROOT="${BUILD_ROOT:-$HOME/grapheneos}"
