@@ -130,3 +130,37 @@ ASSUME_YES=1 ~/one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh husky
 ---
 
 **สถานะสุดท้าย**: 🔄 รอเครื่อง Guix VM กลับมา online เพื่อทดสอบต่อ STEP 3-8
+
+---
+
+## ⚠️ VM Status: DOWN
+
+เครื่อง Guix VM (10.211.55.27) **down แล้ว** ตั้งแต่ 20:11 น. ระหว่าง repo sync
+
+### วิธีแก้ไขด่วน:
+1. **Start VM ใหม่** ผ่าน Parallels Desktop หรือ VM manager ที่ใช้
+2. รอ VM boot ขึ้นมา (~30-60 วินาที)
+3. ตรวจสอบว่า VM กลับมา: `ping 10.211.55.27`
+4. SSH เข้าไปดู log: `ssh guix@10.211.55.27`
+5. ตรวจสอบ disk space: `df -h`
+6. ดู log การ sync: `tail -100 ~/gos-build-*.log`
+
+### สาเหตุที่เป็นไปได้:
+- ❌ Disk เต็มระหว่าง repo sync (~160GB)
+- ❌ RAM หมดระหว่าง download + extract
+- ❌ Network timeout + OOM killer
+- ✅ VM auto-shutdown after idle (บางที)
+
+### หลังจาก VM กลับมา:
+```bash
+# ตรวจสอบสถานะ
+ssh guix@10.211.55.27 'ls -lh ~/grapheneos/.gos-synced-tag 2>/dev/null || echo "sync ยังไม่เสร็จ"'
+ssh guix@10.211.55.27 'du -sh ~/grapheneos 2>/dev/null || echo "ยังไม่มี source tree"'
+
+# ถ้า sync ยังไม่เสร็จ → รันต่อ
+ssh guix@10.211.55.27 'cd ~/grapheneos && repo sync -j4 --force-sync'
+
+# ถ้า sync เสร็จแล้ว → ทดสอบ STEP 4
+scp one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh guix@10.211.55.27:~/
+ssh guix@10.211.55.27 'ASSUME_YES=1 SKIP_SYNC=1 SKIP_GPG=1 ~/one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh husky'
+```
