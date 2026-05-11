@@ -439,6 +439,19 @@ for _D in "${DEVICES[@]}"; do
 done
 log "ยืนยัน keys ครบ"
 
+# ─── STEP 4.3: patch adevtool ให้ทำงานบน Node 22 ───
+# ─── issue: vendor/adevtool/bin/run hardcode `MIN_NODE_MAJOR_VERSION = 24`
+#           แต่ Guix official channel มี Node แค่ 22.14.0 (latest)
+# ─── ทดสอบแล้ว: adevtool ทำงานได้บน Node 22 — version check overly cautious
+# ─── audit: patch ในไฟล์ source tree (จาก repo manifest GrapheneOS)
+#           ครั้งหน้า repo sync จะ revert → ต้อง patch ใหม่
+ADEV_RUN="$BUILD_ROOT/vendor/adevtool/bin/run"
+if [[ -f "$ADEV_RUN" ]] && grep -q "MIN_NODE_MAJOR_VERSION = 24" "$ADEV_RUN"; then
+    step "STEP 4.3/9 — patch adevtool: ลด MIN_NODE_MAJOR_VERSION 24 → 22"
+    sed -i 's/MIN_NODE_MAJOR_VERSION = 24/MIN_NODE_MAJOR_VERSION = 22/' "$ADEV_RUN"
+    log "patch adevtool/bin/run แล้ว"
+fi
+
 # ─── STEP 4.4: ล้าง vendor/google_devices/ ทั้งหมด — STEP 6 จะ regen ใหม่ ───
 # ─── issue: adevtool generate-all เก่าทิ้ง vendor blob ค้างไว้
 #           ที่อาจไม่ครบ (system_ext/bin/gs_watchdogd, ฯลฯ) → Soong fail
