@@ -312,8 +312,10 @@ else
     guix package -p "$GUIX_PROFILE" -i "${PKG_ARGS[@]}" || die "ติดตั้ง Guix packages ล้มเหลว"
 fi
 
-# Load profile environment
+# Load profile environment (ปิด nounset ชั่วคราว เพราะ Guix profile script ใช้ตัวแปร unbound)
+set +u
 . "$GUIX_PROFILE/etc/profile"
+set -u
 export PATH="$GUIX_PROFILE/bin:$PATH"
 export GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
 
