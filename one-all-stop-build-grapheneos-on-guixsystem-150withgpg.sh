@@ -481,6 +481,15 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
     # Disable errexit ระหว่าง patchelf (บาง binary ไม่มี dynamic section → patchelf fail)
     set +e
 
+    # ── helper: ตรวจว่าไฟล์เป็น Python zipapp (มี ZIP appended ที่ท้าย ELF) ──
+    # ─── issue: patchelf จะทำให้ section header shift → offsets ใน ZIP central
+    #           directory ไม่ตรง → py3-cmd ใช้งานไม่ได้ ("encodings not found")
+    # ─── detect: tail 64KB หา PK signature (ZIP EOCD/CDR markers)
+    is_zipapp() {
+        local _f="$1"
+        tail -c 65536 "$_f" 2>/dev/null | LC_ALL=C grep -aqP '\x50\x4b\x05\x06|\x50\x4b\x01\x02'
+    }
+
     # ── Phase A: bin/ binaries → RPATH=$ORIGIN/<rel-to-lib> ──
     declare -a PATCH_PAIRS=(
         "prebuilts/build-tools/linux-x86/bin:../lib64"
@@ -513,6 +522,11 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
         info "patchelf bin $_bindir → \$ORIGIN/$_libRel"
         while IFS= read -r -d '' _bin; do
             if head -c 4 "$_bin" 2>/dev/null | grep -q $'^\x7fELF'; then
+                # ข้าม Python zipapp — patchelf จะทำลาย ZIP offsets
+                if is_zipapp "$_bin"; then
+                    info "  skip zipapp: $(basename "$_bin")"
+                    continue
+                fi
                 if patchelf --set-rpath "\$ORIGIN/$_libRel" "$_bin" 2>/dev/null; then
                     _patched=$((_patched + 1))
                 fi
