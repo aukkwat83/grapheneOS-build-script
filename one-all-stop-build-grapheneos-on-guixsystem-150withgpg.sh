@@ -477,6 +477,25 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
         _rel=${_clangdir#$BUILD_ROOT/}
         PATCH_PAIRS+=("$_rel/bin:../lib")
     done
+    # rust prebuilts: libs อยู่ที่ ../lib (librustc_driver-*.so)
+    for _rustdir in "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/; do
+        [[ -d "${_rustdir}bin" && -d "${_rustdir}lib" ]] || continue
+        _rel=${_rustdir#$BUILD_ROOT/}
+        _rel=${_rel%/}
+        PATCH_PAIRS+=("$_rel/bin:../lib")
+    done
+    # go prebuilts: libs ที่ ../lib (ถ้ามี dynamic libs)
+    for _godir in "$BUILD_ROOT"/prebuilts/go/linux-x86; do
+        [[ -d "$_godir/bin" ]] || continue
+        _rel=${_godir#$BUILD_ROOT/}
+        PATCH_PAIRS+=("$_rel/bin:../lib")
+    done
+    # jdk prebuilts: libs ที่ ../lib (libjli.so, etc.)
+    for _jdkdir in "$BUILD_ROOT"/prebuilts/jdk/jdk*/linux-x86; do
+        [[ -d "$_jdkdir/bin" ]] || continue
+        _rel=${_jdkdir#$BUILD_ROOT/}
+        PATCH_PAIRS+=("$_rel/bin:../lib")
+    done
     for _pair in "${PATCH_PAIRS[@]}"; do
         _bindir="$BUILD_ROOT/${_pair%:*}"
         _libRel="${_pair#*:}"
