@@ -291,7 +291,7 @@ GUIX_PACKAGES=(
     "sed"
     "gawk"
     "which"
-    "schedtool"
+    # schedtool ไม่มีใน Guix channel (ไม่จำเป็น — ใช้สำหรับ priority scheduling เท่านั้น)
 )
 
 # สร้าง environment ด้วย guix shell --pure หรือสร้าง profile
