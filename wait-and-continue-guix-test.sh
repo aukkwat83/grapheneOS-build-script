@@ -77,20 +77,20 @@ read -p "ต้องการทดสอบต่อหรือไม่? [y/
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo "ยกเลิก — สามารถรันทดสอบด้วยตัวเองได้:"
-    echo "  scp $SCRIPT_DIR/one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh $GUIX_USER@$GUIX_IP:~/"
-    echo "  ssh $GUIX_USER@$GUIX_IP 'ASSUME_YES=1 SKIP_SYNC=$SKIP_SYNC SKIP_GPG=1 ~/one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh husky'"
+    echo "  scp $SCRIPT_DIR/one-all-stop-build-grapheneos-on-guixsystem-150.sh $GUIX_USER@$GUIX_IP:~/"
+    echo "  ssh $GUIX_USER@$GUIX_IP 'ASSUME_YES=1 SKIP_SYNC=$SKIP_SYNC SKIP_GPG=1 ~/one-all-stop-build-grapheneos-on-guixsystem-150.sh husky'"
     exit 0
 fi
 
 echo
 echo "[$(date)] Copy script ไปเครื่อง Guix..."
-scp "$SCRIPT_DIR/one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh" \
+scp "$SCRIPT_DIR/one-all-stop-build-grapheneos-on-guixsystem-150.sh" \
     "$SCRIPT_DIR/patch-grapheneos.sh" \
     "$GUIX_USER@$GUIX_IP:~/"
 
 echo
 echo "[$(date)] เริ่มทดสอบ (SKIP_SYNC=$SKIP_SYNC)..."
-ssh "$GUIX_USER@$GUIX_IP" "ASSUME_YES=1 SKIP_SYNC=$SKIP_SYNC SKIP_GPG=1 ~/one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh husky" | tee "/tmp/guix-test-$(date +%Y%m%d-%H%M%S).log"
+ssh "$GUIX_USER@$GUIX_IP" "ASSUME_YES=1 SKIP_SYNC=$SKIP_SYNC SKIP_GPG=1 ~/one-all-stop-build-grapheneos-on-guixsystem-150.sh husky" | tee "/tmp/guix-test-$(date +%Y%m%d-%H%M%S).log"
 
 echo
 echo "[$(date)] เสร็จสิ้น!"

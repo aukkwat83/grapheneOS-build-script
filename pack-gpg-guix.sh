@@ -2,7 +2,7 @@
 # pack-gpg-guix.sh — pack flashable GrapheneOS artifacts + keys → tar | gpg
 #
 # ─── ออกแบบ ────────────────────────────────────────────────────────────
-# แยกออกจาก one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh
+# แยกออกจาก one-all-stop-build-grapheneos-on-guixsystem-150.sh
 # เพื่อให้รันแยกได้หลัง build เสร็จ (ไม่ต้อง re-trigger Phase 1 ของ main script)
 #
 # Phase 1 (outside container) → re-exec เข้า FHS container (มี gpg + tar + shred)

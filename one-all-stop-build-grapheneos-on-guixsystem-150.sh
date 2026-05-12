@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =====================================================================
-# one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh
+# one-all-stop-build-grapheneos-on-guixsystem-150.sh
 #
 # One-stop script: Guix System 1.5.x  ->  flashable GrapheneOS
 # (custom AVB key, ไม่มี OTA in-place) — เทียบเท่า Ubuntu version
@@ -25,8 +25,8 @@
 #
 # ─── วิธีใช้ ─────────────────────────────────────────────────────────────
 # รันเป็น user ธรรมดา (Guix ไม่ต้อง sudo, ไม่ต้อง root):
-#   ./one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh shiba
-#   ./one-all-stop-build-grapheneos-on-guixsystem-150withgpg.sh husky tangorpro
+#   ./one-all-stop-build-grapheneos-on-guixsystem-150.sh shiba
+#   ./one-all-stop-build-grapheneos-on-guixsystem-150.sh husky tangorpro
 #
 # Env override (เหมือน Ubuntu version):
 #   GOS_TAG=2026042100         GrapheneOS source tag
