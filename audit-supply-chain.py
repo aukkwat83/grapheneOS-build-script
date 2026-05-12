@@ -119,6 +119,8 @@ class Component:
     expected: Optional[str] = None
     verified: Optional[bool] = None
     probability: float = 0.0
+    score_rule: str = ""                # ชื่อกฎที่ match (debug/transparency)
+    score_reason: str = ""              # คำอธิบายภาษาไทย
     mirrors: list = field(default_factory=list)   # MirrorCheck
     notes: list = field(default_factory=list)
     children: list = field(default_factory=list)
@@ -198,26 +200,63 @@ def run(cmd: list, timeout: int = 30) -> tuple[int, str, str]:
 
 
 # ─── trust scoring ──────────────────────────────────────────────────────
-def compute_probability(c: Component) -> float:
-    """คะแนนรวมจาก verification + mirror agreement + hash match."""
+# ─── กฎคิดคะแนน — ดูที่ SCORING_RULES (ใช้แสดงใน HTML report ด้วย) ──────
+SCORING_RULES = [
+    # (rule_id, score, condition_th, condition_en)
+    ("VERIFY_FAIL",        0,   "verification ล้มเหลว (sig หรือ hash ผิด)",
+                                "verified is False"),
+    ("SIG_2MIRRORS",     100,   "มีลายเซ็น (SSH/GPG) ตรง + 2 mirrors ขึ้นไปยืนยัน",
+                                "has_sig + mirror_ok >= 2"),
+    ("SIG_1MIRROR",       90,   "มีลายเซ็นตรง + 1 mirror ยืนยัน",
+                                "has_sig + mirror_ok >= 1"),
+    ("SIG_ONLY",          80,   "มีลายเซ็นตรง (ไม่มี mirror cross-check)",
+                                "has_sig only"),
+    ("KNOWN_2MIRRORS",    90,   "hash ตรง known-good baseline + 2 mirrors ขึ้นไป",
+                                "hash_match_known + mirror_ok >= 2"),
+    ("KNOWN_1MIRROR",     80,   "hash ตรง known-good + 1 mirror ยืนยัน",
+                                "hash_match_known + mirror_ok >= 1"),
+    ("KNOWN_ONLY",        60,   "hash ตรง known-good (ไม่มี mirror)",
+                                "hash_match_known only"),
+    ("HASH_1MIRROR",      55,   "มี hash + 1 mirror ยืนยัน (ไม่มี baseline)",
+                                "hash_value + mirror_ok >= 1"),
+    ("HASH_ONLY",         40,   "มี hash อย่างเดียว (ไม่มี baseline + ไม่มี mirror)",
+                                "hash_value only"),
+    ("GROUP_AVG",         -1,   "node กลุ่ม — เฉลี่ยจากลูกทุกตัว",
+                                "children avg"),
+    ("NO_DATA",           20,   "ไม่มี hash, ไม่มี mirror, ไม่มี signature — แค่ metadata",
+                                "no hash / no mirror / no sig"),
+]
+
+
+def compute_probability(c: Component) -> tuple[float, str, str]:
+    """คืน (score, rule_id, reason_th) เพื่อใส่ใน report ด้วย"""
     if c.verified is False:
-        return 0.0
+        return 0.0, "VERIFY_FAIL", "ไม่ผ่านการตรวจสอบ (ลายเซ็นหรือ hash ผิด)"
     mirror_ok = sum(1 for m in c.mirrors if m.ok)
+    n_mirrors = len(c.mirrors)
     has_sig = (c.hash_algo in ("ssh-fingerprint", "gpg-fingerprint")) and c.verified is True
     hash_match_known = (c.verified is True) and (c.expected is not None)
 
-    if has_sig and mirror_ok >= 2:           return 100.0
-    if has_sig and mirror_ok >= 1:           return 90.0
-    if has_sig:                              return 80.0
-    if hash_match_known and mirror_ok >= 2:  return 90.0
-    if hash_match_known and mirror_ok >= 1:  return 80.0
-    if hash_match_known:                     return 60.0
-    if c.hash_value and mirror_ok >= 1:      return 55.0
-    if c.hash_value:                         return 40.0
-    if c.children:                            # group node: ค่าเฉลี่ยจากลูก
-        if not c.children: return 0.0
-        return sum(compute_probability(ch) for ch in c.children) / len(c.children)
-    return 20.0
+    if has_sig and mirror_ok >= 2:
+        return 100.0, "SIG_2MIRRORS", f"ลายเซ็น {c.hash_algo} ตรง + {mirror_ok}/{n_mirrors} mirrors ยืนยัน"
+    if has_sig and mirror_ok >= 1:
+        return 90.0, "SIG_1MIRROR",  f"ลายเซ็น {c.hash_algo} ตรง + {mirror_ok}/{n_mirrors} mirror ยืนยัน"
+    if has_sig:
+        return 80.0, "SIG_ONLY",     f"ลายเซ็น {c.hash_algo} ตรง (ไม่มี mirror cross-check)"
+    if hash_match_known and mirror_ok >= 2:
+        return 90.0, "KNOWN_2MIRRORS", f"hash ตรง expected + {mirror_ok}/{n_mirrors} mirrors"
+    if hash_match_known and mirror_ok >= 1:
+        return 80.0, "KNOWN_1MIRROR",  f"hash ตรง expected + {mirror_ok}/{n_mirrors} mirror"
+    if hash_match_known:
+        return 60.0, "KNOWN_ONLY",     "hash ตรง expected (ไม่มี mirror ตรวจ)"
+    if c.hash_value and mirror_ok >= 1:
+        return 55.0, "HASH_1MIRROR",   f"มี hash + {mirror_ok}/{n_mirrors} mirror (ไม่มี baseline เทียบ)"
+    if c.hash_value:
+        return 40.0, "HASH_ONLY",      "มี hash แต่ไม่มี baseline + ไม่มี mirror cross-check"
+    if c.children:
+        avg = sum(ch.probability for ch in c.children) / len(c.children)
+        return avg, "GROUP_AVG", f"ค่าเฉลี่ยจาก {len(c.children)} ลูก"
+    return 20.0, "NO_DATA", "ไม่มี hash / mirror / signature — แค่ metadata"
 
 
 # ─── audit: Guix packages ───────────────────────────────────────────────
@@ -362,9 +401,9 @@ def audit_guix_manifest(manifest: Path) -> Component:
             if mirror_ok >= 1:
                 c.verified = True
                 c.expected = "narinfo present on substitute server"
-        c.probability = compute_probability(c)
+        c.probability, c.score_rule, c.score_reason = compute_probability(c)
         root.children.append(c)
-    root.probability = compute_probability(root)
+    root.probability, root.score_rule, root.score_reason = compute_probability(root)
     return root
 
 
@@ -428,7 +467,7 @@ def audit_repo_binary() -> Component:
             c.notes.append("hash ไม่อยู่ใน known-good แต่ตรงทุก mirror — อาจเป็น version ใหม่")
         else:
             c.notes.append("WARN: hash ไม่ตรง known-good และ mirror — ตรวจสอบ")
-    c.probability = compute_probability(c)
+    c.probability, c.score_rule, c.score_reason = compute_probability(c)
     return c
 
 
@@ -497,7 +536,7 @@ def audit_grapheneos_tag(build_root: Path, tag: str) -> Component:
     if default_xml.exists():
         n_proj = len(re.findall(r"<project\s", default_xml.read_text()))
         c.notes.append(f"manifest มี {n_proj} repos ที่จะ sync")
-    c.probability = compute_probability(c)
+    c.probability, c.score_rule, c.score_reason = compute_probability(c)
     return c
 
 
@@ -535,7 +574,7 @@ def audit_aosp_prebuilts(build_root: Path) -> Component:
         c.probability = 40.0 if c.hash_value else 20.0
         root.children.append(c)
     root.notes.append(f"ทั้งหมด {len(root.children)} prebuilt categories")
-    root.probability = compute_probability(root)
+    root.probability, root.score_rule, root.score_reason = compute_probability(root)
     return root
 
 
@@ -611,9 +650,9 @@ def audit_adevtool(build_root: Path, sample_npm_checks: int = 3) -> Component:
                         ))
                     except Exception:
                         pass
-        ylock.probability = compute_probability(ylock)
+        ylock.probability, ylock.score_rule, ylock.score_reason = compute_probability(ylock)
         root.children.append(ylock)
-    root.probability = compute_probability(root)
+    root.probability, root.score_rule, root.score_reason = compute_probability(root)
     return root
 
 
@@ -642,7 +681,7 @@ def audit_vendor_blobs(adev_dl: Path, device: str) -> Component:
         root.children.append(c)
     root.notes.append(f"พบ {len(root.children)} factory zip ในแคช")
     root.notes.append("เทียบ hash กับ developers.google.com/android/images ด้วยตัวเอง")
-    root.probability = compute_probability(root)
+    root.probability, root.score_rule, root.score_reason = compute_probability(root)
     return root
 
 
@@ -693,7 +732,7 @@ def audit_keys(build_root: Path, device: str) -> Component:
         c.notes.append(f"size: {bin_key.stat().st_size:,} bytes")
         c.probability = 40.0
         root.children.append(c)
-    root.probability = compute_probability(root)
+    root.probability, root.score_rule, root.score_reason = compute_probability(root)
     return root
 
 
@@ -717,7 +756,7 @@ def audit_release_artifacts(build_root: Path, device: str, build_number: str) ->
         c.notes.append(f"size: {z.stat().st_size:,} bytes")
         c.probability = 40.0
         root.children.append(c)
-    root.probability = compute_probability(root)
+    root.probability, root.score_rule, root.score_reason = compute_probability(root)
     return root
 
 
@@ -751,7 +790,8 @@ def render_tree(c: Component, prefix: str = "", is_last: bool = True, is_root: b
         ext = ""
     else:
         connector = "└── " if is_last else "├── "
-        out.append(f"{prefix}{connector}{c.badge} {c.name}  ({c.probability:.0f}%)")
+        rule = f" — {c.score_rule}" if c.score_rule else ""
+        out.append(f"{prefix}{connector}{c.badge} {c.name}  ({c.probability:.0f}%{rule})")
         ext = "    " if is_last else "│   "
     sub = prefix + ext
     if not is_root and c.source:
@@ -762,6 +802,8 @@ def render_tree(c: Component, prefix: str = "", is_last: bool = True, is_root: b
     if c.expected:
         e = c.expected if len(c.expected) <= 80 else c.expected[:80] + "…"
         out.append(f"{sub}  expected: {e}")
+    if c.score_reason:
+        out.append(f"{sub}  ⚖ score [{c.score_rule}] {c.probability:.0f}% — {c.score_reason}")
     for m in c.mirrors:
         mark = "✓" if m.ok else "✗"
         out.append(f"{sub}  [{mark}] mirror {m.name}: {m.note}")
@@ -823,6 +865,8 @@ def flatten_for_graph(root: Component) -> tuple[list, list]:
             "hash": c.hash_value or "",
             "expected": c.expected or "",
             "verified": c.verified,
+            "score_rule": c.score_rule,
+            "score_reason": c.score_reason,
             "mirrors": [{"name": m.name, "url": m.url, "ok": m.ok, "note": m.note}
                         for m in c.mirrors],
             "notes": c.notes,
@@ -872,6 +916,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   #summary .stat {{ display:flex; flex-direction:column; align-items:flex-start; }}
   #summary .stat .num {{ font-size:20px; font-weight:bold; }}
   #summary .stat .lbl {{ font-size:11px; color:#94a3b8; }}
+  #rules-panel {{ border-bottom:1px solid #334155; background:#0f172a; }}
+  #rules-panel summary {{ padding: 10px 20px; cursor:pointer; color:#cbd5e1;
+                          background:#1e293b; user-select:none; }}
+  #rules-panel summary:hover {{ background:#334155; }}
+  #rules-panel table th, #rules-panel table td {{ padding:6px 10px; border:1px solid #334155; }}
+  #rules-panel code {{ background:#0f172a; padding:1px 5px; border-radius:3px;
+                       font-size:11px; color:#fbbf24; }}
+  #sidebar .score-box {{ background:#0f172a; border:1px solid #334155; padding:8px;
+                         border-radius:6px; margin: 8px 0; }}
+  #sidebar .score-box .rule {{ font-family: ui-monospace, monospace; font-size:11px;
+                                color:#fbbf24; }}
+  #sidebar .score-box .reason {{ color:#cbd5e1; margin-top:4px; }}
 </style>
 </head>
 <body>
@@ -907,6 +963,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   <div class="stat"><span class="num">{stat_avg_prob:.0f}%</span>
                     <span class="lbl">avg trust</span></div>
 </div>
+<details id="rules-panel">
+<summary>⚖️ <strong>วิธีคิดคะแนน Trust Score (0–100%)</strong> — คลิกขยาย</summary>
+<div style="padding:12px 20px; background:#1e293b; color:#e2e8f0; font-size:13px; line-height:1.6;">
+  <p>คะแนนของแต่ละ component คำนวณจาก <strong>กฎตามลำดับ</strong> (return อันแรกที่ match):</p>
+  <table style="width:100%; border-collapse:collapse; font-size:12px;">
+    <thead>
+      <tr style="background:#0f172a;">
+        <th style="text-align:left; padding:6px; border:1px solid #334155;">Rule ID</th>
+        <th style="text-align:left; padding:6px; border:1px solid #334155;">เงื่อนไข</th>
+        <th style="text-align:left; padding:6px; border:1px solid #334155;">เกณฑ์ (เทคนิค)</th>
+        <th style="text-align:right; padding:6px; border:1px solid #334155;">คะแนน</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rules_table_rows}
+    </tbody>
+  </table>
+  <p style="margin-top:12px; font-size:12px; color:#94a3b8;">
+    <strong>ศัพท์ที่ใช้:</strong>
+    <code>has_sig</code> = signature (SSH/GPG) verify ผ่าน  ·
+    <code>hash_match_known</code> = hash ตรง known-good baseline ที่ embed ใน script  ·
+    <code>mirror_ok</code> = จำนวน mirror ที่ตอบ HTTP 200 (จาก {n_mirrors_total} mirror config)  ·
+    <code>hash_value</code> = คำนวณ hash ของไฟล์ได้
+  </p>
+  <p style="margin-top:6px; font-size:12px; color:#94a3b8;">
+    <strong>หมายเหตุ:</strong> น้ำหนัก hardcode ตามสัญชาตญาณ — ไม่ใช่ Bayesian ทางคณิตศาสตร์.
+    คะแนน "ความน่าเชื่อถือ" (trust score) สื่อว่า <em>มีหลักฐานยืนยันที่มา</em>มากแค่ไหน ไม่ใช่ "ความน่าจะเป็นที่ปลอดภัย" ทางความปลอดภัย
+  </p>
+</div>
+</details>
 <div id="app">
   <div id="diagram"></div>
   <div id="sidebar">
@@ -962,6 +1048,14 @@ function showDetails(d) {{
   let html = `<h2>${{d.text}}</h2>`;
   html += `<div class="row"><span class="badge" style="background:${{d.color}}">${{d.badge}} ${{d.probability}}%</span>
            &nbsp;<span style="color:#94a3b8">${{d.kind}}</span></div>`;
+  if (d.score_rule) {{
+    html += `<div class="score-box">
+              <div><span class="label">SCORE</span> &nbsp;
+                   <strong style="color:${{d.color}}">${{d.probability}}%</strong> &nbsp;
+                   <span class="rule">[${{escapeHtml(d.score_rule)}}]</span></div>
+              <div class="reason">⚖ ${{escapeHtml(d.score_reason)}}</div>
+             </div>`;
+  }}
   if (d.name_en && d.name_en !== d.text)
     html += `<div class="row"><span class="label">name (en)</span><br><span class="value">${{escapeHtml(d.name_en)}}</span></div>`;
   if (d.source)
@@ -1005,6 +1099,22 @@ def count_badges(c: Component, counts: dict) -> None:
         count_badges(ch, counts)
 
 
+def _rules_table_html() -> str:
+    """generate HTML rows ของ SCORING_RULES สำหรับใส่ใน rules-panel"""
+    rows = []
+    for rule_id, score, cond_th, cond_en in SCORING_RULES:
+        score_disp = "avg" if score < 0 else f"{score}%"
+        rows.append(
+            f"<tr>"
+            f"<td><code>{rule_id}</code></td>"
+            f"<td>{cond_th}</td>"
+            f"<td><code>{cond_en}</code></td>"
+            f"<td style='text-align:right;'><strong>{score_disp}</strong></td>"
+            f"</tr>"
+        )
+    return "\n".join(rows)
+
+
 def render_html(root: Component, args, gojs_lib: str) -> str:
     nodes, links = flatten_for_graph(root)
     counts: dict = {}
@@ -1034,6 +1144,8 @@ def render_html(root: Component, args, gojs_lib: str) -> str:
         stat_info=counts.get(BADGE_INFO, 0),
         stat_total=total,
         stat_avg_prob=avg,
+        rules_table_rows=_rules_table_html(),
+        n_mirrors_total=len(GUIX_SUBSTITUTE_MIRRORS) + len(REPO_MIRRORS),
     )
 
 
@@ -1093,7 +1205,7 @@ def main() -> int:
     print("[*] (8/8) release artifacts + env...", file=sys.stderr)
     root.children.append(audit_release_artifacts(build_root, args.device, args.build_number))
     root.children.append(audit_environment(build_root, args.build_number, args.device, args.tag))
-    root.probability = compute_probability(root)
+    root.probability, root.score_rule, root.score_reason = compute_probability(root)
 
     if not args.quiet:
         print(render_tree(root))
