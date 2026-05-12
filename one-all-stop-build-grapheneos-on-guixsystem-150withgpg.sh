@@ -306,6 +306,13 @@ export GIT_CONFIG_GLOBAL="${GOS_GIT_CONFIG_GLOBAL:-$BUILD_ROOT/.gitconfig}"
 # ccache settings (CCACHE_EXEC ตั้งทีหลังเมื่อ ccache available)
 export USE_CCACHE=1 CCACHE_DIR="$CCACHE_DIR_VAR"
 
+# ─── TMPDIR — STEP 8 sign_target_files_apks ใช้ /tmp หนัก (zip2zip apex payload) ─
+# ปัญหา: /tmp อยู่ใน root partition (/) — apex container แต่ละตัวขนาด 100MB-1GB
+#        ถูก extract+repack หลาย pass → /tmp เต็ม "no space left on device"
+# วิธีแก้: ย้าย TMPDIR ไปไว้ที่ $BUILD_ROOT/.tmp (home partition พื้นที่เยอะกว่า)
+export TMPDIR="${TMPDIR:-$BUILD_ROOT/.tmp}"
+mkdir -p "$TMPDIR"
+
 # ─── locales — สำคัญสำหรับ Soong (Go binary ต้องการ C.UTF-8) ─────────
 # ปัญหา: Soong (build/soong/ui/build/config.go:configureLocale) เรียก
 #       `locale -a` เพื่อตรวจว่า C.UTF-8 มีไหม แต่ Guix glibc-for-fhs's
