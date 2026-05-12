@@ -29,6 +29,9 @@
 
    ;; ─── Java สำหรับ AOSP (signapk, dexlib, R8/proguard) ─────────────
    "openjdk@21:jdk"              ; AOSP main = 21 (lunch husky-cur-user ต้องใช้)
+   "freetype"                    ; libfontmanager.so (JDK21) ต้องการ libfreetype.so.6
+                                  ; ใช้ตอน recovery image text rendering (RecoveryImageGenerator.jar)
+   "fontconfig"                  ; เผื่อ AWT font lookup ที่ตามมา
 
    ;; ─── Python (Soong + script ภายใน build) ─────────────────────────
    "python"                       ; default = 3.11
