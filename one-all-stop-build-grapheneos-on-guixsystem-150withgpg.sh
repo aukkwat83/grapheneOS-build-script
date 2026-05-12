@@ -229,7 +229,10 @@ EOF
              "$HOME/.config/grapheneos" \
              "$HOME/.gnupg"
     chmod 700 "$HOME/.gnupg"
-    cp -f "$PATCH_SRC" "$BUILD_ROOT/patch-grapheneos.sh"
+    # cp -f fails ถ้า src == dst (script อยู่ใน $BUILD_ROOT อยู่แล้ว) → ข้าม
+    if [[ "$(readlink -f "$PATCH_SRC")" != "$(readlink -f "$BUILD_ROOT/patch-grapheneos.sh" 2>/dev/null)" ]]; then
+        cp -f "$PATCH_SRC" "$BUILD_ROOT/patch-grapheneos.sh"
+    fi
     chmod +x "$BUILD_ROOT/patch-grapheneos.sh"
 
     # ─── STEP 1: เตรียม Guix profile (long install ครั้งแรก) ───
