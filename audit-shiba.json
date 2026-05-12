@@ -1,1102 +1,2748 @@
 {
-  "name": "GrapheneOS Supply Chain Audit (shiba, tag 2026042100)",
+  "name": "GrapheneOS Supply Chain Audit (shiba, build 2026051201)",
   "kind": "root",
+  "name_th": "ตรวจสอบ supply chain GrapheneOS (shiba, build 2026051201)",
   "source": "/home/guix/grapheneos",
   "hash_value": null,
   "hash_algo": "sha256",
   "expected": null,
   "verified": null,
-  "notes": [
-    "generated: 2026-05-12T16:48:23+00:00"
-  ],
+  "probability": 52.480433033428426,
+  "mirrors": [],
+  "notes": [],
   "children": [
     {
       "name": "Guix packages (guix-manifest.scm)",
-      "kind": "group",
+      "kind": "guix-group",
+      "name_th": "ชุดแพ็คเกจ Guix",
       "source": "/home/guix/grapheneos/guix-manifest.scm",
       "hash_value": null,
       "hash_algo": "sha256",
       "expected": null,
       "verified": null,
+      "probability": 78.77551020408163,
+      "mirrors": [],
       "notes": [
-        "total packages: 49",
-        "source: Guix official channel (gnu/packages/*.scm)",
-        "verification: content-addressed store + signed substitutes"
+        "ทั้งหมด 49 packages จาก Guix official channel",
+        "verification: content-addressed store + signed substitutes",
+        "mirrors: https://ci.guix.gnu.org, https://bordeaux.guix.gnu.org",
+        "resolved 190 store paths จาก profile"
       ],
       "children": [
         {
           "name": "bash",
           "kind": "guix-pkg",
+          "name_th": "Guix: bash",
           "source": "guix-pkg:bash",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "p5dap5q3wfdy0h3m31q5hbj3gpbkmrxv",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/p5dap5q3wfdy0h3m31q5hbj3gpbkmrxv.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/p5dap5q3wfdy0h3m31q5hbj3gpbkmrxv.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/bash.scm:161:4",
-            "version: 5.2.37"
+            "version: 5.2.37",
+            "store: /gnu/store/p5dap5q3wfdy0h3m31q5hbj3gpbkmrxv-bash-5.2.37"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "bc",
           "kind": "guix-pkg",
+          "name_th": "Guix: bc",
           "source": "guix-pkg:bc",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "msy8i1hkg3bv5s7vi0qs0w67sgljw1md",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/msy8i1hkg3bv5s7vi0qs0w67sgljw1md.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/msy8i1hkg3bv5s7vi0qs0w67sgljw1md.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/algebra.scm:734:2",
-            "version: 1.08.2"
+            "version: 1.08.2",
+            "store: /gnu/store/msy8i1hkg3bv5s7vi0qs0w67sgljw1md-bc-1.08.2"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "binutils",
           "kind": "guix-pkg",
+          "name_th": "Guix: binutils",
           "source": "guix-pkg:binutils",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "c8mp7qq5az7cbnvmxgj2bjkscsf5h9ri",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/c8mp7qq5az7cbnvmxgj2bjkscsf5h9ri.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/c8mp7qq5az7cbnvmxgj2bjkscsf5h9ri.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:702:2",
-            "version: 2.44"
+            "version: 2.44",
+            "store: /gnu/store/c8mp7qq5az7cbnvmxgj2bjkscsf5h9ri-binutils-2.44"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "bison",
           "kind": "guix-pkg",
+          "name_th": "Guix: bison",
           "source": "guix-pkg:bison",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "5ds3a8ydp0hkpwcvk0v9jph44zh8kw7s",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/5ds3a8ydp0hkpwcvk0v9jph44zh8kw7s.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/5ds3a8ydp0hkpwcvk0v9jph44zh8kw7s.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
-            "recipe: gnu/packages/bison.scm:35:2",
-            "version: 3.8.2"
+            "recipe: gnu/packages/bison.scm:78:2",
+            "version: 3.0.5",
+            "store: /gnu/store/5ds3a8ydp0hkpwcvk0v9jph44zh8kw7s-bison-3.8.2"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "ccache",
           "kind": "guix-pkg",
+          "name_th": "Guix: ccache",
           "source": "guix-pkg:ccache",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "x9wcxzzh9wxcs0hn2iyih74q190sifmy",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/x9wcxzzh9wxcs0hn2iyih74q190sifmy.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/x9wcxzzh9wxcs0hn2iyih74q190sifmy.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/ccache.scm:36:2",
-            "version: 4.8.3"
+            "version: 4.8.3",
+            "store: /gnu/store/x9wcxzzh9wxcs0hn2iyih74q190sifmy-ccache-4.8.3"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "coreutils",
           "kind": "guix-pkg",
+          "name_th": "Guix: coreutils",
           "source": "guix-pkg:coreutils",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "pai3hvsiihllqi03b2198qi5qq9a28ga",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/pai3hvsiihllqi03b2198qi5qq9a28ga.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/pai3hvsiihllqi03b2198qi5qq9a28ga.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:471:2",
-            "version: 9.1"
+            "version: 9.1",
+            "store: /gnu/store/pai3hvsiihllqi03b2198qi5qq9a28ga-coreutils-9.1"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "curl",
           "kind": "guix-pkg",
+          "name_th": "Guix: curl",
           "source": "guix-pkg:curl",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "31xynhn10x499sqsigjqr67z02zng5r7",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/31xynhn10x499sqsigjqr67z02zng5r7.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/31xynhn10x499sqsigjqr67z02zng5r7.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/curl.scm:69:2",
-            "version: 8.6.0"
+            "version: 8.6.0",
+            "store: /gnu/store/31xynhn10x499sqsigjqr67z02zng5r7-curl-8.6.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "diffutils",
           "kind": "guix-pkg",
+          "name_th": "Guix: diffutils",
           "source": "guix-pkg:diffutils",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "grkzgd1q70wvkqx708wz2q0r340d8b91",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/grkzgd1q70wvkqx708wz2q0r340d8b91.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/grkzgd1q70wvkqx708wz2q0r340d8b91.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:363:2",
-            "version: 3.12"
+            "version: 3.12",
+            "store: /gnu/store/grkzgd1q70wvkqx708wz2q0r340d8b91-diffutils-3.12"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "findutils",
           "kind": "guix-pkg",
+          "name_th": "Guix: findutils",
           "source": "guix-pkg:findutils",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "9l3lhsd57rfrp5phn3xinv99pxiwkvz7",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/9l3lhsd57rfrp5phn3xinv99pxiwkvz7.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/9l3lhsd57rfrp5phn3xinv99pxiwkvz7.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:423:2",
-            "version: 4.10.0"
+            "version: 4.10.0",
+            "store: /gnu/store/9l3lhsd57rfrp5phn3xinv99pxiwkvz7-findutils-4.10.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "flex",
           "kind": "guix-pkg",
+          "name_th": "Guix: flex",
           "source": "guix-pkg:flex",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "hqhi1wrqcpnbw9w2cycibf7iycvikgx9",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/hqhi1wrqcpnbw9w2cycibf7iycvikgx9.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/hqhi1wrqcpnbw9w2cycibf7iycvikgx9.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/flex.scm:35:2",
-            "version: 2.6.4"
+            "version: 2.6.4",
+            "store: /gnu/store/hqhi1wrqcpnbw9w2cycibf7iycvikgx9-flex-2.6.4"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "fontconfig",
           "kind": "guix-pkg",
+          "name_th": "Guix: fontconfig",
           "source": "guix-pkg:fontconfig",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "3z293b7g0wm0m7ybca9lk7mj7x8nifbk",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/3z293b7g0wm0m7ybca9lk7mj7x8nifbk.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/3z293b7g0wm0m7ybca9lk7mj7x8nifbk.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/fontutils.scm:1485:2",
-            "version: 2.14.0"
+            "version: 2.14.0",
+            "store: /gnu/store/3z293b7g0wm0m7ybca9lk7mj7x8nifbk-fontconfig-2.14.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "freetype",
           "kind": "guix-pkg",
+          "name_th": "Guix: freetype",
           "source": "guix-pkg:freetype",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "c2c17v4nv88ps4y20gl5qhji7zd6ywc3",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/c2c17v4nv88ps4y20gl5qhji7zd6ywc3.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/c2c17v4nv88ps4y20gl5qhji7zd6ywc3.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/fontutils.scm:103:2",
-            "version: 2.13.3"
+            "version: 2.13.3",
+            "store: /gnu/store/c2c17v4nv88ps4y20gl5qhji7zd6ywc3-freetype-2.13.3"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "gawk",
           "kind": "guix-pkg",
+          "name_th": "Guix: gawk",
           "source": "guix-pkg:gawk",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "3q7axknggy9773aa71806kdhgy54wgr1",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/3q7axknggy9773aa71806kdhgy54wgr1.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/3q7axknggy9773aa71806kdhgy54wgr1.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/gawk.scm:41:2",
-            "version: 5.3.0"
+            "version: 5.3.0",
+            "store: /gnu/store/3q7axknggy9773aa71806kdhgy54wgr1-gawk-5.3.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "gcc-toolchain@14",
           "kind": "guix-pkg",
+          "name_th": "Guix: gcc-toolchain@14",
           "source": "guix-pkg:gcc-toolchain",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "ndnvicqyk3v45iayahf153w5cpf639iw",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/ndnvicqyk3v45iayahf153w5cpf639iw.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/ndnvicqyk3v45iayahf153w5cpf639iw.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/commencement.scm:3643:4",
-            "version: 11.5.0"
+            "version: 6.5.0",
+            "store: /gnu/store/ndnvicqyk3v45iayahf153w5cpf639iw-gcc-toolchain-14.3.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "git",
           "kind": "guix-pkg",
+          "name_th": "Guix: git",
           "source": "guix-pkg:git",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "jsqh42a9lrkjhrqn615wmfccv67igsfg",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/jsqh42a9lrkjhrqn615wmfccv67igsfg.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/jsqh42a9lrkjhrqn615wmfccv67igsfg.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/version-control.scm:596:2",
-            "version: 2.52.0"
+            "version: 2.52.0",
+            "store: /gnu/store/jsqh42a9lrkjhrqn615wmfccv67igsfg-git-2.52.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "git-lfs",
           "kind": "guix-pkg",
+          "name_th": "Guix: git-lfs",
           "source": "guix-pkg:git-lfs",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "9vb4q0xqh9klwdbg7pv43cm0fc6xxch7",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/9vb4q0xqh9klwdbg7pv43cm0fc6xxch7.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/9vb4q0xqh9klwdbg7pv43cm0fc6xxch7.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/version-control.scm:4100:2",
-            "version: 3.7.0"
+            "version: 3.7.0",
+            "store: /gnu/store/9vb4q0xqh9klwdbg7pv43cm0fc6xxch7-git-lfs-3.7.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "glibc-locales",
           "kind": "guix-pkg",
+          "name_th": "Guix: glibc-locales",
           "source": "guix-pkg:glibc-locales",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "wb5crgn9y4jlgbc4pshvx014yvj2kv27",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/wb5crgn9y4jlgbc4pshvx014yvj2kv27.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/wb5crgn9y4jlgbc4pshvx014yvj2kv27.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:1380:2",
-            "version: 2.41"
+            "version: 2.41",
+            "store: /gnu/store/wb5crgn9y4jlgbc4pshvx014yvj2kv27-glibc-locales-2.41"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "gnupg",
           "kind": "guix-pkg",
+          "name_th": "Guix: gnupg",
           "source": "guix-pkg:gnupg",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "dp12j79qs760nlfddda20i7xnkvl8fkm",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/dp12j79qs760nlfddda20i7xnkvl8fkm.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/dp12j79qs760nlfddda20i7xnkvl8fkm.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
-            "recipe: gnu/packages/gnupg.scm:319:2",
-            "version: 2.4.7"
+            "recipe: gnu/packages/gnupg.scm:413:2",
+            "version: 1.4.23",
+            "store: /gnu/store/dp12j79qs760nlfddda20i7xnkvl8fkm-gnupg-2.4.7"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "gperf",
           "kind": "guix-pkg",
+          "name_th": "Guix: gperf",
           "source": "guix-pkg:gperf",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "952w4qkzja1v7a4h1lhb6xsljkp21jr9",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/952w4qkzja1v7a4h1lhb6xsljkp21jr9.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/952w4qkzja1v7a4h1lhb6xsljkp21jr9.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/gperf.scm:26:2",
-            "version: 3.3"
+            "version: 3.3",
+            "store: /gnu/store/952w4qkzja1v7a4h1lhb6xsljkp21jr9-gperf-3.3"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "grep",
           "kind": "guix-pkg",
+          "name_th": "Guix: grep",
           "source": "guix-pkg:grep",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "1lkl6hik16bbhpjjsl825fivp2dsr9vi",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/1lkl6hik16bbhpjjsl825fivp2dsr9vi.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/1lkl6hik16bbhpjjsl825fivp2dsr9vi.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:120:2",
-            "version: 3.11"
+            "version: 3.11",
+            "store: /gnu/store/1lkl6hik16bbhpjjsl825fivp2dsr9vi-grep-3.11"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "gzip",
           "kind": "guix-pkg",
+          "name_th": "Guix: gzip",
           "source": "guix-pkg:gzip",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "ch4v61a0lw0f1hkm5adai5z42qpyf20k",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/ch4v61a0lw0f1hkm5adai5z42qpyf20k.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/ch4v61a0lw0f1hkm5adai5z42qpyf20k.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/compression.scm:272:2",
-            "version: 1.14"
+            "version: 1.14",
+            "store: /gnu/store/ch4v61a0lw0f1hkm5adai5z42qpyf20k-gzip-1.14"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "imagemagick",
           "kind": "guix-pkg",
+          "name_th": "Guix: imagemagick",
           "source": "guix-pkg:imagemagick",
           "hash_value": null,
           "hash_algo": "sha256",
           "expected": null,
           "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
           "notes": [
             "recipe: gnu/packages/imagemagick.scm:139:2",
-            "version: 6.9.13-5"
+            "version: 6.9.13-5",
+            "ไม่พบ store path ใน profile (อาจไม่ถูก install จริง)"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "·",
+          "trust_color": "#ef4444"
         },
         {
           "name": "inetutils",
           "kind": "guix-pkg",
+          "name_th": "Guix: inetutils",
           "source": "guix-pkg:inetutils",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "hwns9ksqpmr1b6qwnj54b8bpm43477y2",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/hwns9ksqpmr1b6qwnj54b8bpm43477y2.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/hwns9ksqpmr1b6qwnj54b8bpm43477y2.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/admin.scm:1291:2",
-            "version: 2.5"
+            "version: 2.5",
+            "store: /gnu/store/hwns9ksqpmr1b6qwnj54b8bpm43477y2-inetutils-2.5"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "jq",
           "kind": "guix-pkg",
+          "name_th": "Guix: jq",
           "source": "guix-pkg:jq",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "c0ckfcx8b4d7y53pqbv428dqj6h258yg",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/c0ckfcx8b4d7y53pqbv428dqj6h258yg.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/c0ckfcx8b4d7y53pqbv428dqj6h258yg.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/web.scm:5764:2",
-            "version: 1.8.1"
+            "version: 1.8.1",
+            "store: /gnu/store/c0ckfcx8b4d7y53pqbv428dqj6h258yg-jq-1.8.1"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "libelf",
           "kind": "guix-pkg",
+          "name_th": "Guix: libelf",
           "source": "guix-pkg:libelf",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "dhvpj54kh4zbsinp1wlp8zqlmp24s9z4",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/dhvpj54kh4zbsinp1wlp8zqlmp24s9z4.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/dhvpj54kh4zbsinp1wlp8zqlmp24s9z4.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/elf.scm:263:2",
-            "version: 0.8.13"
+            "version: 0.8.13",
+            "store: /gnu/store/dhvpj54kh4zbsinp1wlp8zqlmp24s9z4-libelf-0.8.13"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "libxml2",
           "kind": "guix-pkg",
+          "name_th": "Guix: libxml2",
           "source": "guix-pkg:libxml2",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "hnwz38jjgjnrdpm6712gpkzic65jfaih",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/hnwz38jjgjnrdpm6712gpkzic65jfaih.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/hnwz38jjgjnrdpm6712gpkzic65jfaih.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/xml.scm:194:2",
-            "version: 2.14.6"
+            "version: 2.14.6",
+            "store: /gnu/store/hnwz38jjgjnrdpm6712gpkzic65jfaih-libxml2-2.14.6"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "libxslt",
           "kind": "guix-pkg",
+          "name_th": "Guix: libxslt",
           "source": "guix-pkg:libxslt",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "q739psjrjck9zd0jmbkmk4qs6ml8cy4l",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/q739psjrjck9zd0jmbkmk4qs6ml8cy4l.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/q739psjrjck9zd0jmbkmk4qs6ml8cy4l.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/xml.scm:343:2",
-            "version: 1.1.43"
+            "version: 1.1.43",
+            "store: /gnu/store/q739psjrjck9zd0jmbkmk4qs6ml8cy4l-libxslt-1.1.43"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "lz4",
           "kind": "guix-pkg",
+          "name_th": "Guix: lz4",
           "source": "guix-pkg:lz4",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "22sizn6nv9a08m5m7380y866lcfmrb6z",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/22sizn6nv9a08m5m7380y866lcfmrb6z.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/22sizn6nv9a08m5m7380y866lcfmrb6z.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/compression.scm:1041:2",
-            "version: 1.10.0"
+            "version: 1.10.0",
+            "store: /gnu/store/22sizn6nv9a08m5m7380y866lcfmrb6z-lz4-1.10.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "lzop",
           "kind": "guix-pkg",
+          "name_th": "Guix: lzop",
           "source": "guix-pkg:lzop",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "z5as5rhyjvyym8pxddvfiry7f8x1q0az",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/z5as5rhyjvyym8pxddvfiry7f8x1q0az.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/z5as5rhyjvyym8pxddvfiry7f8x1q0az.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/compression.scm:698:2",
-            "version: 1.04"
+            "version: 1.04",
+            "store: /gnu/store/z5as5rhyjvyym8pxddvfiry7f8x1q0az-lzop-1.04"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "make",
           "kind": "guix-pkg",
+          "name_th": "Guix: make",
           "source": "guix-pkg:make",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "mb7ahgjxkmx6766d7m984fxdpng5pnn3",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/mb7ahgjxkmx6766d7m984fxdpng5pnn3.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/mb7ahgjxkmx6766d7m984fxdpng5pnn3.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:636:2",
-            "version: 4.4.1"
+            "version: 4.4.1",
+            "store: /gnu/store/mb7ahgjxkmx6766d7m984fxdpng5pnn3-make-4.4.1"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "node",
           "kind": "guix-pkg",
+          "name_th": "Guix: node",
           "source": "guix-pkg:node",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "ja8lzccpgxrr5s3f00kq4i3b83d1l8lp",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/ja8lzccpgxrr5s3f00kq4i3b83d1l8lp.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/ja8lzccpgxrr5s3f00kq4i3b83d1l8lp.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/node.scm:748:2",
-            "version: 22.14.0"
+            "version: 22.14.0",
+            "store: /gnu/store/ja8lzccpgxrr5s3f00kq4i3b83d1l8lp-node-22.14.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "nss-certs",
           "kind": "guix-pkg",
+          "name_th": "Guix: nss-certs",
           "source": "guix-pkg:nss-certs",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "64h6gfcmgr7ynwiapchciqnx4xzcnqvj",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/64h6gfcmgr7ynwiapchciqnx4xzcnqvj.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/64h6gfcmgr7ynwiapchciqnx4xzcnqvj.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/nss.scm:318:2",
-            "version: 3.101.4"
+            "version: 3.101.4",
+            "store: /gnu/store/64h6gfcmgr7ynwiapchciqnx4xzcnqvj-nss-certs-3.101.4"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "openjdk@21:jdk",
           "kind": "guix-pkg",
+          "name_th": "Guix: openjdk@21:jdk",
           "source": "guix-pkg:openjdk",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "0hrgs2wvz2379fiiw83ai44pbkzdp2nh",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/0hrgs2wvz2379fiiw83ai44pbkzdp2nh.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/0hrgs2wvz2379fiiw83ai44pbkzdp2nh.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
-            "recipe: gnu/packages/java.scm:1775:2",
-            "version: 17.0.10"
+            "recipe: gnu/packages/java.scm:1848:2",
+            "version: 23.0.2",
+            "store: /gnu/store/0hrgs2wvz2379fiiw83ai44pbkzdp2nh-openjdk-21.0.2-jdk"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "openssl",
           "kind": "guix-pkg",
+          "name_th": "Guix: openssl",
           "source": "guix-pkg:openssl",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "m0rqdrh98k773rxw6xhybzgksdy5h32p",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/m0rqdrh98k773rxw6xhybzgksdy5h32p.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/m0rqdrh98k773rxw6xhybzgksdy5h32p.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
-            "recipe: gnu/packages/tls.scm:449:2",
-            "version: 1.1.1u"
+            "recipe: gnu/packages/tls.scm:576:2",
+            "version: 3.0.8",
+            "store: /gnu/store/m0rqdrh98k773rxw6xhybzgksdy5h32p-openssl-3.0.8"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "patchelf",
           "kind": "guix-pkg",
+          "name_th": "Guix: patchelf",
           "source": "guix-pkg:patchelf",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "pz5qzbjdy11ndv3i3lq07d9r1agxxga4",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/pz5qzbjdy11ndv3i3lq07d9r1agxxga4.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/pz5qzbjdy11ndv3i3lq07d9r1agxxga4.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
-            "recipe: gnu/packages/elf.scm:328:2",
-            "version: 0.18.0"
+            "recipe: gnu/packages/elf.scm:378:2",
+            "version: 0.16.1",
+            "store: /gnu/store/pz5qzbjdy11ndv3i3lq07d9r1agxxga4-patchelf-0.18.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "pngcrush",
           "kind": "guix-pkg",
+          "name_th": "Guix: pngcrush",
           "source": "guix-pkg:pngcrush",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "lh83hp8fnfbxz7q16gnx6sfjdjmqkpwi",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/lh83hp8fnfbxz7q16gnx6sfjdjmqkpwi.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/lh83hp8fnfbxz7q16gnx6sfjdjmqkpwi.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/image.scm:387:2",
-            "version: 1.8.13"
+            "version: 1.8.13",
+            "store: /gnu/store/lh83hp8fnfbxz7q16gnx6sfjdjmqkpwi-pngcrush-1.8.13"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "procps",
           "kind": "guix-pkg",
+          "name_th": "Guix: procps",
           "source": "guix-pkg:procps",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "i52jb2xs6p9p9qypsdhk4cb0rxsbszhd",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/i52jb2xs6p9p9qypsdhk4cb0rxsbszhd.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/i52jb2xs6p9p9qypsdhk4cb0rxsbszhd.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/linux.scm:3543:2",
-            "version: 4.0.3"
+            "version: 4.0.3",
+            "store: /gnu/store/i52jb2xs6p9p9qypsdhk4cb0rxsbszhd-procps-4.0.3"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "python",
           "kind": "guix-pkg",
+          "name_th": "Guix: python",
           "source": "guix-pkg:python",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "pv50hmdxs15c32laa1vn03wkfl023wwk",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/pv50hmdxs15c32laa1vn03wkfl023wwk.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/pv50hmdxs15c32laa1vn03wkfl023wwk.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
-            "recipe: gnu/packages/python.scm:466:2",
-            "version: 3.10.19"
+            "recipe: gnu/packages/python.scm:680:2",
+            "version: 3.11.14",
+            "store: /gnu/store/pv50hmdxs15c32laa1vn03wkfl023wwk-python-3.11.14"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "python-wrapper",
           "kind": "guix-pkg",
+          "name_th": "Guix: python-wrapper",
           "source": "guix-pkg:python-wrapper",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "xjqzrfa27sl7kd1dii40vsk77sclbzqg",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/xjqzrfa27sl7kd1dii40vsk77sclbzqg.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/xjqzrfa27sl7kd1dii40vsk77sclbzqg.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/python.scm:1523:2",
-            "version: 3.11.14"
+            "version: 3.11.14",
+            "store: /gnu/store/xjqzrfa27sl7kd1dii40vsk77sclbzqg-python-wrapper-3.11.14"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "rsync",
           "kind": "guix-pkg",
+          "name_th": "Guix: rsync",
           "source": "guix-pkg:rsync",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "0l8fnicd1896wmjzbfcpm4g5996kwgzy",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/0l8fnicd1896wmjzbfcpm4g5996kwgzy.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/0l8fnicd1896wmjzbfcpm4g5996kwgzy.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/rsync.scm:41:2",
-            "version: 3.4.1"
+            "version: 3.4.1",
+            "store: /gnu/store/0l8fnicd1896wmjzbfcpm4g5996kwgzy-rsync-3.4.1"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "sed",
           "kind": "guix-pkg",
+          "name_th": "Guix: sed",
           "source": "guix-pkg:sed",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "2c3ikfc9h1ghl9fx765mdiwsx1nnpr0f",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/2c3ikfc9h1ghl9fx765mdiwsx1nnpr0f.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/2c3ikfc9h1ghl9fx765mdiwsx1nnpr0f.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:196:2",
-            "version: 4.9"
+            "version: 4.9",
+            "store: /gnu/store/2c3ikfc9h1ghl9fx765mdiwsx1nnpr0f-sed-4.9"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "squashfs-tools",
           "kind": "guix-pkg",
+          "name_th": "Guix: squashfs-tools",
           "source": "guix-pkg:squashfs-tools",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "0hwaq64r39q3w39cy9qrpdpwx3r6h9z0",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/0hwaq64r39q3w39cy9qrpdpwx3r6h9z0.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/0hwaq64r39q3w39cy9qrpdpwx3r6h9z0.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/compression.scm:1091:2",
-            "version: 4.6.1"
+            "version: 4.6.1",
+            "store: /gnu/store/0hwaq64r39q3w39cy9qrpdpwx3r6h9z0-squashfs-tools-4.6.1"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "tar",
           "kind": "guix-pkg",
+          "name_th": "Guix: tar",
           "source": "guix-pkg:tar",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "vlx3kkamd502jahyyn03qq9dxa63h3cz",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/vlx3kkamd502jahyyn03qq9dxa63h3cz.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/vlx3kkamd502jahyyn03qq9dxa63h3cz.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:235:2",
-            "version: 1.35"
+            "version: 1.35",
+            "store: /gnu/store/vlx3kkamd502jahyyn03qq9dxa63h3cz-tar-1.35"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "unzip",
           "kind": "guix-pkg",
+          "name_th": "Guix: unzip",
           "source": "guix-pkg:unzip",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "k9xfay0bm9i2xm8mjzfizf6ycfnzxpb8",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/k9xfay0bm9i2xm8mjzfizf6ycfnzxpb8.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/k9xfay0bm9i2xm8mjzfizf6ycfnzxpb8.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/compression.scm:1985:2",
-            "version: 6.0"
+            "version: 6.0",
+            "store: /gnu/store/k9xfay0bm9i2xm8mjzfizf6ycfnzxpb8-unzip-6.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "util-linux",
           "kind": "guix-pkg",
+          "name_th": "Guix: util-linux",
           "source": "guix-pkg:util-linux",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "fizvqi3r2k9pjj22g31z51i28pjsg336",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/fizvqi3r2k9pjj22g31z51i28pjsg336.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/fizvqi3r2k9pjj22g31z51i28pjsg336.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/linux.scm:3188:2",
-            "version: 2.40.4"
+            "version: 2.40.4",
+            "store: /gnu/store/fizvqi3r2k9pjj22g31z51i28pjsg336-util-linux-2.40.4"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "which",
           "kind": "guix-pkg",
+          "name_th": "Guix: which",
           "source": "guix-pkg:which",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "qfyqyx1v9bjhkggw7xiyna2akfcad8gs",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/qfyqyx1v9bjhkggw7xiyna2akfcad8gs.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/qfyqyx1v9bjhkggw7xiyna2akfcad8gs.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/base.scm:1540:2",
-            "version: 2.21"
+            "version: 2.21",
+            "store: /gnu/store/qfyqyx1v9bjhkggw7xiyna2akfcad8gs-which-2.21"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "xz",
           "kind": "guix-pkg",
+          "name_th": "Guix: xz",
           "source": "guix-pkg:xz",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "gd41pn8r5723cyd6d79q9riqjbi070zz",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/gd41pn8r5723cyd6d79q9riqjbi070zz.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/gd41pn8r5723cyd6d79q9riqjbi070zz.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/compression.scm:552:2",
-            "version: 5.4.5"
+            "version: 5.4.5",
+            "store: /gnu/store/gd41pn8r5723cyd6d79q9riqjbi070zz-xz-5.4.5"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "zip",
           "kind": "guix-pkg",
+          "name_th": "Guix: zip",
           "source": "guix-pkg:zip",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "5s5dnwnnpgbc8hmlr6nq7pyp0l3f90p8",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/5s5dnwnnpgbc8hmlr6nq7pyp0l3f90p8.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/5s5dnwnnpgbc8hmlr6nq7pyp0l3f90p8.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/compression.scm:1941:2",
-            "version: 3.0"
+            "version: 3.0",
+            "store: /gnu/store/5s5dnwnnpgbc8hmlr6nq7pyp0l3f90p8-zip-3.0"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         },
         {
           "name": "zlib",
           "kind": "guix-pkg",
+          "name_th": "Guix: zlib",
           "source": "guix-pkg:zlib",
-          "hash_value": null,
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
+          "hash_value": "mjir5dws75m8m8dh6zvs0j8i1wp7gf8z",
+          "hash_algo": "guix-store-hash",
+          "expected": "narinfo present on substitute server",
+          "verified": true,
+          "probability": 80.0,
+          "mirrors": [
+            {
+              "name": "ci",
+              "url": "https://ci.guix.gnu.org/mjir5dws75m8m8dh6zvs0j8i1wp7gf8z.narinfo",
+              "ok": false,
+              "note": "narinfo HTTP 404"
+            },
+            {
+              "name": "bordeaux",
+              "url": "https://bordeaux.guix.gnu.org/mjir5dws75m8m8dh6zvs0j8i1wp7gf8z.narinfo",
+              "ok": true,
+              "note": "narinfo HTTP 200"
+            }
+          ],
           "notes": [
             "recipe: gnu/packages/compression.scm:113:2",
-            "version: 1.3.1"
+            "version: 1.3.1",
+            "store: /gnu/store/mjir5dws75m8m8dh6zvs0j8i1wp7gf8z-zlib-1.3.1"
           ],
           "children": [],
-          "badge": "·"
+          "badge": "✓",
+          "trust_color": "#84cc16"
         }
       ],
-      "badge": "·"
+      "badge": "·",
+      "trust_color": "#84cc16"
     },
     {
       "name": "repo (Google Git tool)",
       "kind": "binary",
+      "name_th": "repo (เครื่องมือ Git ของ Google)",
       "source": "https://storage.googleapis.com/git-repo-downloads/repo",
       "hash_value": "11bc6893e9e0c0940fc1cc95b75c645f9a29fca879d89ceaa898a4d761a2add7",
       "hash_algo": "sha256",
-      "expected": null,
-      "verified": false,
+      "expected": "known-good (embedded)",
+      "verified": true,
+      "probability": 90.0,
+      "mirrors": [
+        {
+          "name": "storage.googleapis.com",
+          "url": "https://storage.googleapis.com/git-repo-downloads/repo",
+          "ok": true,
+          "note": "sha256=11bc6893e9e0c094…"
+        },
+        {
+          "name": "gerrit.googlesource.com",
+          "url": "https://gerrit.googlesource.com/git-repo/+/HEAD/repo?format=TEXT",
+          "ok": true,
+          "note": "sha256=11bc6893e9e0c094…"
+        }
+      ],
       "notes": [
         "local: /home/guix/.bin/repo",
-        "hash ไม่ตรง known-good — อาจเป็น version ใหม่; อัพเดท REPO_BINARY_KNOWN_HASHES"
+        "hash ตรงกับ known-good ใน script"
       ],
       "children": [],
-      "badge": "✗"
+      "badge": "✓",
+      "trust_color": "#16a34a"
     },
     {
       "name": "GrapheneOS source tag 2026042100",
       "kind": "git-tag",
+      "name_th": "ซอร์สโค้ด GrapheneOS tag 2026042100",
       "source": "https://github.com/GrapheneOS/platform_manifest.git",
+      "hash_value": "SHA256:AhgHif0mei+9aNyKLfMZBh2yptHdw/aN7Tlh/j2eFwM",
+      "hash_algo": "ssh-fingerprint",
+      "expected": "SHA256:AhgHif0mei+9aNyKLfMZBh2yptHdw/aN7Tlh/j2eFwM",
+      "verified": true,
+      "probability": 90.0,
+      "mirrors": [
+        {
+          "name": "github.com (API)",
+          "url": "https://github.com/GrapheneOS/platform_manifest",
+          "ok": true,
+          "note": "tag SHA 67637a518413"
+        }
+      ],
+      "notes": [
+        "SSH signature verified by GrapheneOS allowed_signers",
+        "fingerprint: SHA256:AhgHif0mei+9aNyKLfMZBh2yptHdw/aN7Tlh/j2eFwM",
+        "manifest มี 1032 repos ที่จะ sync"
+      ],
+      "children": [],
+      "badge": "✓",
+      "trust_color": "#16a34a"
+    },
+    {
+      "name": "AOSP prebuilts (in source tree)",
+      "kind": "prebuilt-group",
+      "name_th": "AOSP prebuilts ในต้นฉบับ",
+      "source": "/home/guix/grapheneos/prebuilts",
       "hash_value": null,
       "hash_algo": "sha256",
       "expected": null,
-      "verified": false,
+      "verified": null,
+      "probability": 33.54838709677419,
+      "mirrors": [],
       "notes": [
-        "verify-tag fail: [Errno 2] No such file or directory: 'git'"
+        "ทั้งหมด 31 prebuilt categories"
       ],
-      "children": [],
-      "badge": "✗"
+      "children": [
+        {
+          "name": "abi-dumps",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: abi-dumps",
+          "source": "prebuilts/abi-dumps/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 8,264"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "android-emulator",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: android-emulator",
+          "source": "prebuilts/android-emulator/",
+          "hash_value": "683b24d",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 823"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "asuite",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: asuite",
+          "source": "prebuilts/asuite/",
+          "hash_value": "6d78dda",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 17"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "bazel",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: bazel",
+          "source": "prebuilts/bazel/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 32"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "build-tools",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: build-tools",
+          "source": "prebuilts/build-tools/",
+          "hash_value": "412724a",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 7,106"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "bundletool",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: bundletool",
+          "source": "prebuilts/bundletool/",
+          "hash_value": "4d55b55",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 6"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "checkcolor",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: checkcolor",
+          "source": "prebuilts/checkcolor/",
+          "hash_value": "47d4cfb",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 3"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "checkstyle",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: checkstyle",
+          "source": "prebuilts/checkstyle/",
+          "hash_value": "c7c9fc2",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 16"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "clang",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: clang",
+          "source": "prebuilts/clang/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 38,978"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "clang-tools",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: clang-tools",
+          "source": "prebuilts/clang-tools/",
+          "hash_value": "83efad2",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 324"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "cmake",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: cmake",
+          "source": "prebuilts/cmake/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 2,986"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "cmdline-tools",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: cmdline-tools",
+          "source": "prebuilts/cmdline-tools/",
+          "hash_value": "c08a13e",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 115"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "devtools",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: devtools",
+          "source": "prebuilts/devtools/",
+          "hash_value": "4bfccde",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 198"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "gcc",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: gcc",
+          "source": "prebuilts/gcc/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 7,558"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "go",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: go",
+          "source": "prebuilts/go/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 15,100"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "gradle-plugin",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: gradle-plugin",
+          "source": "prebuilts/gradle-plugin/",
+          "hash_value": "0996579",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 150"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "jdk",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: jdk",
+          "source": "prebuilts/jdk/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 2,417"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "ktlint",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: ktlint",
+          "source": "prebuilts/ktlint/",
+          "hash_value": "a67606f",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 4"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "manifest-merger",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: manifest-merger",
+          "source": "prebuilts/manifest-merger/",
+          "hash_value": "93603b6",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 89"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "maven_repo",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: maven_repo",
+          "source": "prebuilts/maven_repo/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 53"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "misc",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: misc",
+          "source": "prebuilts/misc/",
+          "hash_value": "28b423b",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 498"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "module_sdk",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: module_sdk",
+          "source": "prebuilts/module_sdk/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 10,448"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        },
+        {
+          "name": "ndk",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: ndk",
+          "source": "prebuilts/ndk/",
+          "hash_value": "e0e58e6",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 36"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "qemu-kernel",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: qemu-kernel",
+          "source": "prebuilts/qemu-kernel/",
+          "hash_value": "451fa62",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 466"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "r8",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: r8",
+          "source": "prebuilts/r8/",
+          "hash_value": "9a1c3c8",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 33"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "remoteexecution-client",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: remoteexecution-client",
+          "source": "prebuilts/remoteexecution-client/",
+          "hash_value": "5cd24de",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 965"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "runtime",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: runtime",
+          "source": "prebuilts/runtime/",
+          "hash_value": "5287487",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 10,514"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "rust",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: rust",
+          "source": "prebuilts/rust/",
+          "hash_value": "06a4f29",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 6,603"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "sdk",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: sdk",
+          "source": "prebuilts/sdk/",
+          "hash_value": "8c36435",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 17,923"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "tools",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: tools",
+          "source": "prebuilts/tools/",
+          "hash_value": "d732589",
+          "hash_algo": "git-commit",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "files: 1,217"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "vndk",
+          "kind": "prebuilt",
+          "name_th": "prebuilt: vndk",
+          "source": "prebuilts/vndk/",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 20.0,
+          "mirrors": [],
+          "notes": [
+            "files: 86,976"
+          ],
+          "children": [],
+          "badge": "·",
+          "trust_color": "#ef4444"
+        }
+      ],
+      "badge": "·",
+      "trust_color": "#f59e0b"
     },
     {
-      "name": "Vendor blobs (adevtool → dl.google.com)",
-      "kind": "group",
+      "name": "adevtool (vendor blob extractor)",
+      "kind": "node-tool",
+      "name_th": "adevtool — เครื่องมือดึงไดรเวอร์ Pixel",
+      "source": "/home/guix/grapheneos/vendor/adevtool",
+      "hash_value": "8bc93d854a2f85d62700d5909319633c22b5ea18",
+      "hash_algo": "git-commit",
+      "expected": null,
+      "verified": true,
+      "probability": 40.0,
+      "mirrors": [],
+      "notes": [
+        "describe: 2026042100"
+      ],
+      "children": [
+        {
+          "name": "yarn.lock (573 packages)",
+          "kind": "yarn-lock",
+          "name_th": "yarn.lock — 573 แพ็คเกจ npm",
+          "source": "registry.yarnpkg.com / registry.npmjs.org",
+          "hash_value": "d33f86ba01f3fd5b14087d59f079f1ac2122652d63059f399f390e67c8b7fa7d",
+          "hash_algo": "sha256 (yarn.lock)",
+          "expected": null,
+          "verified": true,
+          "probability": 55.0,
+          "mirrors": [
+            {
+              "name": "npm:@smithy/abort-controller@4.2.10",
+              "url": "https://registry.npmjs.org/@smithy%2Fabort-controller/4.2.10",
+              "ok": true,
+              "note": "integrity match"
+            },
+            {
+              "name": "npm:@aws-sdk/middleware-location-constraint@3.972.5",
+              "url": "https://registry.npmjs.org/@aws-sdk%2Fmiddleware-location-constraint/3.972.5",
+              "ok": true,
+              "note": "integrity match"
+            },
+            {
+              "name": "npm:es-shim-unscopables@1.1.0",
+              "url": "https://registry.npmjs.org/es-shim-unscopables/1.1.0",
+              "ok": true,
+              "note": "integrity match"
+            },
+            {
+              "name": "npm:cssstyle@6.1.0",
+              "url": "https://registry.npmjs.org/cssstyle/6.1.0",
+              "ok": true,
+              "note": "integrity match"
+            },
+            {
+              "name": "npm:call-bound@1.0.4",
+              "url": "https://registry.npmjs.org/call-bound/1.0.4",
+              "ok": true,
+              "note": "integrity match"
+            }
+          ],
+          "notes": [
+            "package entries: 619, ปลายทาง integrity: 634"
+          ],
+          "children": [],
+          "badge": "✓",
+          "trust_color": "#eab308"
+        }
+      ],
+      "badge": "✓",
+      "trust_color": "#f59e0b"
+    },
+    {
+      "name": "Vendor blobs (Google factory zips)",
+      "kind": "vendor-group",
+      "name_th": "ไดรเวอร์/บล็อบจาก Google (factory zip)",
       "source": "https://dl.google.com/dl/android/aosp/",
       "hash_value": null,
       "hash_algo": "sha256",
       "expected": null,
       "verified": null,
-      "notes": [],
+      "probability": 40.0,
+      "mirrors": [],
+      "notes": [
+        "พบ 2 factory zip ในแคช",
+        "เทียบ hash กับ developers.google.com/android/images ด้วยตัวเอง"
+      ],
       "children": [
         {
           "name": "shiba-bp4a.260205.001-factory-35b8480d.zip",
           "kind": "vendor-blob",
+          "name_th": "factory zip: shiba-bp4a.260205.001-factory-35b8480d.zip",
           "source": "dl.google.com/dl/android/aosp/shiba/",
           "hash_value": "35b8480d70480bbef52e99837f18beb539a8894807d1b02696f206d035c70282",
           "hash_algo": "sha256",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
             "size: 3,734,882,904 bytes"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "shiba-cp1a.260405.005-factory-f88d5199.zip",
           "kind": "vendor-blob",
+          "name_th": "factory zip: shiba-cp1a.260405.005-factory-f88d5199.zip",
           "source": "dl.google.com/dl/android/aosp/shiba/",
           "hash_value": "f88d5199ff51e3ac4e502a08d0a6f82a32b4ba68009982c3a6e4d5b69ce1f950",
           "hash_algo": "sha256",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
             "size: 3,781,948,650 bytes"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         }
       ],
-      "badge": "·"
-    },
-    {
-      "name": "adevtool yarn.lock",
-      "kind": "group",
-      "source": "registry.yarnpkg.com",
-      "hash_value": "d33f86ba01f3fd5b14087d59f079f1ac2122652d63059f399f390e67c8b7fa7d",
-      "hash_algo": "sha256 (yarn.lock content)",
-      "expected": null,
-      "verified": true,
-      "notes": [
-        "yarn.lock path: vendor/adevtool/yarn.lock",
-        "package entries: 619",
-        "with integrity hash: 634"
-      ],
-      "children": [],
-      "badge": "✓"
+      "badge": "·",
+      "trust_color": "#f59e0b"
     },
     {
       "name": "Signing keys (shiba)",
-      "kind": "group",
-      "source": "locally generated via patch-grapheneos.sh",
+      "kind": "key-group",
+      "name_th": "คีย์เซ็นแอป + AVB (shiba)",
+      "source": "/home/guix/grapheneos/keys/shiba",
       "hash_value": null,
       "hash_algo": "sha256",
       "expected": null,
       "verified": null,
+      "probability": 40.0,
+      "mirrors": [],
       "notes": [],
       "children": [
         {
           "name": "bluetooth.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: bluetooth",
           "source": "keys/shiba/bluetooth.x509.pem",
-          "hash_value": "82cccd8eca153f1849d8f3ac5fdffd53f8af72dcbb32f59db1335a7d1353843a",
-          "hash_algo": "sha256",
+          "hash_value": "a370e003c923b18d11780417903027a7688486bac7c5c6b9f10397350c7a89d4",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:39 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "gmscompat_lib.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: gmscompat_lib",
           "source": "keys/shiba/gmscompat_lib.x509.pem",
-          "hash_value": "4cfe863c456005c8a7c01b8ab376bf58eb66cbcaba40f72dcb3009ea378f84a5",
-          "hash_algo": "sha256",
+          "hash_value": "1d488da4967677cdba525f9c8d7f0b9808ae485174b117787e1c3d3c0f9184e1",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:40 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "media.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: media",
           "source": "keys/shiba/media.x509.pem",
-          "hash_value": "6f73e14abc358865f849d1aace01ebabf2f97c9a998eb354f4edc6504f58335c",
-          "hash_algo": "sha256",
+          "hash_value": "cfe4cfdf0bf97c1146cad411c360fbf042c32572ee0e653300e81dda948e17e4",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:41 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "networkstack.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: networkstack",
           "source": "keys/shiba/networkstack.x509.pem",
-          "hash_value": "120b95e7af05ac7c49e72d1fe81a12bb382d2d955148e285723be01815799737",
-          "hash_algo": "sha256",
+          "hash_value": "e700cdc6118c490488d24da853c43394d526bc93ab06e08e9faaa1675d7a4605",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:41 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "nfc.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: nfc",
           "source": "keys/shiba/nfc.x509.pem",
-          "hash_value": "fba825229107a4d067404e6411fb18b1c6df70b03d2541dfc09a45b28570d23b",
-          "hash_algo": "sha256",
+          "hash_value": "ba0d433f460a80cf9bffc3af8a00936a6f759225d5ce27d6a2d6e4727c378e50",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:43 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "platform.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: platform",
           "source": "keys/shiba/platform.x509.pem",
-          "hash_value": "14163c76e79f56fc8bb1714f4d9c7ac58c324aee9276ef3a9538cbc8ced58624",
-          "hash_algo": "sha256",
+          "hash_value": "357d2283ba99c0dfcec36948c75e540da722369d68751c3aae27bd0868a8f9a3",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:44 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "releasekey.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: releasekey",
           "source": "keys/shiba/releasekey.x509.pem",
-          "hash_value": "f672bcb9a590a102b2757f19ff362141e64e01f8053229db05fc9fc291a8a25a",
-          "hash_algo": "sha256",
+          "hash_value": "9422fe8e6966afc77b650b65a6c46489eb736b306ff56152adffa71e02882a7d",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:45 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "sdk_sandbox.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: sdk_sandbox",
           "source": "keys/shiba/sdk_sandbox.x509.pem",
-          "hash_value": "0dbadb3466a0979fa7eeec9bf5c712ff67ca9a8c42774a9373fdf2ab11292bd3",
-          "hash_algo": "sha256",
+          "hash_value": "0592e340cf37f3e0809e5eebfa20d97afb5ffafef1852f62a4e5374a9af0f7f8",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:46 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "shared.x509.pem",
           "kind": "x509-cert",
+          "name_th": "x509: shared",
           "source": "keys/shiba/shared.x509.pem",
-          "hash_value": "3c9d2e192863f44417b354c69bf3e7bea7f05924b9f045dce864944685cb44be",
-          "hash_algo": "sha256",
+          "hash_value": "90a05ba53eaab33c02b3763fe9f9441a1ef2c17ef591d38332fbcee98f56726f",
+          "hash_algo": "x509-fingerprint",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
-            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+            "expires: Sep 26 18:42:47 2053 GMT",
+            "subject: CN = GrapheneOS-Custom",
+            "คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ"
           ],
           "children": [],
-          "badge": "?"
-        },
-        {
-          "name": "avb_pkmd.bin",
-          "kind": "bin-key",
-          "source": "keys/shiba/avb_pkmd.bin",
-          "hash_value": "59e2c44d14fb3c871ea54330937e2ce70e59b7d32b0ff556ab64aee741080bbc",
-          "hash_algo": "sha256",
-          "expected": null,
-          "verified": null,
-          "notes": [
-            "size: 1,032 bytes"
-          ],
-          "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
         },
         {
           "name": "avb.pem",
           "kind": "bin-key",
+          "name_th": "binary key: avb.pem",
           "source": "keys/shiba/avb.pem",
           "hash_value": "efa854be5180581ecf1acca24981a809e35f84a98066545434203058057a9172",
           "hash_algo": "sha256",
           "expected": null,
           "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
           "notes": [
             "size: 3,268 bytes"
           ],
           "children": [],
-          "badge": "?"
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "avb_pkmd.bin",
+          "kind": "bin-key",
+          "name_th": "binary key: avb_pkmd.bin",
+          "source": "keys/shiba/avb_pkmd.bin",
+          "hash_value": "59e2c44d14fb3c871ea54330937e2ce70e59b7d32b0ff556ab64aee741080bbc",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "size: 1,032 bytes"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
         }
       ],
-      "badge": "·"
+      "badge": "·",
+      "trust_color": "#f59e0b"
     },
     {
-      "name": "Build artifacts (shiba)",
-      "kind": "group",
-      "source": "/home/guix/grapheneos/releases/",
+      "name": "Build artifacts (release 2026051201)",
+      "kind": "release-group",
+      "name_th": "ผลลัพธ์ build (2026051201)",
+      "source": "/home/guix/grapheneos/releases/2026051201",
       "hash_value": null,
       "hash_algo": "sha256",
       "expected": null,
       "verified": null,
+      "probability": 40.0,
+      "mirrors": [],
       "notes": [],
       "children": [
         {
-          "name": "build 2026051201",
-          "kind": "group",
-          "source": "/home/guix/grapheneos/releases/2026051201/release-shiba-2026051201",
-          "hash_value": null,
+          "name": "shiba-factory-2026051201.zip",
+          "kind": "release-zip",
+          "name_th": "flashable: shiba-factory-2026051201",
+          "source": "releases/2026051201/release-shiba-2026051201/shiba-factory-2026051201.zip",
+          "hash_value": "9af848a68b8b2ccaf44ceb355116db68d322cc41ef8d6d10a56ca8c4c8159671",
           "hash_algo": "sha256",
           "expected": null,
           "verified": null,
-          "notes": [],
-          "children": [
-            {
-              "name": "shiba-factory-2026051201.zip",
-              "kind": "release-zip",
-              "source": "releases/2026051201/release-shiba-2026051201/shiba-factory-2026051201.zip",
-              "hash_value": "9af848a68b8b2ccaf44ceb355116db68d322cc41ef8d6d10a56ca8c4c8159671",
-              "hash_algo": "sha256",
-              "expected": null,
-              "verified": null,
-              "notes": [
-                "size: 1,693,979,392 bytes"
-              ],
-              "children": [],
-              "badge": "?"
-            },
-            {
-              "name": "shiba-img-2026051201.zip",
-              "kind": "release-zip",
-              "source": "releases/2026051201/release-shiba-2026051201/shiba-img-2026051201.zip",
-              "hash_value": "eb435f7f08ac4cffc02bf383439ef9d5420aff6c256a919042aed038ba3329e7",
-              "hash_algo": "sha256",
-              "expected": null,
-              "verified": null,
-              "notes": [
-                "size: 1,640,575,906 bytes"
-              ],
-              "children": [],
-              "badge": "?"
-            },
-            {
-              "name": "shiba-install-2026051201.zip",
-              "kind": "release-zip",
-              "source": "releases/2026051201/release-shiba-2026051201/shiba-install-2026051201.zip",
-              "hash_value": "2a46ed8d0c6cb4bc94e59a0a85c97d03cb24a4b3c2c160827f0d7cce22fea68b",
-              "hash_algo": "sha256",
-              "expected": null,
-              "verified": null,
-              "notes": [
-                "size: 1,639,607,667 bytes"
-              ],
-              "children": [],
-              "badge": "?"
-            },
-            {
-              "name": "shiba-ota_update-2026051201.zip",
-              "kind": "release-zip",
-              "source": "releases/2026051201/release-shiba-2026051201/shiba-ota_update-2026051201.zip",
-              "hash_value": "ebf728d2487725fecd5f4b085745d46aaebfb32bd2b550d33335f6770ea5d6a1",
-              "hash_algo": "sha256",
-              "expected": null,
-              "verified": null,
-              "notes": [
-                "size: 1,266,711,619 bytes"
-              ],
-              "children": [],
-              "badge": "?"
-            }
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "size: 1,693,979,392 bytes"
           ],
-          "badge": "·"
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "shiba-img-2026051201.zip",
+          "kind": "release-zip",
+          "name_th": "flashable: shiba-img-2026051201",
+          "source": "releases/2026051201/release-shiba-2026051201/shiba-img-2026051201.zip",
+          "hash_value": "eb435f7f08ac4cffc02bf383439ef9d5420aff6c256a919042aed038ba3329e7",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "size: 1,640,575,906 bytes"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "shiba-install-2026051201.zip",
+          "kind": "release-zip",
+          "name_th": "flashable: shiba-install-2026051201",
+          "source": "releases/2026051201/release-shiba-2026051201/shiba-install-2026051201.zip",
+          "hash_value": "2a46ed8d0c6cb4bc94e59a0a85c97d03cb24a4b3c2c160827f0d7cce22fea68b",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "size: 1,639,607,667 bytes"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
+        },
+        {
+          "name": "shiba-ota_update-2026051201.zip",
+          "kind": "release-zip",
+          "name_th": "flashable: shiba-ota_update-2026051201",
+          "source": "releases/2026051201/release-shiba-2026051201/shiba-ota_update-2026051201.zip",
+          "hash_value": "ebf728d2487725fecd5f4b085745d46aaebfb32bd2b550d33335f6770ea5d6a1",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "probability": 40.0,
+          "mirrors": [],
+          "notes": [
+            "size: 1,266,711,619 bytes"
+          ],
+          "children": [],
+          "badge": "?",
+          "trust_color": "#f59e0b"
         }
       ],
-      "badge": "·"
+      "badge": "·",
+      "trust_color": "#f59e0b"
+    },
+    {
+      "name": "Build environment",
+      "kind": "env",
+      "name_th": "สภาพแวดล้อมการ build",
+      "source": "Guix System / FHS container",
+      "hash_value": null,
+      "hash_algo": "sha256",
+      "expected": null,
+      "verified": null,
+      "probability": 100.0,
+      "mirrors": [],
+      "notes": [
+        "uname: Linux guixsystem 6.17.12-gnu #1 SMP PREEMPT_DYNAMIC 1 x86_64 GNU/Linux",
+        "guix: guix 2d4ed08",
+        "build_root: /home/guix/grapheneos",
+        "build_number: 2026051201",
+        "device: shiba",
+        "tag: 2026042100"
+      ],
+      "children": [],
+      "badge": "·",
+      "trust_color": "#16a34a"
     }
   ],
-  "badge": "·"
+  "badge": "·",
+  "trust_color": "#eab308"
 }

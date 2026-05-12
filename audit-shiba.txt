@@ -1,0 +1,692 @@
+· GrapheneOS Supply Chain Audit (shiba, build 2026051201)  (52%)
+├── · Guix packages (guix-manifest.scm)  (79%)
+│     source: /home/guix/grapheneos/guix-manifest.scm
+│     • ทั้งหมด 49 packages จาก Guix official channel
+│     • verification: content-addressed store + signed substitutes
+│     • mirrors: https://ci.guix.gnu.org, https://bordeaux.guix.gnu.org
+│     • resolved 190 store paths จาก profile
+│   ├── ✓ bash  (80%)
+│   │     source: guix-pkg:bash
+│   │     guix-store-hash: p5dap5q3wfdy0h3m31q5hbj3gpbkmrxv
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/bash.scm:161:4
+│   │     • version: 5.2.37
+│   │     • store: /gnu/store/p5dap5q3wfdy0h3m31q5hbj3gpbkmrxv-bash-5.2.37
+│   ├── ✓ bc  (80%)
+│   │     source: guix-pkg:bc
+│   │     guix-store-hash: msy8i1hkg3bv5s7vi0qs0w67sgljw1md
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/algebra.scm:734:2
+│   │     • version: 1.08.2
+│   │     • store: /gnu/store/msy8i1hkg3bv5s7vi0qs0w67sgljw1md-bc-1.08.2
+│   ├── ✓ binutils  (80%)
+│   │     source: guix-pkg:binutils
+│   │     guix-store-hash: c8mp7qq5az7cbnvmxgj2bjkscsf5h9ri
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:702:2
+│   │     • version: 2.44
+│   │     • store: /gnu/store/c8mp7qq5az7cbnvmxgj2bjkscsf5h9ri-binutils-2.44
+│   ├── ✓ bison  (80%)
+│   │     source: guix-pkg:bison
+│   │     guix-store-hash: 5ds3a8ydp0hkpwcvk0v9jph44zh8kw7s
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/bison.scm:78:2
+│   │     • version: 3.0.5
+│   │     • store: /gnu/store/5ds3a8ydp0hkpwcvk0v9jph44zh8kw7s-bison-3.8.2
+│   ├── ✓ ccache  (80%)
+│   │     source: guix-pkg:ccache
+│   │     guix-store-hash: x9wcxzzh9wxcs0hn2iyih74q190sifmy
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/ccache.scm:36:2
+│   │     • version: 4.8.3
+│   │     • store: /gnu/store/x9wcxzzh9wxcs0hn2iyih74q190sifmy-ccache-4.8.3
+│   ├── ✓ coreutils  (80%)
+│   │     source: guix-pkg:coreutils
+│   │     guix-store-hash: pai3hvsiihllqi03b2198qi5qq9a28ga
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:471:2
+│   │     • version: 9.1
+│   │     • store: /gnu/store/pai3hvsiihllqi03b2198qi5qq9a28ga-coreutils-9.1
+│   ├── ✓ curl  (80%)
+│   │     source: guix-pkg:curl
+│   │     guix-store-hash: 31xynhn10x499sqsigjqr67z02zng5r7
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/curl.scm:69:2
+│   │     • version: 8.6.0
+│   │     • store: /gnu/store/31xynhn10x499sqsigjqr67z02zng5r7-curl-8.6.0
+│   ├── ✓ diffutils  (80%)
+│   │     source: guix-pkg:diffutils
+│   │     guix-store-hash: grkzgd1q70wvkqx708wz2q0r340d8b91
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:363:2
+│   │     • version: 3.12
+│   │     • store: /gnu/store/grkzgd1q70wvkqx708wz2q0r340d8b91-diffutils-3.12
+│   ├── ✓ findutils  (80%)
+│   │     source: guix-pkg:findutils
+│   │     guix-store-hash: 9l3lhsd57rfrp5phn3xinv99pxiwkvz7
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:423:2
+│   │     • version: 4.10.0
+│   │     • store: /gnu/store/9l3lhsd57rfrp5phn3xinv99pxiwkvz7-findutils-4.10.0
+│   ├── ✓ flex  (80%)
+│   │     source: guix-pkg:flex
+│   │     guix-store-hash: hqhi1wrqcpnbw9w2cycibf7iycvikgx9
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/flex.scm:35:2
+│   │     • version: 2.6.4
+│   │     • store: /gnu/store/hqhi1wrqcpnbw9w2cycibf7iycvikgx9-flex-2.6.4
+│   ├── ✓ fontconfig  (80%)
+│   │     source: guix-pkg:fontconfig
+│   │     guix-store-hash: 3z293b7g0wm0m7ybca9lk7mj7x8nifbk
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/fontutils.scm:1485:2
+│   │     • version: 2.14.0
+│   │     • store: /gnu/store/3z293b7g0wm0m7ybca9lk7mj7x8nifbk-fontconfig-2.14.0
+│   ├── ✓ freetype  (80%)
+│   │     source: guix-pkg:freetype
+│   │     guix-store-hash: c2c17v4nv88ps4y20gl5qhji7zd6ywc3
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/fontutils.scm:103:2
+│   │     • version: 2.13.3
+│   │     • store: /gnu/store/c2c17v4nv88ps4y20gl5qhji7zd6ywc3-freetype-2.13.3
+│   ├── ✓ gawk  (80%)
+│   │     source: guix-pkg:gawk
+│   │     guix-store-hash: 3q7axknggy9773aa71806kdhgy54wgr1
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/gawk.scm:41:2
+│   │     • version: 5.3.0
+│   │     • store: /gnu/store/3q7axknggy9773aa71806kdhgy54wgr1-gawk-5.3.0
+│   ├── ✓ gcc-toolchain@14  (80%)
+│   │     source: guix-pkg:gcc-toolchain
+│   │     guix-store-hash: ndnvicqyk3v45iayahf153w5cpf639iw
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/commencement.scm:3643:4
+│   │     • version: 6.5.0
+│   │     • store: /gnu/store/ndnvicqyk3v45iayahf153w5cpf639iw-gcc-toolchain-14.3.0
+│   ├── ✓ git  (80%)
+│   │     source: guix-pkg:git
+│   │     guix-store-hash: jsqh42a9lrkjhrqn615wmfccv67igsfg
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/version-control.scm:596:2
+│   │     • version: 2.52.0
+│   │     • store: /gnu/store/jsqh42a9lrkjhrqn615wmfccv67igsfg-git-2.52.0
+│   ├── ✓ git-lfs  (80%)
+│   │     source: guix-pkg:git-lfs
+│   │     guix-store-hash: 9vb4q0xqh9klwdbg7pv43cm0fc6xxch7
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/version-control.scm:4100:2
+│   │     • version: 3.7.0
+│   │     • store: /gnu/store/9vb4q0xqh9klwdbg7pv43cm0fc6xxch7-git-lfs-3.7.0
+│   ├── ✓ glibc-locales  (80%)
+│   │     source: guix-pkg:glibc-locales
+│   │     guix-store-hash: wb5crgn9y4jlgbc4pshvx014yvj2kv27
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:1380:2
+│   │     • version: 2.41
+│   │     • store: /gnu/store/wb5crgn9y4jlgbc4pshvx014yvj2kv27-glibc-locales-2.41
+│   ├── ✓ gnupg  (80%)
+│   │     source: guix-pkg:gnupg
+│   │     guix-store-hash: dp12j79qs760nlfddda20i7xnkvl8fkm
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/gnupg.scm:413:2
+│   │     • version: 1.4.23
+│   │     • store: /gnu/store/dp12j79qs760nlfddda20i7xnkvl8fkm-gnupg-2.4.7
+│   ├── ✓ gperf  (80%)
+│   │     source: guix-pkg:gperf
+│   │     guix-store-hash: 952w4qkzja1v7a4h1lhb6xsljkp21jr9
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/gperf.scm:26:2
+│   │     • version: 3.3
+│   │     • store: /gnu/store/952w4qkzja1v7a4h1lhb6xsljkp21jr9-gperf-3.3
+│   ├── ✓ grep  (80%)
+│   │     source: guix-pkg:grep
+│   │     guix-store-hash: 1lkl6hik16bbhpjjsl825fivp2dsr9vi
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:120:2
+│   │     • version: 3.11
+│   │     • store: /gnu/store/1lkl6hik16bbhpjjsl825fivp2dsr9vi-grep-3.11
+│   ├── ✓ gzip  (80%)
+│   │     source: guix-pkg:gzip
+│   │     guix-store-hash: ch4v61a0lw0f1hkm5adai5z42qpyf20k
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/compression.scm:272:2
+│   │     • version: 1.14
+│   │     • store: /gnu/store/ch4v61a0lw0f1hkm5adai5z42qpyf20k-gzip-1.14
+│   ├── · imagemagick  (20%)
+│   │     source: guix-pkg:imagemagick
+│   │     • recipe: gnu/packages/imagemagick.scm:139:2
+│   │     • version: 6.9.13-5
+│   │     • ไม่พบ store path ใน profile (อาจไม่ถูก install จริง)
+│   ├── ✓ inetutils  (80%)
+│   │     source: guix-pkg:inetutils
+│   │     guix-store-hash: hwns9ksqpmr1b6qwnj54b8bpm43477y2
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/admin.scm:1291:2
+│   │     • version: 2.5
+│   │     • store: /gnu/store/hwns9ksqpmr1b6qwnj54b8bpm43477y2-inetutils-2.5
+│   ├── ✓ jq  (80%)
+│   │     source: guix-pkg:jq
+│   │     guix-store-hash: c0ckfcx8b4d7y53pqbv428dqj6h258yg
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/web.scm:5764:2
+│   │     • version: 1.8.1
+│   │     • store: /gnu/store/c0ckfcx8b4d7y53pqbv428dqj6h258yg-jq-1.8.1
+│   ├── ✓ libelf  (80%)
+│   │     source: guix-pkg:libelf
+│   │     guix-store-hash: dhvpj54kh4zbsinp1wlp8zqlmp24s9z4
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/elf.scm:263:2
+│   │     • version: 0.8.13
+│   │     • store: /gnu/store/dhvpj54kh4zbsinp1wlp8zqlmp24s9z4-libelf-0.8.13
+│   ├── ✓ libxml2  (80%)
+│   │     source: guix-pkg:libxml2
+│   │     guix-store-hash: hnwz38jjgjnrdpm6712gpkzic65jfaih
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/xml.scm:194:2
+│   │     • version: 2.14.6
+│   │     • store: /gnu/store/hnwz38jjgjnrdpm6712gpkzic65jfaih-libxml2-2.14.6
+│   ├── ✓ libxslt  (80%)
+│   │     source: guix-pkg:libxslt
+│   │     guix-store-hash: q739psjrjck9zd0jmbkmk4qs6ml8cy4l
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/xml.scm:343:2
+│   │     • version: 1.1.43
+│   │     • store: /gnu/store/q739psjrjck9zd0jmbkmk4qs6ml8cy4l-libxslt-1.1.43
+│   ├── ✓ lz4  (80%)
+│   │     source: guix-pkg:lz4
+│   │     guix-store-hash: 22sizn6nv9a08m5m7380y866lcfmrb6z
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/compression.scm:1041:2
+│   │     • version: 1.10.0
+│   │     • store: /gnu/store/22sizn6nv9a08m5m7380y866lcfmrb6z-lz4-1.10.0
+│   ├── ✓ lzop  (80%)
+│   │     source: guix-pkg:lzop
+│   │     guix-store-hash: z5as5rhyjvyym8pxddvfiry7f8x1q0az
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/compression.scm:698:2
+│   │     • version: 1.04
+│   │     • store: /gnu/store/z5as5rhyjvyym8pxddvfiry7f8x1q0az-lzop-1.04
+│   ├── ✓ make  (80%)
+│   │     source: guix-pkg:make
+│   │     guix-store-hash: mb7ahgjxkmx6766d7m984fxdpng5pnn3
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:636:2
+│   │     • version: 4.4.1
+│   │     • store: /gnu/store/mb7ahgjxkmx6766d7m984fxdpng5pnn3-make-4.4.1
+│   ├── ✓ node  (80%)
+│   │     source: guix-pkg:node
+│   │     guix-store-hash: ja8lzccpgxrr5s3f00kq4i3b83d1l8lp
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/node.scm:748:2
+│   │     • version: 22.14.0
+│   │     • store: /gnu/store/ja8lzccpgxrr5s3f00kq4i3b83d1l8lp-node-22.14.0
+│   ├── ✓ nss-certs  (80%)
+│   │     source: guix-pkg:nss-certs
+│   │     guix-store-hash: 64h6gfcmgr7ynwiapchciqnx4xzcnqvj
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/nss.scm:318:2
+│   │     • version: 3.101.4
+│   │     • store: /gnu/store/64h6gfcmgr7ynwiapchciqnx4xzcnqvj-nss-certs-3.101.4
+│   ├── ✓ openjdk@21:jdk  (80%)
+│   │     source: guix-pkg:openjdk
+│   │     guix-store-hash: 0hrgs2wvz2379fiiw83ai44pbkzdp2nh
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/java.scm:1848:2
+│   │     • version: 23.0.2
+│   │     • store: /gnu/store/0hrgs2wvz2379fiiw83ai44pbkzdp2nh-openjdk-21.0.2-jdk
+│   ├── ✓ openssl  (80%)
+│   │     source: guix-pkg:openssl
+│   │     guix-store-hash: m0rqdrh98k773rxw6xhybzgksdy5h32p
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/tls.scm:576:2
+│   │     • version: 3.0.8
+│   │     • store: /gnu/store/m0rqdrh98k773rxw6xhybzgksdy5h32p-openssl-3.0.8
+│   ├── ✓ patchelf  (80%)
+│   │     source: guix-pkg:patchelf
+│   │     guix-store-hash: pz5qzbjdy11ndv3i3lq07d9r1agxxga4
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/elf.scm:378:2
+│   │     • version: 0.16.1
+│   │     • store: /gnu/store/pz5qzbjdy11ndv3i3lq07d9r1agxxga4-patchelf-0.18.0
+│   ├── ✓ pngcrush  (80%)
+│   │     source: guix-pkg:pngcrush
+│   │     guix-store-hash: lh83hp8fnfbxz7q16gnx6sfjdjmqkpwi
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/image.scm:387:2
+│   │     • version: 1.8.13
+│   │     • store: /gnu/store/lh83hp8fnfbxz7q16gnx6sfjdjmqkpwi-pngcrush-1.8.13
+│   ├── ✓ procps  (80%)
+│   │     source: guix-pkg:procps
+│   │     guix-store-hash: i52jb2xs6p9p9qypsdhk4cb0rxsbszhd
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/linux.scm:3543:2
+│   │     • version: 4.0.3
+│   │     • store: /gnu/store/i52jb2xs6p9p9qypsdhk4cb0rxsbszhd-procps-4.0.3
+│   ├── ✓ python  (80%)
+│   │     source: guix-pkg:python
+│   │     guix-store-hash: pv50hmdxs15c32laa1vn03wkfl023wwk
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/python.scm:680:2
+│   │     • version: 3.11.14
+│   │     • store: /gnu/store/pv50hmdxs15c32laa1vn03wkfl023wwk-python-3.11.14
+│   ├── ✓ python-wrapper  (80%)
+│   │     source: guix-pkg:python-wrapper
+│   │     guix-store-hash: xjqzrfa27sl7kd1dii40vsk77sclbzqg
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/python.scm:1523:2
+│   │     • version: 3.11.14
+│   │     • store: /gnu/store/xjqzrfa27sl7kd1dii40vsk77sclbzqg-python-wrapper-3.11.14
+│   ├── ✓ rsync  (80%)
+│   │     source: guix-pkg:rsync
+│   │     guix-store-hash: 0l8fnicd1896wmjzbfcpm4g5996kwgzy
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/rsync.scm:41:2
+│   │     • version: 3.4.1
+│   │     • store: /gnu/store/0l8fnicd1896wmjzbfcpm4g5996kwgzy-rsync-3.4.1
+│   ├── ✓ sed  (80%)
+│   │     source: guix-pkg:sed
+│   │     guix-store-hash: 2c3ikfc9h1ghl9fx765mdiwsx1nnpr0f
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:196:2
+│   │     • version: 4.9
+│   │     • store: /gnu/store/2c3ikfc9h1ghl9fx765mdiwsx1nnpr0f-sed-4.9
+│   ├── ✓ squashfs-tools  (80%)
+│   │     source: guix-pkg:squashfs-tools
+│   │     guix-store-hash: 0hwaq64r39q3w39cy9qrpdpwx3r6h9z0
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/compression.scm:1091:2
+│   │     • version: 4.6.1
+│   │     • store: /gnu/store/0hwaq64r39q3w39cy9qrpdpwx3r6h9z0-squashfs-tools-4.6.1
+│   ├── ✓ tar  (80%)
+│   │     source: guix-pkg:tar
+│   │     guix-store-hash: vlx3kkamd502jahyyn03qq9dxa63h3cz
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:235:2
+│   │     • version: 1.35
+│   │     • store: /gnu/store/vlx3kkamd502jahyyn03qq9dxa63h3cz-tar-1.35
+│   ├── ✓ unzip  (80%)
+│   │     source: guix-pkg:unzip
+│   │     guix-store-hash: k9xfay0bm9i2xm8mjzfizf6ycfnzxpb8
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/compression.scm:1985:2
+│   │     • version: 6.0
+│   │     • store: /gnu/store/k9xfay0bm9i2xm8mjzfizf6ycfnzxpb8-unzip-6.0
+│   ├── ✓ util-linux  (80%)
+│   │     source: guix-pkg:util-linux
+│   │     guix-store-hash: fizvqi3r2k9pjj22g31z51i28pjsg336
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/linux.scm:3188:2
+│   │     • version: 2.40.4
+│   │     • store: /gnu/store/fizvqi3r2k9pjj22g31z51i28pjsg336-util-linux-2.40.4
+│   ├── ✓ which  (80%)
+│   │     source: guix-pkg:which
+│   │     guix-store-hash: qfyqyx1v9bjhkggw7xiyna2akfcad8gs
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/base.scm:1540:2
+│   │     • version: 2.21
+│   │     • store: /gnu/store/qfyqyx1v9bjhkggw7xiyna2akfcad8gs-which-2.21
+│   ├── ✓ xz  (80%)
+│   │     source: guix-pkg:xz
+│   │     guix-store-hash: gd41pn8r5723cyd6d79q9riqjbi070zz
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/compression.scm:552:2
+│   │     • version: 5.4.5
+│   │     • store: /gnu/store/gd41pn8r5723cyd6d79q9riqjbi070zz-xz-5.4.5
+│   ├── ✓ zip  (80%)
+│   │     source: guix-pkg:zip
+│   │     guix-store-hash: 5s5dnwnnpgbc8hmlr6nq7pyp0l3f90p8
+│   │     expected: narinfo present on substitute server
+│   │     [✗] mirror ci: narinfo HTTP 404
+│   │     [✓] mirror bordeaux: narinfo HTTP 200
+│   │     • recipe: gnu/packages/compression.scm:1941:2
+│   │     • version: 3.0
+│   │     • store: /gnu/store/5s5dnwnnpgbc8hmlr6nq7pyp0l3f90p8-zip-3.0
+│   └── ✓ zlib  (80%)
+│         source: guix-pkg:zlib
+│         guix-store-hash: mjir5dws75m8m8dh6zvs0j8i1wp7gf8z
+│         expected: narinfo present on substitute server
+│         [✗] mirror ci: narinfo HTTP 404
+│         [✓] mirror bordeaux: narinfo HTTP 200
+│         • recipe: gnu/packages/compression.scm:113:2
+│         • version: 1.3.1
+│         • store: /gnu/store/mjir5dws75m8m8dh6zvs0j8i1wp7gf8z-zlib-1.3.1
+├── ✓ repo (Google Git tool)  (90%)
+│     source: https://storage.googleapis.com/git-repo-downloads/repo
+│     sha256: 11bc6893e9e0c0940fc1cc95b75c645f9a29fca879d89ceaa898a4d761a2add7
+│     expected: known-good (embedded)
+│     [✓] mirror storage.googleapis.com: sha256=11bc6893e9e0c094…
+│     [✓] mirror gerrit.googlesource.com: sha256=11bc6893e9e0c094…
+│     • local: /home/guix/.bin/repo
+│     • hash ตรงกับ known-good ใน script
+├── ✓ GrapheneOS source tag 2026042100  (90%)
+│     source: https://github.com/GrapheneOS/platform_manifest.git
+│     ssh-fingerprint: SHA256:AhgHif0mei+9aNyKLfMZBh2yptHdw/aN7Tlh/j2eFwM
+│     expected: SHA256:AhgHif0mei+9aNyKLfMZBh2yptHdw/aN7Tlh/j2eFwM
+│     [✓] mirror github.com (API): tag SHA 67637a518413
+│     • SSH signature verified by GrapheneOS allowed_signers
+│     • fingerprint: SHA256:AhgHif0mei+9aNyKLfMZBh2yptHdw/aN7Tlh/j2eFwM
+│     • manifest มี 1032 repos ที่จะ sync
+├── · AOSP prebuilts (in source tree)  (34%)
+│     source: /home/guix/grapheneos/prebuilts
+│     • ทั้งหมด 31 prebuilt categories
+│   ├── · abi-dumps  (20%)
+│   │     source: prebuilts/abi-dumps/
+│   │     • files: 8,264
+│   ├── ? android-emulator  (40%)
+│   │     source: prebuilts/android-emulator/
+│   │     git-commit: 683b24d
+│   │     • files: 823
+│   ├── ? asuite  (40%)
+│   │     source: prebuilts/asuite/
+│   │     git-commit: 6d78dda
+│   │     • files: 17
+│   ├── · bazel  (20%)
+│   │     source: prebuilts/bazel/
+│   │     • files: 32
+│   ├── ? build-tools  (40%)
+│   │     source: prebuilts/build-tools/
+│   │     git-commit: 412724a
+│   │     • files: 7,106
+│   ├── ? bundletool  (40%)
+│   │     source: prebuilts/bundletool/
+│   │     git-commit: 4d55b55
+│   │     • files: 6
+│   ├── ? checkcolor  (40%)
+│   │     source: prebuilts/checkcolor/
+│   │     git-commit: 47d4cfb
+│   │     • files: 3
+│   ├── ? checkstyle  (40%)
+│   │     source: prebuilts/checkstyle/
+│   │     git-commit: c7c9fc2
+│   │     • files: 16
+│   ├── · clang  (20%)
+│   │     source: prebuilts/clang/
+│   │     • files: 38,978
+│   ├── ? clang-tools  (40%)
+│   │     source: prebuilts/clang-tools/
+│   │     git-commit: 83efad2
+│   │     • files: 324
+│   ├── · cmake  (20%)
+│   │     source: prebuilts/cmake/
+│   │     • files: 2,986
+│   ├── ? cmdline-tools  (40%)
+│   │     source: prebuilts/cmdline-tools/
+│   │     git-commit: c08a13e
+│   │     • files: 115
+│   ├── ? devtools  (40%)
+│   │     source: prebuilts/devtools/
+│   │     git-commit: 4bfccde
+│   │     • files: 198
+│   ├── · gcc  (20%)
+│   │     source: prebuilts/gcc/
+│   │     • files: 7,558
+│   ├── · go  (20%)
+│   │     source: prebuilts/go/
+│   │     • files: 15,100
+│   ├── ? gradle-plugin  (40%)
+│   │     source: prebuilts/gradle-plugin/
+│   │     git-commit: 0996579
+│   │     • files: 150
+│   ├── · jdk  (20%)
+│   │     source: prebuilts/jdk/
+│   │     • files: 2,417
+│   ├── ? ktlint  (40%)
+│   │     source: prebuilts/ktlint/
+│   │     git-commit: a67606f
+│   │     • files: 4
+│   ├── ? manifest-merger  (40%)
+│   │     source: prebuilts/manifest-merger/
+│   │     git-commit: 93603b6
+│   │     • files: 89
+│   ├── · maven_repo  (20%)
+│   │     source: prebuilts/maven_repo/
+│   │     • files: 53
+│   ├── ? misc  (40%)
+│   │     source: prebuilts/misc/
+│   │     git-commit: 28b423b
+│   │     • files: 498
+│   ├── · module_sdk  (20%)
+│   │     source: prebuilts/module_sdk/
+│   │     • files: 10,448
+│   ├── ? ndk  (40%)
+│   │     source: prebuilts/ndk/
+│   │     git-commit: e0e58e6
+│   │     • files: 36
+│   ├── ? qemu-kernel  (40%)
+│   │     source: prebuilts/qemu-kernel/
+│   │     git-commit: 451fa62
+│   │     • files: 466
+│   ├── ? r8  (40%)
+│   │     source: prebuilts/r8/
+│   │     git-commit: 9a1c3c8
+│   │     • files: 33
+│   ├── ? remoteexecution-client  (40%)
+│   │     source: prebuilts/remoteexecution-client/
+│   │     git-commit: 5cd24de
+│   │     • files: 965
+│   ├── ? runtime  (40%)
+│   │     source: prebuilts/runtime/
+│   │     git-commit: 5287487
+│   │     • files: 10,514
+│   ├── ? rust  (40%)
+│   │     source: prebuilts/rust/
+│   │     git-commit: 06a4f29
+│   │     • files: 6,603
+│   ├── ? sdk  (40%)
+│   │     source: prebuilts/sdk/
+│   │     git-commit: 8c36435
+│   │     • files: 17,923
+│   ├── ? tools  (40%)
+│   │     source: prebuilts/tools/
+│   │     git-commit: d732589
+│   │     • files: 1,217
+│   └── · vndk  (20%)
+│         source: prebuilts/vndk/
+│         • files: 86,976
+├── ✓ adevtool (vendor blob extractor)  (40%)
+│     source: /home/guix/grapheneos/vendor/adevtool
+│     git-commit: 8bc93d854a2f85d62700d5909319633c22b5ea18
+│     • describe: 2026042100
+│   └── ✓ yarn.lock (573 packages)  (55%)
+│         source: registry.yarnpkg.com / registry.npmjs.org
+│         sha256 (yarn.lock): d33f86ba01f3fd5b14087d59f079f1ac2122652d63059f399f390e67c8b7fa7d
+│         [✓] mirror npm:@smithy/abort-controller@4.2.10: integrity match
+│         [✓] mirror npm:@aws-sdk/middleware-location-constraint@3.972.5: integrity match
+│         [✓] mirror npm:es-shim-unscopables@1.1.0: integrity match
+│         [✓] mirror npm:cssstyle@6.1.0: integrity match
+│         [✓] mirror npm:call-bound@1.0.4: integrity match
+│         • package entries: 619, ปลายทาง integrity: 634
+├── · Vendor blobs (Google factory zips)  (40%)
+│     source: https://dl.google.com/dl/android/aosp/
+│     • พบ 2 factory zip ในแคช
+│     • เทียบ hash กับ developers.google.com/android/images ด้วยตัวเอง
+│   ├── ? shiba-bp4a.260205.001-factory-35b8480d.zip  (40%)
+│   │     source: dl.google.com/dl/android/aosp/shiba/
+│   │     sha256: 35b8480d70480bbef52e99837f18beb539a8894807d1b02696f206d035c70282
+│   │     • size: 3,734,882,904 bytes
+│   └── ? shiba-cp1a.260405.005-factory-f88d5199.zip  (40%)
+│         source: dl.google.com/dl/android/aosp/shiba/
+│         sha256: f88d5199ff51e3ac4e502a08d0a6f82a32b4ba68009982c3a6e4d5b69ce1f950
+│         • size: 3,781,948,650 bytes
+├── · Signing keys (shiba)  (40%)
+│     source: /home/guix/grapheneos/keys/shiba
+│   ├── ? bluetooth.x509.pem  (40%)
+│   │     source: keys/shiba/bluetooth.x509.pem
+│   │     x509-fingerprint: a370e003c923b18d11780417903027a7688486bac7c5c6b9f10397350c7a89d4
+│   │     • expires: Sep 26 18:42:39 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? gmscompat_lib.x509.pem  (40%)
+│   │     source: keys/shiba/gmscompat_lib.x509.pem
+│   │     x509-fingerprint: 1d488da4967677cdba525f9c8d7f0b9808ae485174b117787e1c3d3c0f9184e1
+│   │     • expires: Sep 26 18:42:40 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? media.x509.pem  (40%)
+│   │     source: keys/shiba/media.x509.pem
+│   │     x509-fingerprint: cfe4cfdf0bf97c1146cad411c360fbf042c32572ee0e653300e81dda948e17e4
+│   │     • expires: Sep 26 18:42:41 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? networkstack.x509.pem  (40%)
+│   │     source: keys/shiba/networkstack.x509.pem
+│   │     x509-fingerprint: e700cdc6118c490488d24da853c43394d526bc93ab06e08e9faaa1675d7a4605
+│   │     • expires: Sep 26 18:42:41 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? nfc.x509.pem  (40%)
+│   │     source: keys/shiba/nfc.x509.pem
+│   │     x509-fingerprint: ba0d433f460a80cf9bffc3af8a00936a6f759225d5ce27d6a2d6e4727c378e50
+│   │     • expires: Sep 26 18:42:43 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? platform.x509.pem  (40%)
+│   │     source: keys/shiba/platform.x509.pem
+│   │     x509-fingerprint: 357d2283ba99c0dfcec36948c75e540da722369d68751c3aae27bd0868a8f9a3
+│   │     • expires: Sep 26 18:42:44 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? releasekey.x509.pem  (40%)
+│   │     source: keys/shiba/releasekey.x509.pem
+│   │     x509-fingerprint: 9422fe8e6966afc77b650b65a6c46489eb736b306ff56152adffa71e02882a7d
+│   │     • expires: Sep 26 18:42:45 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? sdk_sandbox.x509.pem  (40%)
+│   │     source: keys/shiba/sdk_sandbox.x509.pem
+│   │     x509-fingerprint: 0592e340cf37f3e0809e5eebfa20d97afb5ffafef1852f62a4e5374a9af0f7f8
+│   │     • expires: Sep 26 18:42:46 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? shared.x509.pem  (40%)
+│   │     source: keys/shiba/shared.x509.pem
+│   │     x509-fingerprint: 90a05ba53eaab33c02b3763fe9f9441a1ef2c17ef591d38332fbcee98f56726f
+│   │     • expires: Sep 26 18:42:47 2053 GMT
+│   │     • subject: CN = GrapheneOS-Custom
+│   │     • คีย์ generate ในเครื่อง — ไม่มี baseline เทียบ
+│   ├── ? avb.pem  (40%)
+│   │     source: keys/shiba/avb.pem
+│   │     sha256: efa854be5180581ecf1acca24981a809e35f84a98066545434203058057a9172
+│   │     • size: 3,268 bytes
+│   └── ? avb_pkmd.bin  (40%)
+│         source: keys/shiba/avb_pkmd.bin
+│         sha256: 59e2c44d14fb3c871ea54330937e2ce70e59b7d32b0ff556ab64aee741080bbc
+│         • size: 1,032 bytes
+├── · Build artifacts (release 2026051201)  (40%)
+│     source: /home/guix/grapheneos/releases/2026051201
+│   ├── ? shiba-factory-2026051201.zip  (40%)
+│   │     source: releases/2026051201/release-shiba-2026051201/shiba-factory-2026051201.zip
+│   │     sha256: 9af848a68b8b2ccaf44ceb355116db68d322cc41ef8d6d10a56ca8c4c8159671
+│   │     • size: 1,693,979,392 bytes
+│   ├── ? shiba-img-2026051201.zip  (40%)
+│   │     source: releases/2026051201/release-shiba-2026051201/shiba-img-2026051201.zip
+│   │     sha256: eb435f7f08ac4cffc02bf383439ef9d5420aff6c256a919042aed038ba3329e7
+│   │     • size: 1,640,575,906 bytes
+│   ├── ? shiba-install-2026051201.zip  (40%)
+│   │     source: releases/2026051201/release-shiba-2026051201/shiba-install-2026051201.zip
+│   │     sha256: 2a46ed8d0c6cb4bc94e59a0a85c97d03cb24a4b3c2c160827f0d7cce22fea68b
+│   │     • size: 1,639,607,667 bytes
+│   └── ? shiba-ota_update-2026051201.zip  (40%)
+│         source: releases/2026051201/release-shiba-2026051201/shiba-ota_update-2026051201.zip
+│         sha256: ebf728d2487725fecd5f4b085745d46aaebfb32bd2b550d33335f6770ea5d6a1
+│         • size: 1,266,711,619 bytes
+└── · Build environment  (100%)
+      source: Guix System / FHS container
+      • uname: Linux guixsystem 6.17.12-gnu #1 SMP PREEMPT_DYNAMIC 1 x86_64 GNU/Linux
+      • guix: guix 2d4ed08
+      • build_root: /home/guix/grapheneos
+      • build_number: 2026051201
+      • device: shiba
+      • tag: 2026042100
