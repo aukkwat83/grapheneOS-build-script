@@ -223,7 +223,7 @@ EOF
     # ─── เตรียม BUILD_ROOT + คัดลอก patch-grapheneos.sh ───
     # หมายเหตุ: ต้องสร้างทุก dir ก่อน exec เข้า container เพราะ --share=
     #          จะ fail ถ้า source dir ไม่มี (statfs error)
-    mkdir -p "$BUILD_ROOT" "$ADEV_DL" \
+    mkdir -p "$BUILD_ROOT" "$BUILD_ROOT/.tmp" "$ADEV_DL" \
              "$HOME/.bin" "$HOME/.local/bin" \
              "$HOME/.cache/corepack" "$HOME/.cache/ccache" \
              "$HOME/.config/grapheneos" \
@@ -288,6 +288,7 @@ EOF
         --share="$HOME/.cache" \
         --share="$HOME/.config" \
         --share="$HOME/.gnupg" \
+        --share="$BUILD_ROOT/.tmp=/tmp" \
         -- bash "$0" "${DEVICES[@]}"
 fi  # end Phase 1
 
@@ -317,10 +318,12 @@ export GIT_CONFIG_GLOBAL="${GOS_GIT_CONFIG_GLOBAL:-$BUILD_ROOT/.gitconfig}"
 export USE_CCACHE=1 CCACHE_DIR="$CCACHE_DIR_VAR"
 
 # ─── TMPDIR — STEP 8 sign_target_files_apks ใช้ /tmp หนัก (zip2zip apex payload) ─
-# ปัญหา: /tmp อยู่ใน root partition (/) — apex container แต่ละตัวขนาด 100MB-1GB
-#        ถูก extract+repack หลาย pass → /tmp เต็ม "no space left on device"
-# วิธีแก้: ย้าย TMPDIR ไปไว้ที่ $BUILD_ROOT/.tmp (home partition พื้นที่เยอะกว่า)
-export TMPDIR="${TMPDIR:-$BUILD_ROOT/.tmp}"
+# ปัญหา: FHS container's /tmp เป็น tmpfs ขนาด ~3.2GB (จาก VM RAM) — apex
+#        container บางตัว >1GB → tmpfs เต็ม "no space left on device"
+# วิธีแก้หลัก: Phase 1 bind-mount $BUILD_ROOT/.tmp → /tmp (disk-backed 144GB)
+# วิธีแก้รอง: TMPDIR ก็ตั้งให้ชัดเจน (belt-and-braces เผื่อ python tempfile ที่
+#            ไม่ขึ้นกับ /tmp การ bind mount)
+export TMPDIR="${TMPDIR:-/tmp}"
 mkdir -p "$TMPDIR"
 
 # ─── locales — สำคัญสำหรับ Soong (Go binary ต้องการ C.UTF-8) ─────────
