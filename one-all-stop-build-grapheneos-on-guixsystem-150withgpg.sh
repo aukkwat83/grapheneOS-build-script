@@ -506,36 +506,33 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
         tail -c 65536 "$_f" 2>/dev/null | LC_ALL=C grep -aqP '\x50\x4b\x05\x06|\x50\x4b\x01\x02'
     }
 
-    # ── Phase A: bin/ binaries → RPATH=$ORIGIN/<rel-to-lib> ──
-    declare -a PATCH_PAIRS=(
-        "prebuilts/build-tools/linux-x86/bin:../lib64"
+    # ── Phase A: bin/ binaries → RPATH=$ORIGIN/../lib:$ORIGIN/../lib64 ──
+    # Auto-discover ทุก prebuilts/**/linux-x86/bin ที่มี ../lib หรือ ../lib64
+    # ─── issue: AOSP prebuilts หลายตัวมี hardcoded RPATH=/lib/x86_64-linux-gnu
+    #            (Ubuntu path) ทำให้หา lib ที่มากับ tool เองไม่เจอใน Guix
+    # ─── ใช้ RPATH รวม $ORIGIN/../lib:$ORIGIN/../lib64 ครอบทั้ง 2 layout
+    declare -a BIN_DIRS=(
+        "$BUILD_ROOT/prebuilts/build-tools/linux-x86/bin"
     )
+    # clang/llvm prebuilts
     for _clangdir in "$BUILD_ROOT"/prebuilts/clang/host/linux-x86/clang-*; do
-        [[ -d "$_clangdir/bin" && -d "$_clangdir/lib" ]] || continue
-        _rel=${_clangdir#$BUILD_ROOT/}
-        PATCH_PAIRS+=("$_rel/bin:../lib")
+        [[ -d "$_clangdir/bin" ]] && BIN_DIRS+=("$_clangdir/bin")
     done
-    for _rustdir in "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/; do
-        [[ -d "${_rustdir}bin" && -d "${_rustdir}lib" ]] || continue
-        _rel=${_rustdir#$BUILD_ROOT/}
-        _rel=${_rel%/}
-        PATCH_PAIRS+=("$_rel/bin:../lib")
+    # rust + go + jdk + clang-tools + cmake + ninja
+    for _toolsdir in \
+        "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/ \
+        "$BUILD_ROOT"/prebuilts/go/linux-x86 \
+        "$BUILD_ROOT"/prebuilts/jdk/jdk*/linux-x86 \
+        "$BUILD_ROOT"/prebuilts/clang-tools/linux-x86 \
+        "$BUILD_ROOT"/prebuilts/cmake/linux-x86 \
+        "$BUILD_ROOT"/prebuilts/ninja/linux-x86 \
+    ; do
+        _d="${_toolsdir%/}"
+        [[ -d "$_d/bin" ]] && BIN_DIRS+=("$_d/bin")
     done
-    for _godir in "$BUILD_ROOT"/prebuilts/go/linux-x86; do
-        [[ -d "$_godir/bin" ]] || continue
-        _rel=${_godir#$BUILD_ROOT/}
-        PATCH_PAIRS+=("$_rel/bin:../lib")
-    done
-    for _jdkdir in "$BUILD_ROOT"/prebuilts/jdk/jdk*/linux-x86; do
-        [[ -d "$_jdkdir/bin" ]] || continue
-        _rel=${_jdkdir#$BUILD_ROOT/}
-        PATCH_PAIRS+=("$_rel/bin:../lib")
-    done
-    for _pair in "${PATCH_PAIRS[@]}"; do
-        _bindir="$BUILD_ROOT/${_pair%:*}"
-        _libRel="${_pair#*:}"
+    for _bindir in "${BIN_DIRS[@]}"; do
         [[ -d "$_bindir" ]] || continue
-        info "patchelf bin $_bindir → \$ORIGIN/$_libRel"
+        info "patchelf bin $_bindir → \$ORIGIN/../lib:\$ORIGIN/../lib64"
         while IFS= read -r -d '' _bin; do
             if head -c 4 "$_bin" 2>/dev/null | grep -q $'^\x7fELF'; then
                 # ข้าม Python zipapp — patchelf จะทำลาย ZIP offsets
@@ -543,7 +540,7 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
                     info "  skip zipapp: $(basename "$_bin")"
                     continue
                 fi
-                if patchelf --set-rpath "\$ORIGIN/$_libRel" "$_bin" 2>/dev/null; then
+                if patchelf --set-rpath '$ORIGIN/../lib:$ORIGIN/../lib64' "$_bin" 2>/dev/null; then
                     _patched=$((_patched + 1))
                 fi
             fi
@@ -553,37 +550,20 @@ if [[ ! -f "$PATCHELF_MARK" ]]; then
     # ── Phase B: lib/*.so transitive deps → RPATH=$ORIGIN (same dir) ──
     # librustc_driver-*.so มี hardcoded RPATH=/lib/x86_64-linux-gnu → หา libLLVM ไม่เจอ
     # AOSP prebuilt ส่วนใหญ่ขนของไว้ใน lib/ เดียวกัน → $ORIGIN พอแล้ว
-    declare -a LIB_DIRS=(
-        "$BUILD_ROOT/prebuilts/build-tools/linux-x86/lib64"
-    )
-    for _clangdir in "$BUILD_ROOT"/prebuilts/clang/host/linux-x86/clang-*; do
-        [[ -d "$_clangdir/lib" ]] && LIB_DIRS+=("$_clangdir/lib")
-        [[ -d "$_clangdir/lib64" ]] && LIB_DIRS+=("$_clangdir/lib64")
+    declare -a LIB_DIRS=()
+    for _bindir in "${BIN_DIRS[@]}"; do
+        _parent="${_bindir%/bin}"
+        [[ -d "$_parent/lib" ]] && LIB_DIRS+=("$_parent/lib")
+        [[ -d "$_parent/lib64" ]] && LIB_DIRS+=("$_parent/lib64")
     done
-    for _rustdir in "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/; do
-        [[ -d "${_rustdir}lib" ]] && LIB_DIRS+=("${_rustdir%/}/lib")
-    done
+    # build-tools ไม่มี bin/lib pair ทั่วไป — เพิ่ม lib64 ตรง ๆ
+    [[ -d "$BUILD_ROOT/prebuilts/build-tools/linux-x86/lib64" ]] \
+        && LIB_DIRS+=("$BUILD_ROOT/prebuilts/build-tools/linux-x86/lib64")
     # RPATH = $ORIGIN (same dir) + ../lib + ../lib64 — handle lib/lib64 split
     # (e.g. rust: libc++.so อยู่ lib64/, librustc_driver.so อยู่ lib/)
     for _libdir in "${LIB_DIRS[@]}"; do
         [[ -d "$_libdir" ]] || continue
         info "patchelf lib $_libdir → \$ORIGIN:\$ORIGIN/../lib:\$ORIGIN/../lib64"
-        while IFS= read -r -d '' _so; do
-            if head -c 4 "$_so" 2>/dev/null | grep -q $'^\x7fELF'; then
-                if patchelf --set-rpath '$ORIGIN:$ORIGIN/../lib:$ORIGIN/../lib64' "$_so" 2>/dev/null; then
-                    _patched=$((_patched + 1))
-                fi
-            fi
-        done < <(find "$_libdir" -maxdepth 1 -name '*.so*' -type f -print0)
-    done
-    # rust ยังมี lib64/ ที่ต้อง patchelf (libc++.so)
-    declare -a LIB64_DIRS=()
-    for _rustdir in "$BUILD_ROOT"/prebuilts/rust/linux-x86/*/; do
-        [[ -d "${_rustdir}lib64" ]] && LIB64_DIRS+=("${_rustdir%/}/lib64")
-    done
-    for _libdir in "${LIB64_DIRS[@]}"; do
-        [[ -d "$_libdir" ]] || continue
-        info "patchelf lib64 $_libdir → \$ORIGIN:\$ORIGIN/../lib:\$ORIGIN/../lib64"
         while IFS= read -r -d '' _so; do
             if head -c 4 "$_so" 2>/dev/null | grep -q $'^\x7fELF'; then
                 if patchelf --set-rpath '$ORIGIN:$ORIGIN/../lib:$ORIGIN/../lib64' "$_so" 2>/dev/null; then
