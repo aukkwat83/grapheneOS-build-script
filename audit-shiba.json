@@ -1,0 +1,1102 @@
+{
+  "name": "GrapheneOS Supply Chain Audit (shiba, tag 2026042100)",
+  "kind": "root",
+  "source": "/home/guix/grapheneos",
+  "hash_value": null,
+  "hash_algo": "sha256",
+  "expected": null,
+  "verified": null,
+  "notes": [
+    "generated: 2026-05-12T16:48:23+00:00"
+  ],
+  "children": [
+    {
+      "name": "Guix packages (guix-manifest.scm)",
+      "kind": "group",
+      "source": "/home/guix/grapheneos/guix-manifest.scm",
+      "hash_value": null,
+      "hash_algo": "sha256",
+      "expected": null,
+      "verified": null,
+      "notes": [
+        "total packages: 49",
+        "source: Guix official channel (gnu/packages/*.scm)",
+        "verification: content-addressed store + signed substitutes"
+      ],
+      "children": [
+        {
+          "name": "bash",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:bash",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/bash.scm:161:4",
+            "version: 5.2.37"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "bc",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:bc",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/algebra.scm:734:2",
+            "version: 1.08.2"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "binutils",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:binutils",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:702:2",
+            "version: 2.44"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "bison",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:bison",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/bison.scm:35:2",
+            "version: 3.8.2"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "ccache",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:ccache",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/ccache.scm:36:2",
+            "version: 4.8.3"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "coreutils",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:coreutils",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:471:2",
+            "version: 9.1"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "curl",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:curl",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/curl.scm:69:2",
+            "version: 8.6.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "diffutils",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:diffutils",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:363:2",
+            "version: 3.12"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "findutils",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:findutils",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:423:2",
+            "version: 4.10.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "flex",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:flex",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/flex.scm:35:2",
+            "version: 2.6.4"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "fontconfig",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:fontconfig",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/fontutils.scm:1485:2",
+            "version: 2.14.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "freetype",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:freetype",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/fontutils.scm:103:2",
+            "version: 2.13.3"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "gawk",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:gawk",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/gawk.scm:41:2",
+            "version: 5.3.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "gcc-toolchain@14",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:gcc-toolchain",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/commencement.scm:3643:4",
+            "version: 11.5.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "git",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:git",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/version-control.scm:596:2",
+            "version: 2.52.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "git-lfs",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:git-lfs",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/version-control.scm:4100:2",
+            "version: 3.7.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "glibc-locales",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:glibc-locales",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:1380:2",
+            "version: 2.41"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "gnupg",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:gnupg",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/gnupg.scm:319:2",
+            "version: 2.4.7"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "gperf",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:gperf",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/gperf.scm:26:2",
+            "version: 3.3"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "grep",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:grep",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:120:2",
+            "version: 3.11"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "gzip",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:gzip",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/compression.scm:272:2",
+            "version: 1.14"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "imagemagick",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:imagemagick",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/imagemagick.scm:139:2",
+            "version: 6.9.13-5"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "inetutils",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:inetutils",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/admin.scm:1291:2",
+            "version: 2.5"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "jq",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:jq",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/web.scm:5764:2",
+            "version: 1.8.1"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "libelf",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:libelf",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/elf.scm:263:2",
+            "version: 0.8.13"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "libxml2",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:libxml2",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/xml.scm:194:2",
+            "version: 2.14.6"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "libxslt",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:libxslt",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/xml.scm:343:2",
+            "version: 1.1.43"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "lz4",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:lz4",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/compression.scm:1041:2",
+            "version: 1.10.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "lzop",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:lzop",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/compression.scm:698:2",
+            "version: 1.04"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "make",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:make",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:636:2",
+            "version: 4.4.1"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "node",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:node",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/node.scm:748:2",
+            "version: 22.14.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "nss-certs",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:nss-certs",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/nss.scm:318:2",
+            "version: 3.101.4"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "openjdk@21:jdk",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:openjdk",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/java.scm:1775:2",
+            "version: 17.0.10"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "openssl",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:openssl",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/tls.scm:449:2",
+            "version: 1.1.1u"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "patchelf",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:patchelf",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/elf.scm:328:2",
+            "version: 0.18.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "pngcrush",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:pngcrush",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/image.scm:387:2",
+            "version: 1.8.13"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "procps",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:procps",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/linux.scm:3543:2",
+            "version: 4.0.3"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "python",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:python",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/python.scm:466:2",
+            "version: 3.10.19"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "python-wrapper",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:python-wrapper",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/python.scm:1523:2",
+            "version: 3.11.14"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "rsync",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:rsync",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/rsync.scm:41:2",
+            "version: 3.4.1"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "sed",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:sed",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:196:2",
+            "version: 4.9"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "squashfs-tools",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:squashfs-tools",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/compression.scm:1091:2",
+            "version: 4.6.1"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "tar",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:tar",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:235:2",
+            "version: 1.35"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "unzip",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:unzip",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/compression.scm:1985:2",
+            "version: 6.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "util-linux",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:util-linux",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/linux.scm:3188:2",
+            "version: 2.40.4"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "which",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:which",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/base.scm:1540:2",
+            "version: 2.21"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "xz",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:xz",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/compression.scm:552:2",
+            "version: 5.4.5"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "zip",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:zip",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/compression.scm:1941:2",
+            "version: 3.0"
+          ],
+          "children": [],
+          "badge": "·"
+        },
+        {
+          "name": "zlib",
+          "kind": "guix-pkg",
+          "source": "guix-pkg:zlib",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "recipe: gnu/packages/compression.scm:113:2",
+            "version: 1.3.1"
+          ],
+          "children": [],
+          "badge": "·"
+        }
+      ],
+      "badge": "·"
+    },
+    {
+      "name": "repo (Google Git tool)",
+      "kind": "binary",
+      "source": "https://storage.googleapis.com/git-repo-downloads/repo",
+      "hash_value": "11bc6893e9e0c0940fc1cc95b75c645f9a29fca879d89ceaa898a4d761a2add7",
+      "hash_algo": "sha256",
+      "expected": null,
+      "verified": false,
+      "notes": [
+        "local: /home/guix/.bin/repo",
+        "hash ไม่ตรง known-good — อาจเป็น version ใหม่; อัพเดท REPO_BINARY_KNOWN_HASHES"
+      ],
+      "children": [],
+      "badge": "✗"
+    },
+    {
+      "name": "GrapheneOS source tag 2026042100",
+      "kind": "git-tag",
+      "source": "https://github.com/GrapheneOS/platform_manifest.git",
+      "hash_value": null,
+      "hash_algo": "sha256",
+      "expected": null,
+      "verified": false,
+      "notes": [
+        "verify-tag fail: [Errno 2] No such file or directory: 'git'"
+      ],
+      "children": [],
+      "badge": "✗"
+    },
+    {
+      "name": "Vendor blobs (adevtool → dl.google.com)",
+      "kind": "group",
+      "source": "https://dl.google.com/dl/android/aosp/",
+      "hash_value": null,
+      "hash_algo": "sha256",
+      "expected": null,
+      "verified": null,
+      "notes": [],
+      "children": [
+        {
+          "name": "shiba-bp4a.260205.001-factory-35b8480d.zip",
+          "kind": "vendor-blob",
+          "source": "dl.google.com/dl/android/aosp/shiba/",
+          "hash_value": "35b8480d70480bbef52e99837f18beb539a8894807d1b02696f206d035c70282",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "size: 3,734,882,904 bytes"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "shiba-cp1a.260405.005-factory-f88d5199.zip",
+          "kind": "vendor-blob",
+          "source": "dl.google.com/dl/android/aosp/shiba/",
+          "hash_value": "f88d5199ff51e3ac4e502a08d0a6f82a32b4ba68009982c3a6e4d5b69ce1f950",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "size: 3,781,948,650 bytes"
+          ],
+          "children": [],
+          "badge": "?"
+        }
+      ],
+      "badge": "·"
+    },
+    {
+      "name": "adevtool yarn.lock",
+      "kind": "group",
+      "source": "registry.yarnpkg.com",
+      "hash_value": "d33f86ba01f3fd5b14087d59f079f1ac2122652d63059f399f390e67c8b7fa7d",
+      "hash_algo": "sha256 (yarn.lock content)",
+      "expected": null,
+      "verified": true,
+      "notes": [
+        "yarn.lock path: vendor/adevtool/yarn.lock",
+        "package entries: 619",
+        "with integrity hash: 634"
+      ],
+      "children": [],
+      "badge": "✓"
+    },
+    {
+      "name": "Signing keys (shiba)",
+      "kind": "group",
+      "source": "locally generated via patch-grapheneos.sh",
+      "hash_value": null,
+      "hash_algo": "sha256",
+      "expected": null,
+      "verified": null,
+      "notes": [],
+      "children": [
+        {
+          "name": "bluetooth.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/bluetooth.x509.pem",
+          "hash_value": "82cccd8eca153f1849d8f3ac5fdffd53f8af72dcbb32f59db1335a7d1353843a",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "gmscompat_lib.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/gmscompat_lib.x509.pem",
+          "hash_value": "4cfe863c456005c8a7c01b8ab376bf58eb66cbcaba40f72dcb3009ea378f84a5",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "media.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/media.x509.pem",
+          "hash_value": "6f73e14abc358865f849d1aace01ebabf2f97c9a998eb354f4edc6504f58335c",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "networkstack.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/networkstack.x509.pem",
+          "hash_value": "120b95e7af05ac7c49e72d1fe81a12bb382d2d955148e285723be01815799737",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "nfc.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/nfc.x509.pem",
+          "hash_value": "fba825229107a4d067404e6411fb18b1c6df70b03d2541dfc09a45b28570d23b",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "platform.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/platform.x509.pem",
+          "hash_value": "14163c76e79f56fc8bb1714f4d9c7ac58c324aee9276ef3a9538cbc8ced58624",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "releasekey.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/releasekey.x509.pem",
+          "hash_value": "f672bcb9a590a102b2757f19ff362141e64e01f8053229db05fc9fc291a8a25a",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "sdk_sandbox.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/sdk_sandbox.x509.pem",
+          "hash_value": "0dbadb3466a0979fa7eeec9bf5c712ff67ca9a8c42774a9373fdf2ab11292bd3",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "shared.x509.pem",
+          "kind": "x509-cert",
+          "source": "keys/shiba/shared.x509.pem",
+          "hash_value": "3c9d2e192863f44417b354c69bf3e7bea7f05924b9f045dce864944685cb44be",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "(openssl ไม่พบ — ใช้ sha256 ของไฟล์ pem แทน fingerprint)"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "avb_pkmd.bin",
+          "kind": "bin-key",
+          "source": "keys/shiba/avb_pkmd.bin",
+          "hash_value": "59e2c44d14fb3c871ea54330937e2ce70e59b7d32b0ff556ab64aee741080bbc",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "size: 1,032 bytes"
+          ],
+          "children": [],
+          "badge": "?"
+        },
+        {
+          "name": "avb.pem",
+          "kind": "bin-key",
+          "source": "keys/shiba/avb.pem",
+          "hash_value": "efa854be5180581ecf1acca24981a809e35f84a98066545434203058057a9172",
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [
+            "size: 3,268 bytes"
+          ],
+          "children": [],
+          "badge": "?"
+        }
+      ],
+      "badge": "·"
+    },
+    {
+      "name": "Build artifacts (shiba)",
+      "kind": "group",
+      "source": "/home/guix/grapheneos/releases/",
+      "hash_value": null,
+      "hash_algo": "sha256",
+      "expected": null,
+      "verified": null,
+      "notes": [],
+      "children": [
+        {
+          "name": "build 2026051201",
+          "kind": "group",
+          "source": "/home/guix/grapheneos/releases/2026051201/release-shiba-2026051201",
+          "hash_value": null,
+          "hash_algo": "sha256",
+          "expected": null,
+          "verified": null,
+          "notes": [],
+          "children": [
+            {
+              "name": "shiba-factory-2026051201.zip",
+              "kind": "release-zip",
+              "source": "releases/2026051201/release-shiba-2026051201/shiba-factory-2026051201.zip",
+              "hash_value": "9af848a68b8b2ccaf44ceb355116db68d322cc41ef8d6d10a56ca8c4c8159671",
+              "hash_algo": "sha256",
+              "expected": null,
+              "verified": null,
+              "notes": [
+                "size: 1,693,979,392 bytes"
+              ],
+              "children": [],
+              "badge": "?"
+            },
+            {
+              "name": "shiba-img-2026051201.zip",
+              "kind": "release-zip",
+              "source": "releases/2026051201/release-shiba-2026051201/shiba-img-2026051201.zip",
+              "hash_value": "eb435f7f08ac4cffc02bf383439ef9d5420aff6c256a919042aed038ba3329e7",
+              "hash_algo": "sha256",
+              "expected": null,
+              "verified": null,
+              "notes": [
+                "size: 1,640,575,906 bytes"
+              ],
+              "children": [],
+              "badge": "?"
+            },
+            {
+              "name": "shiba-install-2026051201.zip",
+              "kind": "release-zip",
+              "source": "releases/2026051201/release-shiba-2026051201/shiba-install-2026051201.zip",
+              "hash_value": "2a46ed8d0c6cb4bc94e59a0a85c97d03cb24a4b3c2c160827f0d7cce22fea68b",
+              "hash_algo": "sha256",
+              "expected": null,
+              "verified": null,
+              "notes": [
+                "size: 1,639,607,667 bytes"
+              ],
+              "children": [],
+              "badge": "?"
+            },
+            {
+              "name": "shiba-ota_update-2026051201.zip",
+              "kind": "release-zip",
+              "source": "releases/2026051201/release-shiba-2026051201/shiba-ota_update-2026051201.zip",
+              "hash_value": "ebf728d2487725fecd5f4b085745d46aaebfb32bd2b550d33335f6770ea5d6a1",
+              "hash_algo": "sha256",
+              "expected": null,
+              "verified": null,
+              "notes": [
+                "size: 1,266,711,619 bytes"
+              ],
+              "children": [],
+              "badge": "?"
+            }
+          ],
+          "badge": "·"
+        }
+      ],
+      "badge": "·"
+    }
+  ],
+  "badge": "·"
+}
