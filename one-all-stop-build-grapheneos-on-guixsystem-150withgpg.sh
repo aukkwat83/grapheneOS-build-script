@@ -747,11 +747,34 @@ else
                 --output "$GPG_BUNDLE" \
                 "$BUNDLE_TAR"
         else
-            log "encrypt → $GPG_BUNDLE  [$GPG_MODE, จะ prompt passphrase]"
+            # ─── No GPG_PASSPHRASE → prompt ผ่าน read -s แล้วใช้ loopback ───
+            # ─── ทำไมไม่เรียก gpg interactive ตรง ๆ? FHS container ไม่มี
+            #     pinentry binary, gpg-agent หา pinentry ไม่เจอ → fail
+            # ─── pinentry-mode loopback + ส่ง passphrase ผ่าน stdin → ไม่ต้อง
+            #     อาศัย pinentry เลย ทำงานได้ทุก env ที่มี gpg
+            if [[ ! -t 0 ]]; then
+                die "ไม่ใช่ interactive TTY และไม่ได้ตั้ง GPG_PASSPHRASE/GPG_RECIPIENT
+     วิธีรัน:  ssh -t ... bash script.sh        (interactive prompt)
+     หรือ set env: GPG_PASSPHRASE='...' bash script.sh
+     หรือ skip:   SKIP_GPG=1 bash script.sh"
+            fi
             warn "เก็บ passphrase ไว้ให้ดี — ถ้าลืมไฟล์นี้จะถอดไม่ได้"
-            gpg --symmetric --cipher-algo AES256 \
+            while :; do
+                printf "ตั้ง GPG passphrase: " >&2
+                read -rs _gpg_pw; echo >&2
+                [[ -n "$_gpg_pw" ]] || { warn "ว่างไม่ได้"; continue; }
+                printf "ยืนยัน passphrase อีกครั้ง: " >&2
+                read -rs _gpg_pw2; echo >&2
+                [[ "$_gpg_pw" == "$_gpg_pw2" ]] && break
+                warn "ไม่ตรงกัน ลองใหม่"
+            done
+            log "encrypt → $GPG_BUNDLE  [$GPG_MODE]"
+            gpg --batch --yes --pinentry-mode loopback \
+                --passphrase-fd 0 \
+                --symmetric --cipher-algo AES256 \
                 --output "$GPG_BUNDLE" \
-                "$BUNDLE_TAR"
+                "$BUNDLE_TAR" <<<"$_gpg_pw"
+            unset _gpg_pw _gpg_pw2
         fi
     fi
 

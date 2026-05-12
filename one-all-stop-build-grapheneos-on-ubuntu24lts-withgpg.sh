@@ -540,11 +540,30 @@ else
                 --output "$GPG_BUNDLE" \
                 "$BUNDLE_TAR"
         else
-            log "encrypt → $GPG_BUNDLE  [$GPG_MODE, จะ prompt passphrase]"
+            # interactive: prompt + loopback (ใช้ได้ทุก env, ไม่ขึ้นกับ pinentry agent)
+            if [[ ! -t 0 ]]; then
+                die "ไม่ใช่ interactive TTY และไม่ได้ตั้ง GPG_PASSPHRASE/GPG_RECIPIENT
+     วิธีรัน:  ssh -t ... bash script.sh        (interactive prompt)
+     หรือ set env: GPG_PASSPHRASE='...' bash script.sh
+     หรือ skip:   SKIP_GPG=1 bash script.sh"
+            fi
             warn "เก็บ passphrase ไว้ให้ดี — ถ้าลืมไฟล์นี้จะถอดไม่ได้"
-            gpg --symmetric --cipher-algo AES256 \
+            while :; do
+                printf "ตั้ง GPG passphrase: " >&2
+                read -rs _gpg_pw; echo >&2
+                [[ -n "$_gpg_pw" ]] || { warn "ว่างไม่ได้"; continue; }
+                printf "ยืนยัน passphrase อีกครั้ง: " >&2
+                read -rs _gpg_pw2; echo >&2
+                [[ "$_gpg_pw" == "$_gpg_pw2" ]] && break
+                warn "ไม่ตรงกัน ลองใหม่"
+            done
+            log "encrypt → $GPG_BUNDLE  [$GPG_MODE]"
+            gpg --batch --yes --pinentry-mode loopback \
+                --passphrase-fd 0 \
+                --symmetric --cipher-algo AES256 \
                 --output "$GPG_BUNDLE" \
-                "$BUNDLE_TAR"
+                "$BUNDLE_TAR" <<<"$_gpg_pw"
+            unset _gpg_pw _gpg_pw2
         fi
     fi
 
