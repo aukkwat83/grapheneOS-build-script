@@ -39,10 +39,10 @@
 #   SKIP_SYNC=1                ข้าม repo init/sync (ถ้าทำไว้แล้ว)
 #   CLEAN_OUT_AFTER=1          ลบ out/target/product/<DEV>/ หลัง build
 #   LOG_FILE=$HOME/gos-build.log
-#   GPG_RECIPIENT=<key>        asymmetric encrypt (แนะนำ)
-#   GPG_PASSPHRASE=<pw>        symmetric AES256
-#   SKIP_GPG=1                 ข้าม pack/encrypt
 #   FORCE_REBUILD=1            build ใหม่แม้พบ artifact เดิม
+#
+# หมายเหตุ: GPG encrypt → ใช้ script แยก pack-gpg-guix.sh หลัง build เสร็จ
+#           BUILD_NUMBER=YYYYMMDDxx bash pack-gpg-guix.sh shiba [husky ...]
 # =====================================================================
 
 set -o errexit -o nounset -o pipefail
@@ -211,7 +211,7 @@ EOF
             done
             if [[ "$_consistent" == "1" && "$_keys_ok" == "1" ]]; then
                 log "พบ build $_bn0 พร้อม flash ครบทุก device + keys ครบ"
-                if ask_yes "ข้าม build แล้วไป pack GPG เลย? (กด N เพื่อ build ใหม่)"; then
+                if ask_yes "ข้าม build แล้วใช้ build เดิม? (กด N เพื่อ build ใหม่)"; then
                     SKIP_BUILD=1
                     export GOS_SKIP_BUILD=1 GOS_BUILD_NUMBER="$_bn0"
                     export GOS_OUT_PATHS="$(IFS=':'; echo "${_found_paths[*]}")"
@@ -277,10 +277,10 @@ EOF
     #   --share=$HOME/.local  → corepack yarn shim
     #   --share=$HOME/.cache  → corepack cache + ccache (ถ้าไม่ใช้ in-tree)
     #   --share=$HOME/.config → allowed_signers (GrapheneOS pub key list)
-    #   --share=$HOME/.gnupg  → keyring สำหรับ git verify-tag + GPG pack
+    #   --share=$HOME/.gnupg  → keyring สำหรับ git verify-tag
     exec guix shell -m "$MANIFEST_SRC" \
         --container --emulate-fhs --network \
-        --preserve='^GOS_|^HOME$|^USER$|^TERM$|^LOG_FILE$|^BUILD_ROOT$|^ADEV_DL$|^GOS_TAG$|^GIT_NAME$|^GIT_EMAIL$|^SKIP_SYNC$|^CCACHE_SIZE$|^CCACHE_DIR_VAR$|^FORCE_REBUILD$|^SKIP_GPG$|^GPG_RECIPIENT$|^GPG_PASSPHRASE$|^GPG_OUT_DIR$|^ASSUME_YES$|^LANG$' \
+        --preserve='^GOS_|^HOME$|^USER$|^TERM$|^LOG_FILE$|^BUILD_ROOT$|^ADEV_DL$|^GOS_TAG$|^GIT_NAME$|^GIT_EMAIL$|^SKIP_SYNC$|^CCACHE_SIZE$|^CCACHE_DIR_VAR$|^FORCE_REBUILD$|^ASSUME_YES$|^LANG$' \
         --share="$BUILD_ROOT" \
         --share="$ADEV_DL" \
         --share="$HOME/.bin" \
@@ -693,131 +693,11 @@ done
 
 fi  # end if SKIP_BUILD != 1
 
-# ─── STEP 9: pack flashable + keys → GPG ───
-SKIP_GPG="${SKIP_GPG:-0}"
-GPG_OUT_DIR="${GPG_OUT_DIR:-$HOME}"
-GPG_BUNDLE=""
-GPG_MODE=""
-if [[ "$SKIP_GPG" == "1" ]]; then
-    info "SKIP_GPG=1 — ข้าม pack/encrypt"
-else
-    step "STEP 9/9 — pack flashable + keys → tar | gpg"
-    command -v gpg >/dev/null || die "ไม่พบ gpg"
-    mkdir -p "$GPG_OUT_DIR"
-
-    DEVICES_ARR=( ${GOS_DEVICES:-${DEVICES[*]}} )
-    BUNDLE_BASENAME="grapheneos-${BUILD_NUMBER}-$(IFS=_; echo "${DEVICES_ARR[*]}")"
-    BUNDLE_TAR="$GPG_OUT_DIR/${BUNDLE_BASENAME}.tar"
-    GPG_BUNDLE="${BUNDLE_TAR}.gpg"
-    README_FILE="$GPG_OUT_DIR/${BUNDLE_BASENAME}.README.txt"
-
-    TAR_INCLUDES=()
-    for DEVICE in "${DEVICES_ARR[@]}"; do
-        _rel="releases/$BUILD_NUMBER/release-${DEVICE}-${BUILD_NUMBER}"
-        for _z in factory install ota_update img; do
-            _f="${_rel}/${DEVICE}-${_z}-${BUILD_NUMBER}.zip"
-            if [[ -f "$BUILD_ROOT/$_f" ]]; then
-                TAR_INCLUDES+=("$_f")
-            else
-                warn "ไม่พบ ${_f} — ข้าม"
-            fi
-        done
-        TAR_INCLUDES+=("keys/$DEVICE")
-    done
-
-    log "สร้าง tar: $BUNDLE_TAR"
-    tar -C "$BUILD_ROOT" -cf "$BUNDLE_TAR" "${TAR_INCLUDES[@]}"
-    BUNDLE_TAR_SIZE=$(du -h "$BUNDLE_TAR" | awk '{print $1}')
-    info "tar size: $BUNDLE_TAR_SIZE"
-
-    if [[ -n "${GPG_RECIPIENT:-}" ]]; then
-        GPG_MODE="asymmetric (recipient: $GPG_RECIPIENT)"
-        log "encrypt → $GPG_BUNDLE  [$GPG_MODE]"
-        gpg --batch --yes --trust-model always \
-            --output "$GPG_BUNDLE" \
-            --encrypt --recipient "$GPG_RECIPIENT" \
-            "$BUNDLE_TAR"
-    else
-        GPG_MODE="symmetric AES256"
-        if [[ -n "${GPG_PASSPHRASE:-}" ]]; then
-            log "encrypt → $GPG_BUNDLE  [$GPG_MODE]"
-            gpg --batch --yes --pinentry-mode loopback \
-                --passphrase "$GPG_PASSPHRASE" \
-                --symmetric --cipher-algo AES256 \
-                --output "$GPG_BUNDLE" \
-                "$BUNDLE_TAR"
-        else
-            # ─── No GPG_PASSPHRASE → prompt ผ่าน read -s แล้วใช้ loopback ───
-            # ─── ทำไมไม่เรียก gpg interactive ตรง ๆ? FHS container ไม่มี
-            #     pinentry binary, gpg-agent หา pinentry ไม่เจอ → fail
-            # ─── pinentry-mode loopback + ส่ง passphrase ผ่าน stdin → ไม่ต้อง
-            #     อาศัย pinentry เลย ทำงานได้ทุก env ที่มี gpg
-            if [[ ! -t 0 ]]; then
-                die "ไม่ใช่ interactive TTY และไม่ได้ตั้ง GPG_PASSPHRASE/GPG_RECIPIENT
-     วิธีรัน:  ssh -t ... bash script.sh        (interactive prompt)
-     หรือ set env: GPG_PASSPHRASE='...' bash script.sh
-     หรือ skip:   SKIP_GPG=1 bash script.sh"
-            fi
-            warn "เก็บ passphrase ไว้ให้ดี — ถ้าลืมไฟล์นี้จะถอดไม่ได้"
-            while :; do
-                printf "ตั้ง GPG passphrase: " >&2
-                read -rs _gpg_pw; echo >&2
-                [[ -n "$_gpg_pw" ]] || { warn "ว่างไม่ได้"; continue; }
-                printf "ยืนยัน passphrase อีกครั้ง: " >&2
-                read -rs _gpg_pw2; echo >&2
-                [[ "$_gpg_pw" == "$_gpg_pw2" ]] && break
-                warn "ไม่ตรงกัน ลองใหม่"
-            done
-            log "encrypt → $GPG_BUNDLE  [$GPG_MODE]"
-            gpg --batch --yes --pinentry-mode loopback \
-                --passphrase-fd 0 \
-                --symmetric --cipher-algo AES256 \
-                --output "$GPG_BUNDLE" \
-                "$BUNDLE_TAR" <<<"$_gpg_pw"
-            unset _gpg_pw _gpg_pw2
-        fi
-    fi
-
-    shred -u "$BUNDLE_TAR" 2>/dev/null || rm -f "$BUNDLE_TAR"
-    GPG_SIZE=$(du -h "$GPG_BUNDLE" | awk '{print $1}')
-    GPG_SHA=$(sha256sum "$GPG_BUNDLE" | awk '{print $1}')
-
-    cat > "$README_FILE" <<README
-GrapheneOS Flashable Bundle (Built on Guix System via FHS container)
-====================================================================
-Build number : $BUILD_NUMBER
-Devices      : ${DEVICES_ARR[*]}
-Encrypt mode : $GPG_MODE
-Bundle file  : $GPG_BUNDLE
-Bundle size  : $GPG_SIZE
-SHA-256      : $GPG_SHA
-Created at   : $(date -Iseconds 2>/dev/null || date)
-Source host  : $(hostname -f 2>/dev/null || hostname) (Guix System)
-
-วิธีย้ายไปเครื่องอื่น (host ที่ต่อ Pixel ผ่าน USB)
---------------------------------------------------
-1) คัดลอก 2 ไฟล์: $(basename "$GPG_BUNDLE") + $(basename "$README_FILE")
-2) ตรวจ SHA-256:  sha256sum $(basename "$GPG_BUNDLE")   # ต้องตรงกับ $GPG_SHA
-3) ถอดรหัส + extract:
-     gpg --decrypt $(basename "$GPG_BUNDLE") | tar -xvf -
-
-4) Flash + lock bootloader (Pixel):
-     # เปิด OEM unlocking ใน Developer options ก่อน
-     cd releases/$BUILD_NUMBER/release-<DEVICE>-${BUILD_NUMBER}/
-     unzip -o <DEVICE>-factory-${BUILD_NUMBER}.zip
-     adb reboot bootloader
-     fastboot flashing unlock                            # ครั้งแรก, จะ wipe
-     cd <DEVICE>-factory-${BUILD_NUMBER}/
-     ./flash-all.sh                                      # Linux/macOS
-     fastboot flash avb_custom_key ../../../../keys/<DEVICE>/avb_pkmd.bin
-     fastboot flashing lock                              # wipe อีกครั้ง
-     fastboot reboot
-
-หมายเหตุ: keys/<DEVICE>/*.pk8 + avb.pem เป็น private keys ห้าม leak
-README
-
-    info "README: $README_FILE"
-fi
+# ─── STEP 9: pack flashable + keys → GPG (แยกเป็น pack-gpg-guix.sh) ─
+# Build จบที่ STEP 8 — encrypt + ส่งต่อ ใช้ pack-gpg-guix.sh แยก เพื่อให้
+# resume/re-encrypt ได้โดยไม่ต้อง trigger Phase 1 ของ main script ซ้ำ
+info "Build artifacts เสร็จ — ขั้น encrypt (optional) ใช้:"
+info "    BUILD_NUMBER=$BUILD_NUMBER bash $SCRIPT_DIR/pack-gpg-guix.sh ${DEVICES[*]}"
 
 # ─── รายงานผลลัพธ์ ───
 step "เสร็จสิ้น — สรุปผลลัพธ์"
@@ -838,12 +718,6 @@ for p in "${OUT_PATHS[@]}"; do
     echo "  - $p"
 done
 echo
-if [[ -n "$GPG_BUNDLE" && -f "$GPG_BUNDLE" ]]; then
-    echo "==================== GPG BUNDLE ===================="
-    echo "Bundle    : $GPG_BUNDLE"
-    echo "README    : $README_FILE"
-    echo "Size      : $(du -h "$GPG_BUNDLE" | awk '{print $1}')"
-    echo "SHA-256   : $(sha256sum "$GPG_BUNDLE" | awk '{print $1}')"
-    echo "===================================================="
-fi
+echo "GPG encrypt (optional, ขั้นแยก):"
+echo "  BUILD_NUMBER=$BUILD_NUMBER bash $SCRIPT_DIR/pack-gpg-guix.sh ${DEVICES_DISP[*]}"
 echo "========================================================"
