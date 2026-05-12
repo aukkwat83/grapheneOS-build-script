@@ -249,6 +249,12 @@ EOF
     export GOS_JOBS="$JOBS"
     export GOS_CLEAN_OUT_AFTER="$CLEAN_OUT_AFTER"
     export GOS_DEVICES="${DEVICES[*]}"
+    # SKIP_TO_STEP_8: รัน sign + factory/OTA จาก target_files.zip เดิม (ไม่ต้อง rebuild)
+    # ใช้กรณี STEP 8 ล้มกลางคัน (เช่น /tmp เต็ม) แล้วอยาก resume เฉพาะ sign
+    # ต้อง set GOS_BUILD_NUMBER ด้วยถ้า build เดิมไม่ใช่ของวันนี้
+    export GOS_SKIP_TO_STEP_8="${SKIP_TO_STEP_8:-0}"
+    [[ -n "${GOS_BUILD_NUMBER:-}" ]] || GOS_BUILD_NUMBER="${BUILD_NUMBER:-}"
+    [[ -n "$GOS_BUILD_NUMBER" ]] && export GOS_BUILD_NUMBER
 
     # คัดลอก .gitconfig ของ host (ถ้ามี) → $BUILD_ROOT/.gitconfig
     # เพื่อให้ git inside container เห็น identity เดิม และ "เขียนได้" (ไม่ติด bind-mount file)
@@ -292,6 +298,7 @@ info "(inside FHS container) PID=$$ HOME=$HOME PATH=$PATH"
 JOBS="${GOS_JOBS:-4}"
 CLEAN_OUT_AFTER="${GOS_CLEAN_OUT_AFTER:-0}"
 SKIP_BUILD="${GOS_SKIP_BUILD:-0}"
+SKIP_TO_STEP_8="${GOS_SKIP_TO_STEP_8:-${SKIP_TO_STEP_8:-0}}"
 BUILD_NUMBER="${GOS_BUILD_NUMBER:-}"
 declare -a OUT_PATHS=()
 if [[ -n "${GOS_OUT_PATHS:-}" ]]; then
@@ -354,6 +361,8 @@ export CURL_CA_BUNDLE="${CURL_CA_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}"
 trap '_rc=$?; printf "\n%s[exit]%s rc=%d  started=%s ended=%s\n" "$([[ $_rc -eq 0 ]] && echo "$c_grn" || echo "$c_red")" "$c_off" "$_rc" "$_started_at" "$(date -Iseconds 2>/dev/null || date)"; exit $_rc' EXIT
 
 if [[ "$SKIP_BUILD" != "1" ]]; then
+
+if [[ "$SKIP_TO_STEP_8" != "1" ]]; then
 
 # ─── STEP 2: ติดตั้ง repo + git identity + allowed_signers ───
 step "STEP 2/9 — ติดตั้ง repo + ตั้ง git identity + allowed_signers"
@@ -606,11 +615,17 @@ command -v yarn >/dev/null 2>&1 || YARN_CMD="npx --yes yarn@1.22.22"
     m -j"$JOBS" aapt2
 )
 
+fi  # end if SKIP_TO_STEP_8 != 1  — STEPS 2-5 ข้าม
+
 # ─── STEP 6/7/8: per-device — vendor blobs + build + sign ───
-BUILD_NUMBER="$(date +%Y%m%d)01"
+# SKIP_TO_STEP_8=1 → ใช้ BUILD_NUMBER จาก env (artifact เดิม) ไม่งั้น gen ใหม่
+BUILD_NUMBER="${GOS_BUILD_NUMBER:-$(date +%Y%m%d)01}"
 mkdir -p "$ADEV_DL"
 
 for DEVICE in "${DEVICES[@]}"; do
+    if [[ "$SKIP_TO_STEP_8" == "1" ]]; then
+        info "SKIP_TO_STEP_8=1 → ข้าม STEP 6/7 [$DEVICE] (ใช้ artifact เดิม build $BUILD_NUMBER)"
+    else
     step "STEP 6 [$DEVICE] — extract vendor blobs (adevtool generate-all)"
     (
         set +u
@@ -640,16 +655,27 @@ for DEVICE in "${DEVICES[@]}"; do
         lunch "${DEVICE}-cur-user"
         m -j"$JOBS" target-files-package otatools-package
     ) || die "STEP 7 [$DEVICE] — m build ล้มเหลว"
+    fi  # end if SKIP_TO_STEP_8 != 1  — STEP 6/7 ข้าม
 
     step "STEP 8 [$DEVICE] — sign + factory/OTA zip"
     REL_DIR="$BUILD_ROOT/releases/$BUILD_NUMBER"
     mkdir -p "$REL_DIR"
+    if [[ "$SKIP_TO_STEP_8" == "1" ]]; then
+        # ใช้ zip ที่ copy ไว้แล้วใน releases/$BUILD_NUMBER/
+        [[ -f "$REL_DIR/${DEVICE}-target_files.zip" ]] \
+            || die "SKIP_TO_STEP_8=1 แต่ไม่พบ $REL_DIR/${DEVICE}-target_files.zip"
+        [[ -f "$REL_DIR/${DEVICE}-otatools.zip" ]] \
+            || die "SKIP_TO_STEP_8=1 แต่ไม่พบ $REL_DIR/${DEVICE}-otatools.zip"
+        # ล้าง release dir เดิมที่ sign ไม่จบ (ถ้ามี) — generate-release.sh จะสร้างใหม่
+        rm -rf "$REL_DIR/release-${DEVICE}-${BUILD_NUMBER}" 2>/dev/null || true
+    else
     TF_SRC=$(ls "$BUILD_ROOT/out/target/product/$DEVICE/obj/PACKAGING/target_files_intermediates/"*target_files*.zip 2>/dev/null | head -1)
     [[ -f "$TF_SRC" ]] || die "ไม่พบ target_files.zip"
     cp "$TF_SRC" "$REL_DIR/${DEVICE}-target_files.zip"
     OTATOOLS_SRC=$(find "$BUILD_ROOT/out" -name "otatools.zip" -size +10M 2>/dev/null | head -1)
     [[ -f "$OTATOOLS_SRC" ]] || die "ไม่พบ otatools.zip"
     cp "$OTATOOLS_SRC" "$REL_DIR/${DEVICE}-otatools.zip"
+    fi
     ( cd "$BUILD_ROOT" && password="" script/generate-release.sh "$DEVICE" "$BUILD_NUMBER" )
     OUT_PATHS+=("$REL_DIR/release-${DEVICE}-${BUILD_NUMBER}")
 
